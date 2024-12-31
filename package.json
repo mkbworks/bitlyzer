@@ -1,0 +1,26 @@
+{
+  "name": "bitlyzer",
+  "version": "1.0.0",
+  "description": "URL shortener application developed with Node.js and React",
+  "main": "server/server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mkbworks/bitlyzer.git"
+  },
+  "keywords": [
+    "url-shortener"
+  ],
+  "author": "Mahesh Kumaar Balaji",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mkbworks/bitlyzer/issues"
+  },
+  "homepage": "https://github.com/mkbworks/bitlyzer#readme",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
