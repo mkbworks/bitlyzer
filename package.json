@@ -21,6 +21,8 @@
   },
   "homepage": "https://github.com/mkbworks/bitlyzer#readme",
   "dependencies": {
-    "express": "^4.21.2"
+    "chalk": "^5.4.1",
+    "express": "^4.21.2",
+    "figlet": "^1.8.0"
   }
 }
