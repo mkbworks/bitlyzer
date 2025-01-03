@@ -7,8 +7,12 @@ if command -v node > /dev/null; then
     echo "Node.js is installed in the system."
     echo "The current version of Node.js running in the system is:"
     node -v
-    echo "Starting the Bitlyzer application now..."
-    node server/server.js
+    if npm list -g @dotenvx/dotenvx > /dev/null; then
+        echo "Starting the Bitlyzer application now..."
+        dotenvx run -f .env.local -- node server/server.js
+    else
+        echo "@dotenvx/dotenvx should be installed globally in the system to run the Bitlyzer application."
+    fi
 else
     echo "Node.js is not installed in the system."
     echo "Please install it before executing the application again."
