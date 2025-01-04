@@ -3,6 +3,7 @@ import figlet from "figlet";
 import chalk from "chalk";
 import morgan from "morgan";
 import linksRouter from "./routes/links.js";
+import userRouter from "./routes/user.js";
 import BusinessAccessLayer from "./bal/bal.js";
 
 const app = express();
@@ -15,6 +16,7 @@ BusinessAccessLayer.GetBal().then((bal) => {
     app.use(express.urlencoded({ extended: true }));
     app.use(morgan("combined"));
     app.use("/links", linksRouter);
+    app.use("/user", userRouter);
 
     const server = app.listen(ServerPort, ServerHost, () => {
         let bannerText = chalk.magenta(figlet.textSync("BITLYZER", {

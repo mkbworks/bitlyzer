@@ -1,14 +1,11 @@
 import sql from "mssql";
 
-class DataAccessLayer 
-{
-    constructor(pool)
-    {
+class DataAccessLayer {
+    constructor(pool) {
         this.pool = pool;
     }
 
-    static async ConnectToDb()
-    {
+    static async ConnectToDb() {
         const sqlConfig = {
             user: process.env.DB_USER,
             password: process.env.DB_PWD,
@@ -26,21 +23,21 @@ class DataAccessLayer
         return new DataAccessLayer(pool);
     }
 
-    async ValidateUser(apiKey)
-    {
+    async ValidateUser(apiKey) {
         const request = this.pool.request();
         request.input("apiKey", sql.NVarChar, apiKey);
         const result = await request.query("SELECT COUNT(*) AS 'RowCount' FROM [bitlyzer].[users] WHERE api_key=@apiKey");
         return result.recordset;
     }
 
-    async GetTargetUrl(hash)
-    {
-        
+    async NewUser(email, name) {
+        const request = this.pool.request();
+        request.input("Email", sql.NVarChar, email);
+        request.input("Name", sql.NVarChar, name);
+        await request.execute("[bitlyzer].[spNewUser]");
     }
 
-    async Close()
-    {
+    async Close() {
         await this.pool.close();
         console.log("SQL database connection pool has been closed.");
     }
