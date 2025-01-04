@@ -9,9 +9,9 @@ BEGIN
     SET @Email = TRIM(@Email);
     SET @Name = TRIM(@Name);
     DECLARE @Iterate INT = 1;
+    DECLARE @Key NVARCHAR(50);
     WHILE @Iterate = 1
     BEGIN
-        DECLARE @Key NVARCHAR(50);
         DECLARE @RowCount INT;
         EXEC [bitlyzer].[spGenApiKey] @ApiKey = @Key OUTPUT;
         SELECT @RowCount = COUNT(*) FROM [bitlyzer].[users] WHERE api_key = @Key;
@@ -21,4 +21,5 @@ BEGIN
             SET @Iterate = 0;
         END
     END
+    SELECT @Key AS 'ApiKey', @Email as 'Email', @Name as 'Name';
 END

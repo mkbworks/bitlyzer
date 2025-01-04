@@ -4,14 +4,14 @@ import chalk from "chalk";
 import morgan from "morgan";
 import linksRouter from "./routes/links.js";
 import userRouter from "./routes/user.js";
-import BusinessAccessLayer from "./bal/bal.js";
+import DataAccessLayer from "./dal/db.js";
 
 const app = express();
 const ServerHost = process.env.HOST || "localhost";
 const ServerPort = process.env.PORT || 8080;
 
-BusinessAccessLayer.GetBal().then((bal) => {
-    app.locals.bal = bal;
+DataAccessLayer.ConnectToDb().then((dal) => {
+    app.locals.dal = dal;
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     app.use(morgan("combined"));
@@ -33,13 +33,13 @@ BusinessAccessLayer.GetBal().then((bal) => {
     process.on('SIGINT', async () => {
         console.log("Server Shutdown signal received.");
         console.log("Initiating shutdown now.");
-        await bal.Close();
+        await dal.Close();
         server.close(() => {
             console.log("Server has been closed.");
             process.exit(0);
         });
     });
 }).catch(err => {
-    console.error(`Error occurred while setting up the application: ${err}`);
+    console.error(`Error occurred while connecting to SQL database: ${err}`);
     process.exit(1);
 });

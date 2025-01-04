@@ -7,12 +7,19 @@ userRouter.post("/register", (req, res) => {
         "application/json": async () => {
             let email = req.body.email;
             let name = req.body.name;
-            await req.app.locals.bal.NewUser(email, name);
+            let user = await req.app.locals.dal.NewUser(email, name);
+            res.set("Content-Type", "application/json");
+            res.status(200);
+            res.send(JSON.stringify(user));
         },
         default: () => {
-            let recvType = req.get("Content-Type");
-            let errorMsg = `Expected a JSON as a request payload, but got ${recvType} instead.`;
-            res.status(406).send(errorMsg);
+            const reqType = req.get("Content-Type");
+            let err = {
+                "Code": "ERR_INVALID_TYPE",
+                "Message": `Expected request payload to be of type - 'application/json', but got a payload of type '${reqType}'`
+            }
+
+            res.status(406).send(JSON.stringify(err));
         }
     });
 });

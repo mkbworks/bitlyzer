@@ -2,7 +2,7 @@ const authenticate = async (req, res, next) => {
     const InApiKey = req.get("x-apikey");
     if(!InApiKey) {
         try {
-            let isValid = await req.app.locals.bal.ValidateUser(InApiKey);
+            let isValid = await req.app.locals.dal.ValidateUser(InApiKey);
             if(isValid) {
                 next();
             } else {
@@ -16,8 +16,7 @@ const authenticate = async (req, res, next) => {
             res.end();
         }
     } else {
-        res.status(401);
-        res.set("WWW-Authenticate", "x-apikey");
+        res.status(400);
         res.end();
     }
 };
