@@ -99,12 +99,48 @@ class DataAccessLayer {
                     "link": result.recordset[0]["Link"]
                 };
                 return new Response("success", data);
-            } else {
+            } else if(result.recordset.length > 1) {
                 let sqlErr = new SqlError("ERR_DUPHASH", `More than one link has been assigned to the given hash (${hashValue})`);
                 return new Response("error", sqlErr);
+            } else {
+                let data = {
+                    "hash": hashValue,
+                    "link": ""
+                };
+                return new Response("success", data);
             }
         } catch(err) {
             return new Response("error", new SqlError(err.code, `Error occurred while finding link mapped to hash (${hashValue}): ${err}`));
+        }
+    }
+
+    async NewLink(apiKey, link) {
+        try {
+            const request = this.pool.request();
+            request.input("Link", sql.NVarChar, link);
+            request.input("ApiKey", sql.NVarChar, apiKey);
+            const result = await request.execute("[bitlyzer].[spNewLink]");
+            let data = {
+                "Hash": result.recordset[0]["Hash"],
+                "Link": result.recordset[0]["Link"]
+            };
+            return new Response("success", data);
+        } catch(err) {
+            return new Response("error", new SqlError(err.code, `Error occurred while creating new link: ${err}`));
+        }
+    }
+
+    async DeleteLink(apiKey, hashValue) {
+        try {
+            const request = this.pool.request();
+            request.input("hash_value", sql.NVarChar, hashValue);
+            request.input("ApiKey", sql.NVarChar, apiKey);
+            request.output("RowsAffected", sql.Int);
+            const result = await request.execute("[bitlyzer].[spDeleteLink]");
+            let RowsAffected = result.output["RowsAffected"];
+            return new Response("success", RowsAffected);
+        } catch(err) {
+            return new Response("error", new SqlError(err.code, `Error occurred while deleting link: ${err}`));
         }
     }
 
