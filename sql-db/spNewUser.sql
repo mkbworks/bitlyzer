@@ -1,4 +1,4 @@
--- Stored procedure to insert a new user record in the users table.
+-- Stored procedure to insert a new record in the users table.
 CREATE PROCEDURE [bitlyzer].[spNewUser] (
     @Email NVARCHAR(255),
     @Name NVARCHAR(255)
