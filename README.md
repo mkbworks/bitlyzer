@@ -30,10 +30,13 @@ chmod +x ./run.sh
 
 To setup all the relevant SQL tables in the SQL Server database, run the SQL scripts in the following order:
 
-- ./sql/schema/create-schema.sql
-- ./sql/schema/create-tables.sql
-- ./sql/sp/spGenApiKey.sql
-- ./sql/sp/spNewUser.sql
-- ./sql/sp/spGenHash.sql
-- ./sql/sp/spNewLink.sql
-- ./sql/sp/spDeleteLink.sql
+- `./sql/schema` - This folder contains scripts that create the relevant schema and tables used in `bitlyzer` application.
+    - create-schema.sql
+    - create-tables.sql
+
+- `./sql/sp` - This folder contains all the stored procedures invoked by the `bitlyzer` application.
+    - spGenApiKey.sql
+    - spNewUser.sql
+    - spGenHash.sql
+    - spNewLink.sql
+    - spDeleteLink.sql
