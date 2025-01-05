@@ -4,6 +4,9 @@ import authenticate from "../middleware/auth.js";
 
 const linkRouter = express.Router();
 
+/**
+ * Route that re-routes the given short URL to its mapped long URL.
+ */
 linkRouter.get("/:hash", authenticate, async (req, res) => {
     let linkHash = req.params.hash;
     let apiKey = req.get("x-apikey");
@@ -24,6 +27,9 @@ linkRouter.get("/:hash", authenticate, async (req, res) => {
     }
 });
 
+/**
+ * Route that handles the creation of a new short URL for the given long URL.
+ */
 linkRouter.post("/create", authenticate, async (req, res) => {
     res.format({
         "application/json": async () => {
@@ -55,6 +61,9 @@ linkRouter.post("/create", authenticate, async (req, res) => {
     });
 });
 
+/**
+ * Route to delete the long URL mapped to the short URL given.
+ */
 linkRouter.delete("/:hash", authenticate, async (req, res) => {
     let linkHash = req.params.hash;
     let apiKey = req.get("x-apikey");

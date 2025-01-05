@@ -3,6 +3,9 @@ import chalk from "chalk";
 
 const userRouter = express.Router();
 
+/**
+ * Route to register a new user and return the API Key generated for the user.
+ */
 userRouter.post("/register", (req, res) => {
     res.format({
         "application/json": async () => {

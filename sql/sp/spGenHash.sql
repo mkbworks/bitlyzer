@@ -1,4 +1,4 @@
--- SQL stored procedure to generate a random API Key.
+-- SQL stored procedure to generate a random hash value.
 CREATE PROCEDURE [bitlyzer].[spGenHash](
     @hash_value NVARCHAR(10) OUTPUT
 )
