@@ -1,8 +1,11 @@
+import chalk from "chalk";
+
 const authenticate = async (req, res, next) => {
     const InApiKey = req.get("x-apikey");
     if(!InApiKey) {
-        try {
-            let isValid = await req.app.locals.dal.ValidateUser(InApiKey);
+        let result = await req.app.locals.dal.ValidateUser(InApiKey);
+        if(result.status === "success") {
+            let isValid = result.data;
             if(isValid) {
                 next();
             } else {
@@ -10,8 +13,8 @@ const authenticate = async (req, res, next) => {
                 res.set("WWW-Authenticate", "x-apikey");
                 res.end();
             }
-        } catch(err) {
-            console.error(`Error occurred while authenticating user: ${err}`);
+        } else {
+            console.log(chalk.red(result.data.toString()));
             res.status(500);
             res.end();
         }

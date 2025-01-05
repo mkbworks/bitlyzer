@@ -20,3 +20,5 @@ ALTER TABLE [bitlyzer].[links] ADD CONSTRAINT PK_links PRIMARY KEY CLUSTERED (us
 GO
 ALTER TABLE [bitlyzer].[links] ADD CONSTRAINT FK_links FOREIGN KEY(user_id) REFERENCES [bitlyzer].[users](user_id)
 GO
+ALTER TABLE [bitlyzer].[links] ADD CONSTRAINT Uniq_hash UNIQUE(hash_value)
+GO
