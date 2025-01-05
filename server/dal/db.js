@@ -2,15 +2,27 @@ import sql from "mssql";
 import chalk from "chalk";
 import { Response, SqlError } from "../models/response.js";
 
+/**
+ * Class to manage all operations and tasks to be carried out on the SQL database.
+ */
 class DataAccessLayer {
     constructor(pool) {
         this.pool = pool;
     }
 
+    /**
+     * A static function that pauses execution for a specific time ('delay' ms) and once done, returns a resolved promise.
+     * @param {int} delay - duration (in ms) for which the execution is paused.
+     * @returns - a resolved promise.
+     */
     static sleep(delay) {
         return new Promise(resolve => setInterval(resolve, delay));
     }
 
+    /**
+     * A static asynchronous function that establishes connection between the web server and database by creating a connection pool instance.
+     * @returns {DataAccessLayer} an instance of DataAccessLayer with a connection pool to connect to the SQL database.
+     */
     static async ConnectToDb() {
         const RETRY_COUNT = 3;
         let RETRY_INTERVAL = 10;
@@ -53,6 +65,11 @@ class DataAccessLayer {
         }
     }
 
+    /**
+     * Asynchronous function that validates the API Key given by the user.
+     * @param {string} apiKey 
+     * @returns {boolean} value indicating if the API Key is valid or invalid.
+     */
     async ValidateUser(apiKey) {
         try {
             const request = this.pool.request();
@@ -69,6 +86,12 @@ class DataAccessLayer {
         }
     }
 
+    /**
+     * Asynchronous function to create a new user with the given user details.
+     * @param {string} email - user's email address 
+     * @param {string} name - user's display name
+     * @returns {Response} - an object with the response status and associated data.
+     */
     async NewUser(email, name) {
         try {
             const request = this.pool.request();
@@ -87,6 +110,12 @@ class DataAccessLayer {
         }
     }
 
+    /**
+     * Asynchronous function to get the link mapped to the hash value.
+     * @param {string} hashValue - hash value provided 
+     * @param {string} apiKey - user's API Key. 
+     * @returns {Response} - an object with the response status and associated data.
+     */
     async FindLink(hashValue, apiKey) {
         try {
             const request = this.pool.request();
@@ -114,6 +143,12 @@ class DataAccessLayer {
         }
     }
 
+    /**
+     * Asychronous function to create a new hash for the given link.
+     * @param {string} apiKey - user's API Key.
+     * @param {string} link - link given by the user for which hash is to be computed.
+     * @returns {Response} - an object with the response status and associated data.
+     */
     async NewLink(apiKey, link) {
         try {
             const request = this.pool.request();
@@ -130,6 +165,12 @@ class DataAccessLayer {
         }
     }
 
+    /**
+     * Asynchronous function to delete the link mapped to the given hash value.
+     * @param {string} apiKey - user's API Key.
+     * @param {string} hashValue - hash value of the link to be deleted.
+     * @returns {Response} - an object with the response status and associated data.
+     */
     async DeleteLink(apiKey, hashValue) {
         try {
             const request = this.pool.request();
@@ -144,6 +185,9 @@ class DataAccessLayer {
         }
     }
 
+    /**
+     * Asynchronous function to close the underlying database connection.
+     */
     async Close() {
         await this.pool.close();
         console.log(chalk.green("SQL database connection pool has been closed."));

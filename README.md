@@ -28,12 +28,12 @@ chmod +x ./run.sh
 
 ## Setting up SQL database
 
-To setup all the relevant SQL tables in the SQL Server database, run the scripts available in folder - `./sql-db` in the following order:
+To setup all the relevant SQL tables in the SQL Server database, run the SQL scripts in the following order:
 
-- create-schema.sql
-- create-tables.sql
-- spGenApiKey.sql
-- spNewUser.sql
-- spGenHash.sql
-- spNewLink.sql
-- spDeleteLink.sql
+- ./sql/schema/create-schema.sql
+- ./sql/schema/create-tables.sql
+- ./sql/sp/spGenApiKey.sql
+- ./sql/sp/spNewUser.sql
+- ./sql/sp/spGenHash.sql
+- ./sql/sp/spNewLink.sql
+- ./sql/sp/spDeleteLink.sql
