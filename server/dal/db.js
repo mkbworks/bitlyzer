@@ -25,7 +25,7 @@ class DataAccessLayer {
      */
     static async ConnectToDb() {
         const RETRY_COUNT = 3;
-        let RETRY_INTERVAL = 10;
+        let RETRY_INTERVAL = 15;
         let iter = 1;
         while(iter <= RETRY_COUNT) {
             try {
@@ -74,7 +74,7 @@ class DataAccessLayer {
         try {
             const request = this.pool.request();
             request.input("apiKey", sql.NVarChar, apiKey);
-            const result = await request.query("SELECT COUNT(*) AS 'RowCount' FROM [bitlyzer].[users] WHERE api_key=@apiKey");
+            const result = await request.query("SELECT COUNT(*) AS 'RowCount' FROM [bitlyzer].[users] WHERE api_key = @apiKey");
             let RowCount = result.recordset[0]["RowCount"];
             if(RowCount > 0) {
                 return new Response("success", true);
@@ -106,7 +106,7 @@ class DataAccessLayer {
  
             return new Response("success", data);
         } catch(err) {
-            return new Response("error", new SqlError(err.code, `Error occurred while creating new user: ${err}`));
+            return new Response("error", new SqlError(err.code || err.message, `Error occurred while creating new user: ${err}`));
         }
     }
 
@@ -129,7 +129,7 @@ class DataAccessLayer {
                 };
                 return new Response("success", data);
             } else if(result.recordset.length > 1) {
-                let sqlErr = new SqlError("ERR_DUPHASH", `More than one link has been assigned to the given hash (${hashValue})`);
+                let sqlErr = new SqlError("ERR_DUPHASH", `More than one link has been assigned to the given key - (${hashValue})`);
                 return new Response("error", sqlErr);
             } else {
                 let data = {

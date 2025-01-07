@@ -6,20 +6,30 @@ CREATE PROCEDURE [bitlyzer].[spNewUser] (
 AS
 BEGIN
     SET NOCOUNT ON;
-    SET @Email = TRIM(@Email);
-    SET @Name = TRIM(@Name);
     DECLARE @Iterate INT = 1;
     DECLARE @Key NVARCHAR(50);
-    WHILE @Iterate = 1
+    DECLARE @CharacterSet NVARCHAR(255) = '0123456789abcdefghijklmnopqrstuvwxyz+-_#$@^!';
+    DECLARE @RowCount INT;
+
+    SET @Email = TRIM(@Email);
+    SET @Name = TRIM(@Name);
+    SELECT @RowCount = COUNT(*) FROM [bitlyzer].[users] WHERE email = @Email;
+    IF @RowCount > 0
     BEGIN
-        DECLARE @RowCount INT;
-        EXEC [bitlyzer].[spGenApiKey] @ApiKey = @Key OUTPUT;
-        SELECT @RowCount = COUNT(*) FROM [bitlyzer].[users] WHERE api_key = @Key;
-        IF @RowCount = 0
-        BEGIN
-            INSERT INTO [bitlyzer].[users](name, email, api_key) VALUES(@Name, @Email, @Key);
-            SET @Iterate = 0;
-        END
+        RAISERROR('ERR_USR_EXISTS', 16, 1);
     END
-    SELECT @Key AS 'ApiKey', @Email as 'Email', @Name as 'Name';
+    ELSE
+    BEGIN
+        WHILE @Iterate = 1
+        BEGIN
+            EXEC [bitlyzer].[spGenRan] @CharacterSet = @CharacterSet, @KeyLength = 50, @RandomStr = @Key OUTPUT;
+            SELECT @RowCount = COUNT(*) FROM [bitlyzer].[users] WHERE api_key = @Key;
+            IF @RowCount = 0
+            BEGIN
+                INSERT INTO [bitlyzer].[users](name, email, api_key) VALUES(@Name, @Email, @Key);
+                SET @Iterate = 0;
+            END
+        END
+        SELECT @Key AS 'ApiKey', @Email as 'Email', @Name as 'Name';
+    END
 END

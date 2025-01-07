@@ -9,6 +9,7 @@ BEGIN
     DECLARE @user_id INT;
     DECLARE @hash_value NVARCHAR(10);
     DECLARE @Iterate INT = 1;
+    DECLARE @CharacterSet NVARCHAR(255) = '0123456789abcdefghijklmnopqrstuvwxyz';
 
     SET @Link = TRIM(@Link);
     SELECT @user_id = user_id FROM [bitlyzer].[users] WHERE api_key = @ApiKey;
@@ -16,7 +17,7 @@ BEGIN
     WHILE @Iterate = 1
     BEGIN
         DECLARE @RowCount INT;
-        EXEC [bitlyzer].[spGenHash] @hash_value = @hash_value OUTPUT;
+        EXEC [bitlyzer].[spGenRan] @CharacterSet = @CharacterSet, @KeyLength = 10, @RandomStr = @hash_value OUTPUT;
         SELECT @RowCount = COUNT(*) FROM [bitlyzer].[links] WHERE hash_value = @hash_value;
         IF @RowCount = 0
         BEGIN

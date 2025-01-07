@@ -13,8 +13,8 @@ class Response {
  */
 class SqlError {
     constructor(code, message) {
-        this.code = code.trim();
-        this.message = message.trim();
+        this.code = code;
+        this.message = message;
     }
 
     /**
