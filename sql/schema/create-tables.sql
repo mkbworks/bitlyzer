@@ -10,6 +10,8 @@ ALTER TABLE [bitlyzer].[users] ADD CONSTRAINT PK_Users PRIMARY KEY CLUSTERED(use
 GO
 ALTER TABLE [bitlyzer].[users] ADD CONSTRAINT Uniq_Key UNIQUE(api_key)
 GO
+ALTER TABLE [bitlyzer].[users] ADD CONSTRAINT Uniq_Email UNIQUE(email)
+GO
 CREATE TABLE [bitlyzer].[links] (
     user_id int not null,
     hash_value nvarchar(255) not null,

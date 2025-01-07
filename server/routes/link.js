@@ -45,7 +45,7 @@ linkRouter.post("/create", authenticate, async (req, res) => {
                 let stringifiedData = JSON.stringify(data);
                 res.status(200);
                 res.append("Content-Type", "application/json");
-                res.append("Content-Length", Buffer.byteLength(stringifiedData));
+                res.append("Content-Length", Buffer.byteLength(stringifiedData).toString());
                 res.send(stringifiedData);
             } else {
                 console.log(chalk.red(result.data.toString()));
