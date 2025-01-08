@@ -19,7 +19,7 @@ class SqlError {
 
     /**
      * Function that returns a custom error message for the SqlError instance.
-     * @returns {string} - the custom error message received.
+     * @returns {string} the custom error message.
      */
     toString() {
         return `Error :: ${this.code} :: ${this.message}`;

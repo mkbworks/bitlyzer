@@ -17,7 +17,7 @@ linkRouter.get("/:hash", authenticate, async (req, res) => {
             res.end();
         } else {
             res.status(302);
-            res.append("Location", result.data["link"]);
+            res.set("Location", result.data["link"]);
             res.end();
         }
     } else {
@@ -44,13 +44,25 @@ linkRouter.post("/create", authenticate, async (req, res) => {
                 };
                 let stringifiedData = JSON.stringify(data);
                 res.status(200);
-                res.append("Content-Type", "application/json");
-                res.append("Content-Length", Buffer.byteLength(stringifiedData).toString());
+                res.set("Content-Type", "application/json");
+                res.set("Content-Length", Buffer.byteLength(stringifiedData).toString());
                 res.send(stringifiedData);
             } else {
-                console.log(chalk.red(result.data.toString()));
-                res.status(500);
-                res.end();
+                if(result.data.code === "ERR_LINK_EXISTS") {
+                    let errRes = {
+                        code: result.data.code,
+                        message: "Short Url for the given link is already available"
+                    };
+                    let content = JSON.stringify(errRes);
+                    res.status(400);
+                    res.set("Content-Type", "application/json");
+                    res.set("Content-Length", Buffer.byteLength(content).toString());
+                    res.send(content);
+                } else {
+                    console.log(chalk.red(result.data.toString()));
+                    res.status(500);
+                    res.end();
+                }
             }
         },
         default: () => {
