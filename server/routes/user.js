@@ -1,12 +1,13 @@
 import express from "express";
 import chalk from "chalk";
+import validate from "../middleware/validate.js";
 
 const userRouter = express.Router();
 
 /**
  * Route to register a new user and return the API Key generated for the user.
  */
-userRouter.post("/register", (req, res) => {
+userRouter.post("/register", validate, (req, res) => {
     res.format({
         "application/json": async () => {
             let email = req.body.email;

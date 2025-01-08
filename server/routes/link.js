@@ -1,6 +1,7 @@
 import express from "express";
 import chalk from "chalk";
 import authenticate from "../middleware/auth.js";
+import validate from "../middleware/validate.js";
 
 const linkRouter = express.Router();
 
@@ -30,7 +31,7 @@ linkRouter.get("/:hash", authenticate, async (req, res) => {
 /**
  * Route that handles the creation of a new short URL for the given long URL.
  */
-linkRouter.post("/create", authenticate, async (req, res) => {
+linkRouter.post("/create", authenticate, validate, async (req, res) => {
     res.format({
         "application/json": async () => {
             let apiKey = req.get("x-apikey");
