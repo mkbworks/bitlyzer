@@ -14,8 +14,8 @@ userRouter.post("/register", (req, res) => {
             let response = await req.app.locals.dal.NewUser(email, name);
             if(response.status === "success") {
                 let content = JSON.stringify(response.data);
-                res.append("Content-Type", "application/json");
-                res.append("Content-Length", Buffer.byteLength(content).toString())
+                res.set("Content-Type", "application/json");
+                res.set("Content-Length", Buffer.byteLength(content).toString())
                 res.status(200);
                 res.send(content);
             } else {
@@ -26,11 +26,11 @@ userRouter.post("/register", (req, res) => {
                     };
                     let content = JSON.stringify(errRes);
                     res.status(400);
-                    res.append("Content-Type", "application/json");
-                    res.append("Content-Length", Buffer.byteLength(content).toString());
+                    res.set("Content-Type", "application/json");
+                    res.set("Content-Length", Buffer.byteLength(content).toString());
                     res.send(content);
                 } else {
-                    console.log(chalk.red(result.data.toString()));
+                    console.log(chalk.red(response.data.toString()));
                     res.status(500);
                     res.end();
                 }

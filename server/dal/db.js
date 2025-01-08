@@ -88,9 +88,9 @@ class DataAccessLayer {
 
     /**
      * Asynchronous function to create a new user with the given user details.
-     * @param {string} email - user's email address 
-     * @param {string} name - user's display name
-     * @returns {Response} - an object with the response status and associated data.
+     * @param {string} email user's email address 
+     * @param {string} name user's display name
+     * @returns {Response} an object with the response status and associated data.
      */
     async NewUser(email, name) {
         try {
@@ -106,15 +106,19 @@ class DataAccessLayer {
  
             return new Response("success", data);
         } catch(err) {
-            return new Response("error", new SqlError(err.code || err.message, `Error occurred while creating new user: ${err}`));
+            if(err.originalError && err.originalError.info && err.originalError.info.message) {
+                return new Response("error", new SqlError(err.originalError.info.message, JSON.stringify(err)));
+            } else {
+                return new Response("error", new SqlError(err.code, JSON.stringify(err)));
+            }
         }
     }
 
     /**
      * Asynchronous function to get the link mapped to the hash value.
-     * @param {string} hashValue - hash value provided 
-     * @param {string} apiKey - user's API Key. 
-     * @returns {Response} - an object with the response status and associated data.
+     * @param {string} hashValue hash value provided 
+     * @param {string} apiKey user's API Key. 
+     * @returns {Response} an object with the response status and associated data.
      */
     async FindLink(hashValue, apiKey) {
         try {
@@ -145,9 +149,9 @@ class DataAccessLayer {
 
     /**
      * Asychronous function to create a new hash for the given link.
-     * @param {string} apiKey - user's API Key.
-     * @param {string} link - link given by the user for which hash is to be computed.
-     * @returns {Response} - an object with the response status and associated data.
+     * @param {string} apiKey user's API Key.
+     * @param {string} link link given by the user for which hash is to be computed.
+     * @returns {Response} an object with the response status and associated data.
      */
     async NewLink(apiKey, link) {
         try {
@@ -161,15 +165,19 @@ class DataAccessLayer {
             };
             return new Response("success", data);
         } catch(err) {
-            return new Response("error", new SqlError(err.code, `Error occurred while creating new link: ${err}`));
+            if(err.originalError && err.originalError.info && err.originalError.info.message) {
+                return new Response("error", new SqlError(err.originalError.info.message, JSON.stringify(err)));
+            } else {
+                return new Response("error", new SqlError(err.code, JSON.stringify(err)));
+            }
         }
     }
 
     /**
      * Asynchronous function to delete the link mapped to the given hash value.
-     * @param {string} apiKey - user's API Key.
-     * @param {string} hashValue - hash value of the link to be deleted.
-     * @returns {Response} - an object with the response status and associated data.
+     * @param {string} apiKey user's API Key.
+     * @param {string} hashValue hash value of the link to be deleted.
+     * @returns {Response} an object with the response status and associated data.
      */
     async DeleteLink(apiKey, hashValue) {
         try {
