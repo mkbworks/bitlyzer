@@ -41,6 +41,6 @@ DataAccessLayer.ConnectToDb().then((dal) => {
         });
     });
 }).catch(err => {
-    console.error(`Error occurred while connecting to SQL database: ${err}`);
+    console.error(`Error occurred while connecting to database: ${err}`);
     process.exit(1);
 });

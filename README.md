@@ -25,18 +25,3 @@ To start a web server, a shell script `run.sh` should be executed. If the script
 ```bash
 chmod +x ./run.sh
 ```
-
-## Setting up SQL database
-
-To setup all the relevant SQL tables in the SQL Server database, run the SQL scripts in the following order:
-
-- `./sql/schema` - This folder contains scripts that create the relevant schema and tables used in `bitlyzer` application.
-    - create-schema.sql
-    - create-tables.sql
-
-- `./sql/sp` - This folder contains all the stored procedures invoked by the `bitlyzer` application.
-    - spGenApiKey.sql
-    - spNewUser.sql
-    - spGenHash.sql
-    - spNewLink.sql
-    - spDeleteLink.sql

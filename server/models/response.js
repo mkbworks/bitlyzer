@@ -11,7 +11,7 @@ class Response {
 /**
  * Model to encapsulate errors occuring while performing SQL tasks.
  */
-class SqlError {
+class AppError {
     constructor(code, message) {
         this.code = code;
         this.message = message;
@@ -26,4 +26,4 @@ class SqlError {
     }
 }
 
-export { Response, SqlError };
+export { Response, AppError };
