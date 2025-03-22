@@ -14,7 +14,7 @@ const validate = async (req, res, next) => {
         let emailValue = req.body.email.trim();
         if(!emailPattern.test(emailValue)) {
             isValid = false;
-            errorMsgs.push("email has an invalid value");
+            errorMsgs.push("User email address does not conform to the standard email address format");
         }
     }
 
@@ -23,7 +23,7 @@ const validate = async (req, res, next) => {
         let nameValue = req.body.name.trim();
         if(!namePattern.test(nameValue)) {
             isValid = false;
-            errorMsgs.push("name has an invalid value");
+            errorMsgs.push("User display name can contain only alphabets (lowercase, uppercase) and whitespaces");
         }
     }
 
@@ -32,7 +32,7 @@ const validate = async (req, res, next) => {
         const linkValue = req.body.link.trim();
         if(!linkPattern.test(linkValue)) {
             isValid = false;
-            errorMsgs.push("link has an invalid value");
+            errorMsgs.push("Target URL does not conform to the standard URL format");
         }
     }
 
@@ -40,7 +40,7 @@ const validate = async (req, res, next) => {
         next();
     } else {
         let errVal = {
-            code: "ERR_INVALID_VALUE",
+            code: "ERR_NOCONFORM",
             message: errorMsgs.join(", ")
         };
         let content = JSON.stringify(errVal);

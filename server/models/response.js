@@ -3,27 +3,9 @@
  */
 class Response {
     constructor(status, data) {
-        this.status = status.trim();
+        this.status = status;
         this.data = data;
     }
 }
 
-/**
- * Model to encapsulate errors occuring while performing SQL tasks.
- */
-class AppError {
-    constructor(code, message) {
-        this.code = code;
-        this.message = message;
-    }
-
-    /**
-     * Function that returns a custom error message for the SqlError instance.
-     * @returns {string} the custom error message.
-     */
-    toString() {
-        return `Error :: ${this.code} :: ${this.message}`;
-    }
-}
-
-export { Response, AppError };
+export default Response;

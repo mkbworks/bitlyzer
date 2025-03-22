@@ -9,8 +9,9 @@ import express from "express";
  */
 const authenticate = async (req, res, next) => {
     let InApiKey = req.get("x-apikey");
-    if(InApiKey) {
-        let result = await req.app.locals.dal.ValidateUser(InApiKey);
+    let InEmail = req.get("x-email");
+    if(InApiKey && InEmail) {
+        let result = await req.app.locals.dal.ValidateUser(InEmail, InApiKey);
         if(result.status === "success") {
             let isValid = result.data;
             if(isValid) {
@@ -21,12 +22,13 @@ const authenticate = async (req, res, next) => {
                 res.end();
             }
         } else {
-            console.log(chalk.red(result.data.toString()));
+            console.log(chalk.red(result.data.ToString()));
             res.status(500);
             res.end();
         }
     } else {
-        res.status(400);
+        res.status(401);
+        res.set("WWW-Authenticate", "x-apikey");
         res.end();
     }
 };

@@ -1,6 +1,7 @@
 import { MongoClient } from "mongodb";
 import chalk from "chalk";
-import { Response, AppError } from "../models/response.js";
+import Response from "../models/response.js";
+import AppError from "../models/apperror.js";
 import User from "./user.js";
 
 /**
@@ -37,19 +38,23 @@ class DataAccessLayer {
      * @param {string} apiKey 
      * @returns {boolean} value indicating if the API Key is valid or invalid.
      */
-    async ValidateUser(apiKey) {
+    async ValidateUser(email, apiKey) {
         try {
+            email = email.trim();
             apiKey = apiKey.trim();
             let usersCollection = this.DbInstance.collection("users");
-            let matchingUsers = await usersCollection.find({ "ApiKey.Value": apiKey}).toArray();
+            let matchingUsers = await usersCollection.find({ "Email": email}).toArray();
             if(matchingUsers.length == 0) {
                 return new Response("success", false);
             }
-            let userRecord = matchingUsers[0];
-            let apiKeyDate = new Date(userRecord.ApiKey.LastModified);
-            let refDate = new Date();
-            refDate.setDate(refDate.getDate() - 30);
-            if(apiKeyDate < refDate) {
+
+            let [userRecord] = matchingUsers;
+            let user = User.CreateFrom(userRecord);
+            if(!user.ValidateApiKey(apiKey)) {
+                return new Response("success", false);
+            }
+
+            if(user.HasApiKeyExpired()) {
                 return new Response("success", false);
             } else {
                 return new Response("success", true);
@@ -67,27 +72,30 @@ class DataAccessLayer {
      */
     async NewUser(email, name) {
         try {
-            let NewUser = new User(email, name);
+            let { NewUser, PlainApiKey } = User.Create(email, name);
             let usersCollection = this.DbInstance.collection("users");
             let matchingEmailCount = await usersCollection.countDocuments({ Email: NewUser.Email });
             if(matchingEmailCount > 0) {
                 throw new Response("error", new AppError("ERR_EMAIL_EXISTS", "User email address already exists in the system"));
             }
-            let matchingKeyCount = await usersCollection.countDocuments({ "ApiKey.Value": NewUser.ApiKey.Value });
+            
+            let matchingKeyCount = await usersCollection.countDocuments({ "ApiKey.HashedValue": NewUser.ApiKey.HashedValue });
             while(matchingKeyCount > 0) {
-                NewUser.RefreshApiKey();
-                matchingKeyCount = await usersCollection.countDocuments({ "ApiKey.Value": NewUser.ApiKey.Value });
+                PlainApiKey = NewUser.RefreshApiKey();
+                matchingKeyCount = await usersCollection.countDocuments({ "ApiKey.HashedValue": NewUser.ApiKey.HashedValue });
             }
-            const result = await usersCollection.insertOne(NewUser.toObject());
+            
+            const result = await usersCollection.insertOne(NewUser.ToObject());
             console.log(`A new user with ID = ${result.insertedId} has been added to the "users" collection.`);
-            let ApiKeyExpiry = new Date(NewUser.ApiKey.LastModified);
+            let ApiKeyExpiry = new Date(NewUser.ApiKey.RefreshedAt);
             ApiKeyExpiry.setDate(ApiKeyExpiry.getDate() + 30);
             let responseData = {
                 "ApiKey": {
-                    "Value": NewUser.ApiKey.Value,
+                    "Value": PlainApiKey,
                     "Expiry": ApiKeyExpiry.toISOString()
                 }
             };
+            
             return new Response("success", responseData);
         } catch(err) {
             return new Response("error", new AppError("ERR_CUSTOM", err.message));

@@ -20,10 +20,10 @@ userRouter.post("/register", validate, (req, res) => {
                 res.status(200);
                 res.send(content);
             } else {
-                if(response.data.code === "ERR_USR_EXISTS") {
+                if(response.data.code === "ERR_EMAIL_EXISTS") {
                     let errRes = {
                         code: response.data.code,
-                        message: "The given email address is already registered"
+                        message: "The given email address is already registered to an existing user"
                     };
                     let content = JSON.stringify(errRes);
                     res.status(400);
@@ -31,7 +31,7 @@ userRouter.post("/register", validate, (req, res) => {
                     res.set("Content-Length", Buffer.byteLength(content).toString());
                     res.send(content);
                 } else {
-                    console.log(chalk.red(response.data.toString()));
+                    console.log(chalk.red(response.data.ToString()));
                     res.status(500);
                     res.end();
                 }
