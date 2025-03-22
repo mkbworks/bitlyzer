@@ -1,5 +1,4 @@
 import express from "express";
-import chalk from "chalk";
 import validate from "../middleware/validate.js";
 
 const userRouter = express.Router();
@@ -31,9 +30,11 @@ userRouter.post("/register", validate, (req, res) => {
                     res.set("Content-Length", Buffer.byteLength(content).toString());
                     res.send(content);
                 } else {
-                    console.log(chalk.red(response.data.ToString()));
                     res.status(500);
-                    res.end();
+                    let content = JSON.stringify(response.data.toJson());
+                    res.set("Content-Type", "application/json");
+                    res.set("Content-Length", Buffer.byteLength(content).toString());
+                    res.send(content);
                 }
             }
         },

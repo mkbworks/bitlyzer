@@ -1,7 +1,7 @@
 import { MongoClient } from "mongodb";
 import chalk from "chalk";
 import Response from "../models/response.js";
-import AppError from "../models/apperror.js";
+import AppError from "../models/error.js";
 import User from "./user.js";
 
 /**
@@ -35,8 +35,9 @@ class DataAccessLayer {
 
     /**
      * Asynchronous function that validates the API Key given by the user.
-     * @param {string} apiKey 
-     * @returns {boolean} value indicating if the API Key is valid or invalid.
+     * @param {string} email Email address provided by the user.
+     * @param {string} apiKey API Key provided by the user.
+     * @returns {Response} an object with the response status and associated data.
      */
     async ValidateUser(email, apiKey) {
         try {
@@ -45,17 +46,17 @@ class DataAccessLayer {
             let usersCollection = this.DbInstance.collection("users");
             let matchingUsers = await usersCollection.find({ "Email": email}).toArray();
             if(matchingUsers.length == 0) {
-                return new Response("success", false);
+                return new Response("error", new AppError("ERR_INVALID_EMAIL", "User email address was not found in the system"));
             }
 
             let [userRecord] = matchingUsers;
             let user = User.CreateFrom(userRecord);
             if(!user.ValidateApiKey(apiKey)) {
-                return new Response("success", false);
+                return new Response("error", new AppError("ERR_KEY_NOMATCH", "API Key does not match the one available in the system"));
             }
 
             if(user.HasApiKeyExpired()) {
-                return new Response("success", false);
+                return new Response("error", new AppError("ERR_KEY_EXPIRED", "API Key for the user has expired. Please regenerate a new API Key and try again"));
             } else {
                 return new Response("success", true);
             }
@@ -66,8 +67,8 @@ class DataAccessLayer {
 
     /**
      * Asynchronous function to create a new user with the given user details.
-     * @param {string} email user's email address 
-     * @param {string} name user's display name
+     * @param {string} email Email address provided by the user.
+     * @param {string} name Display name provided by the user.
      * @returns {Response} an object with the response status and associated data.
      */
     async NewUser(email, name) {
@@ -113,7 +114,7 @@ class DataAccessLayer {
             
             
         } catch(err) {
-            
+            return new Response("error", new AppError("ERR_CUSTOM", err.message));
         }
     }
 
@@ -127,7 +128,7 @@ class DataAccessLayer {
         try {
             
         } catch(err) {
-            
+            return new Response("error", new AppError("ERR_CUSTOM", err.message));
         }
     }
 
@@ -141,7 +142,7 @@ class DataAccessLayer {
         try {
             
         } catch(err) {
-            
+            return new Response("error", new AppError("ERR_CUSTOM", err.message));
         }
     }
 

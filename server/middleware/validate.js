@@ -1,7 +1,9 @@
 import express from "express";
+import AppError from "../models/error.js";
+import { ValidateEmail } from "../utils/utilities.js";
 
 /**
- * Middleware to validate user data sent as part of the request like email, name etc.
+ * Middleware to validate user data sent as part of the request payload like email, name etc.
  * @param {express.Request} req Incoming HTTP request
  * @param {express.Response} res HTTP response for the incoming request.
  * @param {express.NextFunction} next Function to pass the execution to the next handler for the given request-response cycle.
@@ -10,9 +12,8 @@ const validate = async (req, res, next) => {
     let isValid = true;
     let errorMsgs = [];
     if(req.body.email) {
-        const emailPattern = /^[a-z][a-z0-9\-\._]+[a-z0-9]@[a-z][a-z0-9\.\-]+[a-z0-9]$/ig;
         let emailValue = req.body.email.trim();
-        if(!emailPattern.test(emailValue)) {
+        if(!ValidateEmail(emailValue)) {
             isValid = false;
             errorMsgs.push("User email address does not conform to the standard email address format");
         }
@@ -39,11 +40,8 @@ const validate = async (req, res, next) => {
     if(isValid) {
         next();
     } else {
-        let errVal = {
-            code: "ERR_NOCONFORM",
-            message: errorMsgs.join(", ")
-        };
-        let content = JSON.stringify(errVal);
+        let errVal = new AppError("ERR_NOCONFORM", errorMsgs.join(", "));
+        let content = JSON.stringify(errVal.ToJson());
         res.status(400);
         res.set("Content-Type", "application/json");
         res.set("Content-Length", Buffer.byteLength(content).toString());
