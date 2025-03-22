@@ -41,11 +41,8 @@ const validate = async (req, res, next) => {
         next();
     } else {
         let errVal = new AppError("ERR_NOCONFORM", errorMsgs.join(", "));
-        let content = JSON.stringify(errVal.ToJson());
         res.status(400);
-        res.set("Content-Type", "application/json");
-        res.set("Content-Length", Buffer.byteLength(content).toString());
-        res.send(content);
+        res.json(errVal.ToJson());
     }
 };
 

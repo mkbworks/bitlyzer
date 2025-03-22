@@ -13,37 +13,27 @@ const authenticate = async (req, res, next) => {
     let InEmail = req.get("x-email");
     if(!ValidateEmail(InEmail)) {
         let errVal = new AppError("ERR_INVALID_EMAIL", "User email address does not conform to the standard email address format");
-        let content = JSON.stringify(errVal.ToJson());
         res.status(400);
-        res.set("Content-Type", "application/json");
-        res.set("Content-Length", Buffer.byteLength(content).toString());
-        res.send(content);
+        res.json(errVal.ToJson());
     } else if(InApiKey && InEmail) {
         let result = await req.app.locals.dal.ValidateUser(InEmail, InApiKey);
         if(result.status === "success") {
+            req.validatedUser = result.data.ValidatedUser;
             next();
         } else {
-            let content = JSON.stringify(result.data.ToJson());
             if(result.data.code === "ERR_CUSTOM") {
                 res.status(500);
-                res.set("Content-Type", "application/json");
-                res.set("Content-Length", Buffer.byteLength(content).toString());
-                res.send(content);
+                res.json(result.data.ToJson());
             } else {
                 res.status(401);
-                res.set("Content-Type", "application/json");
-                res.set("Content-Length", Buffer.byteLength(content).toString());
-                res.send(content);
+                res.json(result.data.ToJson());
             }
         }
     } else {
         res.status(401);
         res.set("WWW-Authenticate", "x-apikey");
         let err = new AppError("ERR_NOAUTH", "API Key and user email values are missing in the request header");
-        let content = JSON.stringify(err.ToJson());
-        res.set("Content-Type", "application/json");
-        res.set("Content-Length", Buffer.byteLength(content).toString());
-        res.send(content);
+        res.json(err.ToJson());
     }
 };
 

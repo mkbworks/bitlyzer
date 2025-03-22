@@ -58,7 +58,7 @@ class DataAccessLayer {
             if(user.HasApiKeyExpired()) {
                 return new Response("error", new AppError("ERR_KEY_EXPIRED", "API Key for the user has expired. Please regenerate a new API Key and try again"));
             } else {
-                return new Response("success", true);
+                return new Response("success", { "ValidatedUser": userRecord["_id"] });
             }
         } catch(err) {
             return new Response("error", new AppError("ERR_CUSTOM", err.message));
@@ -111,7 +111,6 @@ class DataAccessLayer {
      */
     async FindLink(hashValue, apiKey) {
         try {
-            
             
         } catch(err) {
             return new Response("error", new AppError("ERR_CUSTOM", err.message));
