@@ -3,6 +3,7 @@ import chalk from "chalk";
 import Response from "../models/response.js";
 import AppError from "../models/error.js";
 import User from "./user.js";
+import Link from "./link.js";
 
 /**
  * Class to manage all operations and tasks to be carried out on the SQL database.
@@ -88,12 +89,11 @@ class DataAccessLayer {
             
             const result = await usersCollection.insertOne(NewUser.ToObject());
             console.log(`A new user with ID = ${result.insertedId} has been added to the "users" collection.`);
-            let ApiKeyExpiry = new Date(NewUser.ApiKey.RefreshedAt);
-            ApiKeyExpiry.setDate(ApiKeyExpiry.getDate() + 30);
+            let ApiKeyExpiry = NewUser.CalculateApiKeyExpiry();
             let responseData = {
                 "ApiKey": {
                     "Value": PlainApiKey,
-                    "Expiry": ApiKeyExpiry.toISOString()
+                    "Expiry": ApiKeyExpiry
                 }
             };
             
@@ -106,10 +106,10 @@ class DataAccessLayer {
     /**
      * Asynchronous function to get the link mapped to the hash value.
      * @param {string} hashValue hash value provided 
-     * @param {string} apiKey user's API Key. 
+     * @param {string} userId unique ID assigned to the user in the database.
      * @returns {Response} an object with the response status and associated data.
      */
-    async FindLink(hashValue, apiKey) {
+    async FindLink(hashValue, userId) {
         try {
             
         } catch(err) {
@@ -119,13 +119,27 @@ class DataAccessLayer {
 
     /**
      * Asychronous function to create a new hash for the given link.
-     * @param {string} apiKey user's API Key.
-     * @param {string} link link given by the user for which hash is to be computed.
+     * @param {string} target target url to be mapped.
+     * @param {string} action nature of action to be performed when the short url is requested.
+     * @param {string} shortUrl short url to be mapped to the target. If no value is provided, then a new one is created by the system.
+     * @param {string} userId unique ID assigned to the user in the database.
      * @returns {Response} an object with the response status and associated data.
      */
-    async NewLink(apiKey, link) {
+    async NewLink(target, action, shortUrl, userId) {
         try {
-            
+            let newLink = Link.Create(target, action, shortUrl, userId);
+            let linksCollection = this.DbInstance.collection("links");
+            let matchingHashCount = await linksCollection.countDocuments({ UserId: userId, ShortUrl: shortUrl });
+            while(matchingHashCount > 0) {
+                newLink.RefreshShortUrl();
+                matchingHashCount = await linksCollection.countDocuments({ UserId: userId, ShortUrl: shortUrl });
+            }
+
+            const result = await linksCollection.insertOne(newLink.ToObject());
+            console.log(`A new link with ID = ${result.insertedId} has been added to the "links" collection.`);
+            let insertedLink = newLink.ToObject();
+            delete insertedLink.UserId;
+            return new Response("success", insertedLink);
         } catch(err) {
             return new Response("error", new AppError("ERR_CUSTOM", err.message));
         }
@@ -133,11 +147,11 @@ class DataAccessLayer {
 
     /**
      * Asynchronous function to delete the link mapped to the given hash value.
-     * @param {string} apiKey user's API Key.
      * @param {string} hashValue hash value of the link to be deleted.
+     * @param {string} userId unique ID assigned to the user in the database.
      * @returns {Response} an object with the response status and associated data.
      */
-    async DeleteLink(apiKey, hashValue) {
+    async DeleteLink(hashValue, userId) {
         try {
             
         } catch(err) {

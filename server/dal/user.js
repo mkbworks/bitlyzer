@@ -6,6 +6,11 @@ import * as utils from "../utils/utilities.js";
  */
 class User {
     /**
+     * Number of days for which an API Key is valid from the day it was generated, before it is deemed expired.
+     */
+    static ApiKeyExpiry = 30;
+
+    /**
      * Constructor to create a new instance of "User".
      * @param {string} email Email address provided by the user.
      * @param {string} name Display name provided by the user. 
@@ -68,15 +73,25 @@ class User {
     HasApiKeyExpired() {
         let lastRefreshDate = new Date(this.ApiKey.RefreshedAt);
         let thresholdDate = new Date();
-        thresholdDate.setDate(thresholdDate.getDate() - 30);
+        thresholdDate.setDate(thresholdDate.getDate() - User.ApiKeyExpiry);
         return lastRefreshDate < thresholdDate;
+    }
+
+    /**
+     * Calculates the expiration date of the API Key generated for the user.
+     * @returns {string} the day by which the API Key expires.
+     */
+    CalculateApiKeyExpiry() {
+        let ApiKeyExpiry = new Date(this.ApiKey.RefreshedAt);
+        ApiKeyExpiry.setDate(ApiKeyExpiry.getDate() + User.ApiKeyExpiry);
+        return ApiKeyExpiry.toISOString();
     }
 
     /**
      * Creates a new instance of User with the given email and display name.
      * @param {string} email Email address provided by the user.
      * @param {string} name Display name provided by the user. 
-     * @returns {object} containinf a new instance of User and the API Key generated as plaintext.
+     * @returns {object} containing a new instance of User and the API Key generated as plaintext.
      */
     static Create(email, name) {
         email = email.trim();

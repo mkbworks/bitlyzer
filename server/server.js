@@ -15,11 +15,11 @@ DataAccessLayer.ConnectToDb().then((dal) => {
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     app.use(morgan("combined"));
-    app.use("/link", linkRouter);
-    app.use("/user", userRouter);
+    app.use("/links", linkRouter);
+    app.use("/users", userRouter);
 
     const server = app.listen(ServerPort, ServerHost, () => {
-        let bannerText = chalk.magenta(figlet.textSync("BITLYZER", {
+        let bannerText = chalk.magenta(figlet.textSync("go.coc", {
             font: "Big",
             horizontalLayout: "default",
             verticalLayout: "default",

@@ -1,5 +1,5 @@
 {
-  "name": "bitlyzer",
+  "name": "gococ",
   "version": "1.0.0",
   "description": "URL shortener application developed with Node.js and React",
   "main": "server/server.js",
@@ -14,7 +14,7 @@
   },
   "keywords": [
     "url-shortener",
-    "bitlyzer"
+    "go.coc"
   ],
   "author": "Mahesh Kumaar Balaji",
   "license": "MIT",
