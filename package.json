@@ -1,12 +1,13 @@
 {
-  "name": "gococ",
+  "name": "bitlyzer",
   "version": "1.0.0",
   "description": "URL shortener application developed with Node.js and React",
   "main": "server/server.js",
   "type": "module",
   "scripts": {
     "start": "./run.sh",
-    "play": "dotenvx run -f .env.local -- node server/playground.js"
+    "play": "dotenvx run -f .env.test.local -- node server/playground.js",
+    "test": "dotenvx run -f .env.test.local -- node server/server.js"
   },
   "repository": {
     "type": "git",
@@ -14,7 +15,7 @@
   },
   "keywords": [
     "url-shortener",
-    "go.coc"
+    "bitlyzer"
   ],
   "author": "Mahesh Kumaar Balaji",
   "license": "MIT",

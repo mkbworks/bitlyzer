@@ -8,10 +8,10 @@ if command -v node > /dev/null; then
     echo "The current version of Node.js running in the system is:"
     node -v
     if npm list -g @dotenvx/dotenvx > /dev/null; then
-        echo "Starting the Bitlyzer application now..."
+        echo "Starting the bitlyzer application now..."
         dotenvx run -f .env.local -- node server/server.js
     else
-        echo "@dotenvx/dotenvx should be installed globally in the system to run the go.coc application."
+        echo "@dotenvx/dotenvx should be installed globally in the system to run the bitlyzer application."
     fi
 else
     echo "Node.js is not installed in the system."

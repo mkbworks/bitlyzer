@@ -1,7 +1,7 @@
 openapi: 3.1.1
 info:
-  title: go.coc
-  summary: A REST API that exposes endpoints to create a short URL mapped to a longer URL
+  title: bitlyzer
+  summary: A REST API that exposes endpoints for URL Shortener services.
   version: 1.0.0
   contact:
     name: Mahesh Kumaar Balaji
@@ -58,7 +58,7 @@ paths:
               schema: 
                 $ref: '#/components/schemas/Error'
         400:
-          description: Response returned when user email provided is already registered.
+          description: Response returned when user email provided is already registered or if any of the required fields in the request payload are missing.
           content:
             application/json:
               schema: 
@@ -69,6 +69,19 @@ paths:
       operationId: createLink
       security:
         api_key: []
+      parameters:
+        - name: x-apikey
+          in: header
+          description: API Key used to authenticate the user.
+          required: true
+          schema:
+            type: string
+        - name: x-email
+          in: header
+          description: User email address which along with API Key will be used to authenticate the user.
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
@@ -97,6 +110,12 @@ paths:
           $ref: '#/components/responses/InvalidContentType'
         500:
           description: The operation requested could not be performed due to an internal server error.
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Error'
+        400:
+          description: Response returned if any of the required fields in the request payload are missing.
           content:
             application/json:
               schema: 
@@ -158,6 +177,19 @@ paths:
       operationId: deleteLink
       security:
         api_key: []
+      parameters:
+        - name: x-apikey
+          in: header
+          description: API Key used to authenticate the user.
+          required: true
+          schema:
+            type: string
+        - name: x-email
+          in: header
+          description: User email address which along with API Key will be used to authenticate the user.
+          required: true
+          schema:
+            type: string
       responses:
         200: 
           description: Successfully deleted the short url from the system.

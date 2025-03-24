@@ -19,13 +19,13 @@ DataAccessLayer.ConnectToDb().then((dal) => {
     app.use("/users", userRouter);
 
     const server = app.listen(ServerPort, ServerHost, () => {
-        let bannerText = chalk.magenta(figlet.textSync("go.coc", {
+        let bannerText = chalk.magenta(figlet.textSync("bitlyzer", {
             font: "Big",
             horizontalLayout: "default",
             verticalLayout: "default",
             width: 100,
         }));
-        let WebAddress = `http://${server.address().address}:${server.address().port}`;
+        let WebAddress = `http://${ServerHost}:${ServerPort}`;
         console.log(bannerText);
         console.log(`Application is running and listening for incoming requests at ${chalk.green(WebAddress)}`);
         app.locals.WebAddress = WebAddress;

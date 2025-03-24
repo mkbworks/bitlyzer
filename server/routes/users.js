@@ -1,5 +1,6 @@
 import express from "express";
 import validate from "../middleware/validate.js";
+import AppError from "../models/error.js";
 
 const userRouter = express.Router();
 
@@ -11,17 +12,27 @@ userRouter.post("/register", validate, (req, res) => {
         "application/json": async () => {
             let email = req.body.email;
             let name = req.body.name;
-            let response = await req.app.locals.dal.NewUser(email, name);
-            if(response.status === "success") {
-                res.status(200);
-                res.json(response.data);
+            if(!email) {
+                let err = new AppError("ERR_NOEMAIL", "Email address of the user is required.");
+                res.status(400);
+                res.json(err.ToJson());
+            } else if (!name) {
+                let err = new AppError("ERR_NONAME", "Display name of the user is required.");
+                res.status(400);
+                res.json(err.ToJson());
             } else {
-                if(response.data.code === "ERR_EMAIL_EXISTS") {
-                    res.status(400);
-                    res.json(response.data.ToJson());
+                let response = await req.app.locals.dal.NewUser(email, name);
+                if(response.status === "success") {
+                    res.status(200);
+                    res.json(response.data);
                 } else {
-                    res.status(500);
-                    res.json(response.data.ToJson());
+                    if(response.data.code === "ERR_EMAIL_EXISTS") {
+                        res.status(400);
+                        res.json(response.data.ToJson());
+                    } else {
+                        res.status(500);
+                        res.json(response.data.ToJson());
+                    }
                 }
             }
         },
