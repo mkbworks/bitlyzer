@@ -11,7 +11,7 @@ if command -v node > /dev/null; then
         echo "Starting the Bitlyzer application now..."
         dotenvx run -f .env.local -- node server/server.js
     else
-        echo "@dotenvx/dotenvx should be installed globally in the system to run the Bitlyzer application."
+        echo "@dotenvx/dotenvx should be installed globally in the system to run the go.coc application."
     fi
 else
     echo "Node.js is not installed in the system."

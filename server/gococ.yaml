@@ -1,0 +1,199 @@
+openapi: 3.1.1
+info:
+  title: go.coc
+  summary: A REST API that exposes endpoints to create a short URL mapped to a longer URL
+  version: 1.0.0
+  contact:
+    name: Mahesh Kumaar Balaji
+    email: maheshkumaar.balaji@outlook.com
+  license:
+    name: MIT
+paths:
+  /users/register:
+    post:
+      summary: Register a new user and generate API key needed to access the functionalities exposed by the API.
+      operationId: registerUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name: 
+                  description: Display name of the user
+                  type: string
+                email:
+                  description: Email address of the user
+                  type: string
+              required:
+                - name
+                - email
+      responses:
+        200:
+          description: Response returned when user has been successfully registered
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ApiKey:
+                    description: API key generated for the user
+                    type: object
+                    properties:
+                      ApiKey:
+                        type: string
+                        description: The plain text API Key generated for the user.
+                      Expiry:
+                        type: string
+                        description: ISO date string representing the date of expiry for the API Key.
+                    required:
+                      - ApiKey
+                      - Expiry
+        415:
+          $ref: '#/components/responses/InvalidContentType'
+        500:
+          description: The operation requested could not be performed due to an internal server error.
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Error'
+        400:
+          description: Response returned when user email provided is already registered.
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Error'
+  /links/create:
+    post:
+      summary: Create a mapping between the given Short URL and its target URL.
+      operationId: createLink
+      security:
+        api_key: []
+      requestBody:
+        content:
+          application/json:
+            schema: 
+              type: object
+              properties:
+                action:
+                  description: Nature of action to be performed when the short URL is requested.
+                  type: string
+                target:
+                  description: The target URL mapped to the short URL.
+                  type: string
+                shortUrl:
+                  description: The random hash generated and mapped to the longer URL.
+                  type: string
+                expiry:
+                  description: The number of days for which the created link will be valid.
+                  type: number
+              required:
+                - action
+                - target
+                - shortUrl
+                - expiry
+      responses:
+        415:
+          $ref: '#/components/responses/InvalidContentType'
+        500:
+          description: The operation requested could not be performed due to an internal server error.
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Error'
+        200:
+          description: Response returned when the short URL is created and mapped.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Action:
+                    description: Nature of action to be performed when the short URL is requested.
+                    type: string
+                  ShortUrl:
+                    description: Complete short URL which will redirect you to the mapped link.
+                    type: string
+                  Target:
+                    description: The link (long url) mapped to the short url.
+                    type: string
+                  Expiry:
+                    description: The number of days for which the created link will be valid.
+                    type: number
+                required:
+                  - Action
+                  - ShortUrl
+                  - Target
+                  - Expiry
+  /links:
+    parameters:
+      - name: hash
+        in: path
+        description: key generated for the long URL provided.
+        required: true
+        schema:
+          type: string
+    get:
+      summary: redirect the short url to its mapped long url
+      operationId: redirectToLink
+      security:
+        api_key: []
+      responses:
+        302:
+          description: Redirects the short url to the mapped long url.
+        404:
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500:
+          description: The operation requested could not be performed due to an internal server error.
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Error'
+    delete:
+      summary: deletes the short url from the system.
+      operationId: deleteLink
+      security:
+        api_key: []
+      responses:
+        200: 
+          description: Successfully deleted the short url from the system.
+        404:
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500:
+          description: The operation requested could not be performed due to an internal server error.
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Error'
+components:
+  responses:
+    NotFound:
+      description: The resource requested was not found
+    InvalidContentType:
+      description: The request data sent is not an acceptable content type.
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: x-apikey
+      in: header
+  schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          description: Error code denoting the nature of error.
+          type: string
+        message:
+          description: Complete error message explaining the error in much more detail.
+          type: string
+      required:
+        - code
+        - message

@@ -28,9 +28,9 @@ const validate = async (req, res, next) => {
         }
     }
 
-    if(req.body.link) {
+    if(req.body.target) {
         const linkPattern = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/ig;
-        const linkValue = req.body.link.trim();
+        const linkValue = req.body.target.trim();
         if(!linkPattern.test(linkValue)) {
             isValid = false;
             errorMsgs.push("Target URL does not conform to the standard URL format");

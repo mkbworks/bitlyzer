@@ -17,12 +17,8 @@ userRouter.post("/register", validate, (req, res) => {
                 res.json(response.data);
             } else {
                 if(response.data.code === "ERR_EMAIL_EXISTS") {
-                    let errRes = {
-                        code: response.data.code,
-                        message: "The given email address is already registered to an existing user"
-                    };
                     res.status(400);
-                    res.json(errRes);
+                    res.json(response.data.ToJson());
                 } else {
                     res.status(500);
                     res.json(response.data.ToJson());

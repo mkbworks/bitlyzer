@@ -78,7 +78,7 @@ class DataAccessLayer {
             let usersCollection = this.DbInstance.collection("users");
             let matchingEmailCount = await usersCollection.countDocuments({ Email: NewUser.Email });
             if(matchingEmailCount > 0) {
-                throw new Response("error", new AppError("ERR_EMAIL_EXISTS", "User email address already exists in the system"));
+                throw new Response("error", new AppError("ERR_EMAIL_EXISTS", "The given email address is already registered to an existing user"));
             }
             
             let matchingKeyCount = await usersCollection.countDocuments({ "ApiKey.HashedValue": NewUser.ApiKey.HashedValue });
@@ -87,7 +87,7 @@ class DataAccessLayer {
                 matchingKeyCount = await usersCollection.countDocuments({ "ApiKey.HashedValue": NewUser.ApiKey.HashedValue });
             }
             
-            const result = await usersCollection.insertOne(NewUser.ToObject());
+            const result = await usersCollection.insertOne(NewUser.ToJson());
             console.log(`A new user with ID = ${result.insertedId} has been added to the "users" collection.`);
             let ApiKeyExpiry = NewUser.CalculateApiKeyExpiry();
             let responseData = {
@@ -105,13 +105,29 @@ class DataAccessLayer {
 
     /**
      * Asynchronous function to get the link mapped to the hash value.
-     * @param {string} hashValue hash value provided 
-     * @param {string} userId unique ID assigned to the user in the database.
+     * @param {string} shortUrl short url requested.
      * @returns {Response} an object with the response status and associated data.
      */
-    async FindLink(hashValue, userId) {
+    async FindLink(shortUrl) {
         try {
-            
+            let linksCollection = this.DbInstance.collection("links");
+            let linkRecords = linksCollection.find({ ShortUrl: shortUrl.trim() }).toArray();
+            if(linkRecords.length == 0) {
+                return new Response("error", new AppError("ERR_NOEXISTS", "The given Short URL does not exist in system."))
+            }
+
+            let [linkRecord] = linkRecords;
+            let link = Link.CreateFrom(linkRecord);
+            if(link.HasExpired()) {
+                return new Response("error", new AppError("ERR_EXPIRED", "The request resource has expired and hence could not be found in the system"));
+            }
+
+            let resObj = {
+                "ShortUrl": link.ShortUrl,
+                "Target": link.Target,
+                "Action": link.Action
+            };
+            return new Response("success", resObj);
         } catch(err) {
             return new Response("error", new AppError("ERR_CUSTOM", err.message));
         }
@@ -123,23 +139,26 @@ class DataAccessLayer {
      * @param {string} action nature of action to be performed when the short url is requested.
      * @param {string} shortUrl short url to be mapped to the target. If no value is provided, then a new one is created by the system.
      * @param {string} userId unique ID assigned to the user in the database.
+     * @param {number} expiry expiry number of days from created date, for which the link is valid
      * @returns {Response} an object with the response status and associated data.
      */
-    async NewLink(target, action, shortUrl, userId) {
+    async NewLink(target, action, shortUrl, userId, expiry) {
         try {
-            let newLink = Link.Create(target, action, shortUrl, userId);
+            let newLink = Link.Create(target, action, shortUrl, userId, expiry);
             let linksCollection = this.DbInstance.collection("links");
-            let matchingHashCount = await linksCollection.countDocuments({ UserId: userId, ShortUrl: shortUrl });
+            let matchingHashCount = await linksCollection.countDocuments({ ShortUrl: shortUrl });
             while(matchingHashCount > 0) {
                 newLink.RefreshShortUrl();
-                matchingHashCount = await linksCollection.countDocuments({ UserId: userId, ShortUrl: shortUrl });
+                matchingHashCount = await linksCollection.countDocuments({ ShortUrl: shortUrl });
             }
 
-            const result = await linksCollection.insertOne(newLink.ToObject());
+            let linkObj = newLink.ToJson();
+            const result = await linksCollection.insertOne(linkObj);
             console.log(`A new link with ID = ${result.insertedId} has been added to the "links" collection.`);
-            let insertedLink = newLink.ToObject();
-            delete insertedLink.UserId;
-            return new Response("success", insertedLink);
+            let retValue = {
+                "ShortUrl": linkObj.ShortUrl
+            };
+            return new Response("success", retValue);
         } catch(err) {
             return new Response("error", new AppError("ERR_CUSTOM", err.message));
         }
@@ -147,13 +166,21 @@ class DataAccessLayer {
 
     /**
      * Asynchronous function to delete the link mapped to the given hash value.
-     * @param {string} hashValue hash value of the link to be deleted.
+     * @param {string} shortUrl Short URL link to be deleted from the system.
      * @param {string} userId unique ID assigned to the user in the database.
      * @returns {Response} an object with the response status and associated data.
      */
-    async DeleteLink(hashValue, userId) {
+    async DeleteLink(shortUrl, userId) {
         try {
-            
+            let linksCollection = this.DbInstance.collection("links");
+            let linkRecordsCount = await linksCollection.countDocuments({ UserId: userId, ShortUrl: shortUrl });
+            if(linkRecordsCount === 0) {
+                return new Response("error", new AppError("ERR_NOEXISTS", "The given Short URL does not exist in system."));
+            }
+
+            let result = await linksCollection.deleteOne({ UserId: userId, ShortUrl: shortUrl });
+            console.log(`${result.deletedCount} record(s) have been deleted from the "links" collection.`);
+            return new Response("success", { message: "Link was deleted successfully" });
         } catch(err) {
             return new Response("error", new AppError("ERR_CUSTOM", err.message));
         }

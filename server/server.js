@@ -2,8 +2,8 @@ import express from "express";
 import figlet from "figlet";
 import chalk from "chalk";
 import morgan from "morgan";
-import linkRouter from "./routes/link.js";
-import userRouter from "./routes/user.js";
+import linkRouter from "./routes/links.js";
+import userRouter from "./routes/users.js";
 import DataAccessLayer from "./dal/db.js";
 
 const app = express();
@@ -25,10 +25,10 @@ DataAccessLayer.ConnectToDb().then((dal) => {
             verticalLayout: "default",
             width: 100,
         }));
-        let WebAddress = chalk.green(`http://${server.address().address}:${server.address().port}`);
+        let WebAddress = `http://${server.address().address}:${server.address().port}`;
         console.log(bannerText);
-        console.log(`Application is running and listening for incoming requests at ${WebAddress}`);
-        app.locals.WebAddress = `http://${server.address().address}:${server.address().port}`;
+        console.log(`Application is running and listening for incoming requests at ${chalk.green(WebAddress)}`);
+        app.locals.WebAddress = WebAddress;
     });
     
     process.on('SIGINT', async () => {
@@ -36,7 +36,7 @@ DataAccessLayer.ConnectToDb().then((dal) => {
         console.log("Initiating shutdown now.");
         await dal.Close();
         server.close(() => {
-            console.log("Server has been closed.");
+            console.log("Server has been shutdown.");
             process.exit(0);
         });
     });

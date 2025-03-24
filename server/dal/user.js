@@ -44,7 +44,7 @@ class User {
      * Returns an object representation of the user instance containing only its attributes.
      * @returns {object} Object representation of the instance.
      */
-    ToObject() {
+    ToJson() {
         return {
             "Email": this.Email,
             "FullName": this.FullName,
