@@ -111,7 +111,7 @@ class DataAccessLayer {
     async FindLink(shortUrl) {
         try {
             let linksCollection = this.DbInstance.collection("links");
-            let linkRecords = linksCollection.find({ ShortUrl: shortUrl.trim() }).toArray();
+            let linkRecords = await linksCollection.find({ ShortUrl: shortUrl.trim() }).toArray();
             if(linkRecords.length == 0) {
                 return new Response("error", new AppError("ERR_NOEXISTS", "The given Short URL does not exist in system."))
             }

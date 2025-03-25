@@ -9,7 +9,7 @@ info:
   license:
     name: MIT
 paths:
-  /users/register:
+  /users/new:
     post:
       summary: Register a new user and generate API key needed to access the functionalities exposed by the API.
       operationId: registerUser
@@ -63,7 +63,7 @@ paths:
             application/json:
               schema: 
                 $ref: '#/components/schemas/Error'
-  /links/create:
+  /links/new:
     post:
       summary: Create a mapping between the given Short URL and its target URL.
       operationId: createLink
@@ -144,7 +144,7 @@ paths:
                   - ShortUrl
                   - Target
                   - Expiry
-  /links:
+  /:
     parameters:
       - name: hash
         in: path
