@@ -144,7 +144,7 @@ paths:
                   - ShortUrl
                   - Target
                   - Expiry
-  /:
+  /{hash}:
     parameters:
       - name: hash
         in: path
