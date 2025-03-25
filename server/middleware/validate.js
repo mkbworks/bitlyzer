@@ -1,7 +1,9 @@
 import express from "express";
+import AppError from "../models/error.js";
+import { ValidateEmail } from "../utils/utilities.js";
 
 /**
- * Middleware to validate user data sent as part of the request like email, name etc.
+ * Middleware to validate user data sent as part of the request payload like email, name etc.
  * @param {express.Request} req Incoming HTTP request
  * @param {express.Response} res HTTP response for the incoming request.
  * @param {express.NextFunction} next Function to pass the execution to the next handler for the given request-response cycle.
@@ -10,11 +12,10 @@ const validate = async (req, res, next) => {
     let isValid = true;
     let errorMsgs = [];
     if(req.body.email) {
-        const emailPattern = /^[a-z][a-z0-9\-\._]+[a-z0-9]@[a-z][a-z0-9\.\-]+[a-z0-9]$/ig;
         let emailValue = req.body.email.trim();
-        if(!emailPattern.test(emailValue)) {
+        if(!ValidateEmail(emailValue)) {
             isValid = false;
-            errorMsgs.push("email has an invalid value");
+            errorMsgs.push("User email address does not conform to the standard email address format");
         }
     }
 
@@ -23,31 +24,25 @@ const validate = async (req, res, next) => {
         let nameValue = req.body.name.trim();
         if(!namePattern.test(nameValue)) {
             isValid = false;
-            errorMsgs.push("name has an invalid value");
+            errorMsgs.push("User display name can contain only alphabets (lowercase, uppercase) and whitespaces");
         }
     }
 
-    if(req.body.link) {
+    if(req.body.target) {
         const linkPattern = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/ig;
-        const linkValue = req.body.link.trim();
+        const linkValue = req.body.target.trim();
         if(!linkPattern.test(linkValue)) {
             isValid = false;
-            errorMsgs.push("link has an invalid value");
+            errorMsgs.push("Target URL does not conform to the standard URL format");
         }
     }
 
     if(isValid) {
         next();
     } else {
-        let errVal = {
-            code: "ERR_INVALID_VALUE",
-            message: errorMsgs.join(", ")
-        };
-        let content = JSON.stringify(errVal);
+        let errVal = new AppError("ERR_NOCONFORM", errorMsgs.join(", "));
         res.status(400);
-        res.set("Content-Type", "application/json");
-        res.set("Content-Length", Buffer.byteLength(content).toString());
-        res.send(content);
+        res.json(errVal.ToJson());
     }
 };
 

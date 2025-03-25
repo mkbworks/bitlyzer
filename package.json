@@ -5,14 +5,17 @@
   "main": "server/server.js",
   "type": "module",
   "scripts": {
-    "start": "./run.sh"
+    "start": "./run.sh",
+    "play": "dotenvx run -f .env.test.local -- node server/playground.js",
+    "test": "dotenvx run -f .env.test.local -- node server/server.js"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/mkbworks/bitlyzer.git"
   },
   "keywords": [
-    "url-shortener"
+    "url-shortener",
+    "bitlyzer"
   ],
   "author": "Mahesh Kumaar Balaji",
   "license": "MIT",
@@ -20,11 +23,14 @@
     "url": "https://github.com/mkbworks/bitlyzer/issues"
   },
   "homepage": "https://github.com/mkbworks/bitlyzer#readme",
+  "engines": {
+    "node": ">=20.16.0"
+  },
   "dependencies": {
     "chalk": "^5.4.1",
     "express": "^4.21.2",
     "figlet": "^1.8.0",
-    "morgan": "^1.10.0",
-    "mssql": "^11.0.1"
+    "mongodb": "^6.15.0",
+    "morgan": "^1.10.0"
   }
 }
