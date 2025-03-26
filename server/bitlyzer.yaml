@@ -193,6 +193,16 @@ paths:
       responses:
         200: 
           description: Successfully deleted the short url from the system.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    description: Message indicating the if the deletion was successful or not.
+                    type: string
+                required:
+                  - message
         404:
           description: The requested resource was not found.
           content:
@@ -207,8 +217,6 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   responses:
-    NotFound:
-      description: The resource requested was not found
     InvalidContentType:
       description: The request data sent is not an acceptable content type.
   securitySchemes:
