@@ -25,8 +25,9 @@ linkRouter.post("/new", authenticate, validate, async (req, res) => {
             } else {
                 const result = await req.app.locals.dal.NewLink(target, action, shortUrl, userId, expiry);
                 if(result.status === "success") {
+                    let completeShortUrl = new URL(result.data["ShortUrl"], req.app.locals.WebAddress);
                     let data = {
-                        "ShortUrl": `${req.app.locals.WebAddress}/${result.data["ShortUrl"]}`,
+                        "ShortUrl": completeShortUrl.href,
                         "Target": target,
                         "Action": action,
                         "Expiry": expiry

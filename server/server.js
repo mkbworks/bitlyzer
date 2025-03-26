@@ -70,10 +70,10 @@ DataAccessLayer.ConnectToDb().then((dal) => {
             verticalLayout: "default",
             width: 100,
         }));
-        let WebAddress = `http://${ServerHost}:${ServerPort}`;
+        let WebAddress = new URL(`http://${ServerHost}:${ServerPort}`);
         console.log(bannerText);
-        console.log(`Application is running and listening for incoming requests at ${chalk.green(WebAddress)}`);
-        app.locals.WebAddress = WebAddress;
+        console.log(`Application is running and listening for incoming requests at ${chalk.green(WebAddress.href)}`);
+        app.locals.WebAddress = WebAddress.href;
     });
 }).catch(err => {
     console.error(`Error occurred while connecting to database: ${err}`);
