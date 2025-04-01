@@ -129,5 +129,5 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-server/playground.js
 .DS_Store
+playground.js

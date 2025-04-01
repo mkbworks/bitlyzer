@@ -1,0 +1,41 @@
+{
+  "name": "bitlyzer-ui",
+  "version": "1.0.0",
+  "description": "URL shortener application front end developed with React",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mkbworks/bitlyzer.git"
+  },
+  "keywords": [
+    "url-shortener",
+    "bitlyzer"
+  ],
+  "author": "Mahesh Kumaar Balaji",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mkbworks/bitlyzer/issues"
+  },
+  "homepage": "https://github.com/mkbworks/bitlyzer#readme",
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.21.0",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.21.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "globals": "^15.15.0",
+    "vite": "^6.2.0"
+  }
+}

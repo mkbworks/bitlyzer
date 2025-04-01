@@ -1,13 +1,12 @@
 {
-  "name": "bitlyzer",
+  "name": "bitlyzer-api",
   "version": "1.0.0",
-  "description": "URL shortener application developed with Node.js and React",
-  "main": "server/server.js",
+  "description": "URL shortener API developed with Node.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "./run.sh",
-    "play": "dotenvx run -f .env.test.local -- node server/playground.js",
-    "test": "dotenvx run -f .env.test.local -- node server/server.js"
+    "start": "dotenvx run -f .env.local -- node server.js",
+    "test": "dotenvx run -f .env.test.local -- node server.js"
   },
   "repository": {
     "type": "git",
