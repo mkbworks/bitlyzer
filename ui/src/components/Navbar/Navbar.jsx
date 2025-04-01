@@ -1,28 +1,11 @@
-import { useRef, useEffect } from "react";
 import "./Navbar.css";
+import LogoImage from "../../assets/images/CitadelofCode.png";
 
 function Navbar() {
-    const logoCanvasRef = useRef(null);
-
-    useEffect(() => {
-        const canvas = logoCanvasRef.current;
-        const context = canvas.getContext('2d');
-        const canvasWidth = canvas.width;
-        const canvasHeight = canvas.height;
-        context.font = "48px cursive";
-        context.direction = "ltr";
-        context.textAlign = "center";
-        context.textBaseline = "middle";
-        context.fillStyle = "#f76649";
-        context.fillText("Citadel of Code", canvasWidth / 2, canvasHeight / 2);
-    }, []);
-
     return (
         <>
             <nav id="topNavigation">
-                <div id="logo">
-                    <canvas ref={logoCanvasRef} id="logoCanvas"></canvas>
-                </div>
+                <img src={LogoImage} id="logo" alt="Organisation logo for Citadel of Code" />
                 <div id="navLinks">
                     <button type="button" className="nav-btn" data-action="createLink">
                         Create link
