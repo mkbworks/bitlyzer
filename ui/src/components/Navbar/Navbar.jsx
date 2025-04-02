@@ -1,18 +1,14 @@
 import "./Navbar.css";
-import LogoImage from "../../assets/images/CitadelofCode.png";
 
-function Navbar() {
+function Navbar({ Links }) {
     return (
         <>
             <nav id="topNavigation">
-                <img src={LogoImage} id="logo" alt="Organisation logo for Citadel of Code" />
+                <p id="logo">Citadel of Code</p>
                 <div id="navLinks">
-                    <button type="button" className="nav-btn" data-action="createLink">
-                        Create link
-                    </button>
-                    <button type="button" className="nav-btn" data-action="manageLinks">
-                        Manage links
-                    </button>
+                    {Links.map((link, index) => (
+                        <a key={index} href={link.Path} className="nav-link">{link.Title}</a> 
+                    ))}
                 </div>
             </nav>
         </>
