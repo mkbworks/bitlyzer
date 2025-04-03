@@ -1,10 +1,11 @@
 import Navbar from "./components/Navbar/Navbar.jsx";
+import RegisterLink from "./components/RegisterLink/RegisterLink.jsx";
 import './App.css';
 
 function App() {
   const LoggedInNavlinks = [{
-    Title: "Generate link",
-    Path: "/generate-link"
+    Title: "Register link",
+    Path: "/register-link"
   }, {
     Title: "My links",
     Target: "/my-links"
@@ -13,6 +14,9 @@ function App() {
   return (
     <>
       <Navbar Links={LoggedInNavlinks} />
+      <main id="mainContent">
+        <RegisterLink />
+      </main>
     </>
   )
 }

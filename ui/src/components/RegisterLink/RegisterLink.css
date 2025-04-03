@@ -1,0 +1,50 @@
+.register-link {
+    width: 100%;
+    height: fit-content;
+    padding: 1rem;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.form-control {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    font-size: 1.3rem;
+}
+
+.form-input, .form-number, .form-select {
+    height: 35px;
+    border-radius: 5px;
+    border: 1.5px solid #DC9417;
+    padding: 5px;
+    letter-spacing: 1.5px;
+}
+
+.form-input:focus, .form-number:focus, .form-select:focus {
+    box-shadow: 3px 3px 2px #EDB554;
+}
+
+.form-input, .form-select {
+    width: 100%;
+    max-width: 500px;
+}
+
+.form-number {
+    width: 25%;
+}
+
+#registerLinkHeading {
+    width: 100%;
+    height: fit-content;
+    padding: 1rem;
+    border-bottom: 1px solid #DC9417;
+}
+
+#registerLinkHeading > h3, #registerLinkHeading > p {
+    text-align: center;
+}

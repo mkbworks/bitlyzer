@@ -1,7 +1,7 @@
 #topNavigation {
     width: 100%;
     height: 75px;
-    background-color: #60a7f7;
+    background-color: #AEE4F4;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -11,9 +11,12 @@
     height: fit-content;
     width: fit-content;
     padding: 0.4rem;
-    color: #f76649;
-    font-size: 32px;
+    font-size: 28px;
     font-family: "Nosifer", cursive;
+    background: linear-gradient(90deg, #833ab4 0%, #f76649 50%, #fcb045 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 #navLinks {
@@ -26,7 +29,7 @@
 }
 
 .nav-link {
-    color: #f76649;
+    color: #DC9417;
     font-size: 1.3rem;
     padding: 0.5rem;
     text-decoration: none;
