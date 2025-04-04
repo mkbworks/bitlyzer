@@ -1,12 +1,17 @@
-import "./RegisterLink.css";
+import CompressIcon from "../../assets/icons/compress-icon.svg?react";
+import "./ShortenUrl.css";
 
-function RegisterLink() {
+function ShortenUrl() {
     return (
-        <div className="register-link">
-            <div id="registerLinkHeading">
-                <h3>Shorten URL</h3>
-                <p>Create a new shortened link which redirects to or masks the given long URL, as per user preference.</p>
+        <div className="shorten-url">
+            <div className="section">
+                <div className="section-heading">
+                    <CompressIcon style={{ fontSize: "1.8rem" }} />&nbsp;
+                    <span className="section-heading-title">Shorten Url</span>
+                </div>
+                <p className="section-description">Create a new shortened link which redirects to or masks the given long URL, as per user preference.</p>
             </div>
+            <hr />
             <form className="form">
                 <div className="form-control">
                     <label id="TargetLabel">Paste your long  URL here!</label>
@@ -32,4 +37,4 @@ function RegisterLink() {
     );
 }
 
-export default RegisterLink;
+export default ShortenUrl;

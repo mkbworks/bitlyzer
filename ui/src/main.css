@@ -21,7 +21,7 @@ div {
   display: block;
 }
 
-button, input, select, img, p {
+button, input, select, img, p, h3, hr {
   all: unset;
 }
 
