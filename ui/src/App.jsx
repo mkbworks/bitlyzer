@@ -13,7 +13,7 @@ function App() {
 
   return (
     <>
-      <Navbar Links={LoggedInNavlinks} />
+      <Navbar Title="Citadel of Code" Links={LoggedInNavlinks} />
       <main id="mainContent">
         <RegisterLink />
       </main>

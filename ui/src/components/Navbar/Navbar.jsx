@@ -1,14 +1,16 @@
 import "./Navbar.css";
 
-function Navbar({ Links }) {
+function Navbar({ Links, Title }) {
     return (
         <>
             <nav id="topNavigation">
-                <p id="logo">Citadel of Code</p>
-                <div id="navLinks">
-                    {Links.map((link, index) => (
-                        <a key={index} href={link.Path} className="nav-link">{link.Title}</a> 
-                    ))}
+                <div id="navLinksContainer">
+                    <p id="logo">{Title}</p>
+                    <div id="navLinks">
+                        {Links.map((link, index) => (
+                            <a key={index} href={link.Path} className="nav-link">{link.Title}</a> 
+                        ))}
+                    </div>
                 </div>
             </nav>
         </>

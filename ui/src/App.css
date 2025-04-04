@@ -2,4 +2,10 @@
     max-width: 1200px;
     height: fit-content;
     margin: 0 auto;
+    border: 1.5px solid #DC9417;
+    border-radius: 5px;
+}
+
+#mainContent:focus-within {
+    box-shadow: 3px 3px 4px #EDB554;
 }
