@@ -1,15 +1,17 @@
-import CompressIcon from "../../assets/icons/compress-icon.svg?react";
+import { CompressIcon } from "../../icons.jsx";
 import "./ShortenUrl.css";
 
 function ShortenUrl() {
     return (
-        <div className="shorten-url">
+        <div className="content-head">
             <div className="section">
                 <div className="section-heading">
                     <CompressIcon style={{ fontSize: "1.8rem" }} />&nbsp;
                     <span className="section-heading-title">Shorten Url</span>
                 </div>
-                <p className="section-description">Create a new shortened link which redirects to or masks the given long URL, as per user preference.</p>
+                <p className="section-description">
+                    Generate a new shortened link that either redirects to or masks the original long URL, based on your preference.
+                </p>
             </div>
             <hr />
             <form className="form">

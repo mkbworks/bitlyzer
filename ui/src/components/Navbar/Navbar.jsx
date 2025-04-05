@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 import "./Navbar.css";
 
 function Navbar({ Links, Title }) {
@@ -8,7 +10,7 @@ function Navbar({ Links, Title }) {
                     <p id="logo">{Title}</p>
                     <div id="navLinks">
                         {Links.map((link, index) => (
-                            <a key={index} href={link.Path} className="nav-link">{link.Title}</a> 
+                            <Link className="nav-link" to={link.Path} key={index} >{link.Title}</Link>
                         ))}
                     </div>
                 </div>

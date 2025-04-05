@@ -9,3 +9,47 @@
 #mainContent:focus-within {
     box-shadow: 3px 3px 4px #EDB554;
 }
+
+.content-head {
+    width: 100%;
+    height: fit-content;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.section {
+    width: 100%;
+    height: fit-content;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.section-heading {
+    width: fit-content;
+    height: fit-content;
+}
+
+.section-heading-title {
+    font-size: 2.3rem;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+}
+
+.section-description {
+    font-size: 1.3rem;
+}
+
+.section-heading, .section-description {
+    width: fit-content;
+    height: fit-content;
+}
+
+.content-head > hr {
+    height: 1.5px;
+    background-color: #DC9417;
+}
