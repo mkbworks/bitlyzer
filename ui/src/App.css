@@ -27,7 +27,7 @@
     flex-direction: column;
     gap: 0.8rem;
 }
-.content-head > hr {
+.page-content > hr {
     height: 1.5px;
     background-color: var(--color-secondary);
 }

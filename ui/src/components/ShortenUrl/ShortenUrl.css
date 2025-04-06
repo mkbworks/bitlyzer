@@ -27,12 +27,6 @@
     box-shadow: 4px 4px 3px var(--color-accent);
 }
 
-.form-input, .form-select {
-    width: 100%;
-    max-width: 500px;
-}
-
-.form-number {
-    width: 25%;
-    max-width: 100px;
+.form-input, .form-select, .form-number {
+    width: 500px;
 }
