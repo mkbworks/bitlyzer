@@ -1,3 +1,5 @@
+import { NewUserIcon } from "../../icons.jsx";
+
 import "./RegisterUser.css";
 
 function RegisterUser() {
@@ -5,6 +7,7 @@ function RegisterUser() {
         <div className="content-head">
             <div className="section">
                 <div className="section-heading">
+                    <NewUserIcon className="svg-icon" />&nbsp;
                     <span className="section-heading-title">User Registration</span>
                 </div>
                 <div className="section-description">

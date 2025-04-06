@@ -22,13 +22,14 @@ function App() {
     }]
   };
 
-  
   return (
     <>
       <Navbar Title="Citadel of Code" Links={loggedIn ? Navlinks["LoggedIn"] : Navlinks["LoggedOut"]} />
-      <main id="mainContent">
-        <Outlet />
-      </main>
+      <div className="container">
+        <main id="mainContent">
+            <Outlet />
+        </main>
+      </div>
     </>
   )
 }

@@ -6,7 +6,7 @@ function MyLinks() {
         <div className="content-head">
             <div className="section">
                 <div className="section-heading">
-                    <LinkIcon style={{ fontSize: "2.3rem" }} />&nbsp;
+                    <LinkIcon className="svg-icon" />&nbsp;
                     <span className="section-heading-title">My Links</span>
                 </div>
                 <p className="section-description">

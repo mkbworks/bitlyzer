@@ -6,7 +6,7 @@ function ShortenUrl() {
         <div className="content-head">
             <div className="section">
                 <div className="section-heading">
-                    <CompressIcon style={{ fontSize: "1.8rem" }} />&nbsp;
+                    <CompressIcon className="svg-icon" />&nbsp;
                     <span className="section-heading-title">Shorten Url</span>
                 </div>
                 <p className="section-description">

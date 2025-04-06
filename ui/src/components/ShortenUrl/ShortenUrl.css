@@ -18,13 +18,13 @@
 .form-input, .form-number, .form-select {
     height: 35px;
     border-radius: 5px;
-    border: 1.5px solid #DC9417;
+    border: 2px solid var(--color-secondary);
     padding: 5px;
     letter-spacing: 1.5px;
 }
 
 .form-input:focus, .form-number:focus, .form-select:focus {
-    box-shadow: 3px 3px 2px #EDB554;
+    box-shadow: 4px 4px 3px var(--color-accent);
 }
 
 .form-input, .form-select {
