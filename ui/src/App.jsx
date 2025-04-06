@@ -16,18 +16,17 @@ function App() {
       Title: "My Links",
       Path: "/my-links"
     }],
-    "LoggedOut": [{
-      Title: "Register",
-      Path: "/register-user"
-    }]
+    "LoggedOut": []
   };
 
   return (
     <>
       <Navbar Title="Citadel of Code" Links={loggedIn ? Navlinks["LoggedIn"] : Navlinks["LoggedOut"]} />
       <div className="container">
-        <main id="mainContent">
-            <Outlet />
+        <main className="main-content">
+            <div className="page-content">
+                <Outlet />
+            </div>
         </main>
       </div>
     </>

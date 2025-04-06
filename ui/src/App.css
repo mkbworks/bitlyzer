@@ -7,7 +7,7 @@
     justify-content: center;
 }
 
-#mainContent {
+.main-content {
     max-width: 1200px;
     height: fit-content;
     margin: 0 auto;
@@ -15,13 +15,11 @@
     border-radius: 5px;
 }
 
-#mainContent:focus-within {
+.main-content:focus-within {
     box-shadow: 4px 4px 3px var(--color-accent);
 }
 
-/* Below CSS classes are for the common content heading section in each page. */
-
-.content-head {
+.page-content {
     width: 100%;
     height: fit-content;
     padding: 1rem;
@@ -29,47 +27,7 @@
     flex-direction: column;
     gap: 0.8rem;
 }
-
-.section {
-    width: 100%;
-    height: fit-content;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.8rem;
-}
-
-.section-heading {
-    width: fit-content;
-    height: fit-content;
-}
-
-.section-heading-title {
-    font-size: 1.718rem;
-    font-family: 'Times New Roman', Times, serif;
-    font-weight: bold;
-    color: var(--color-primary);
-}
-
-.section-description {
-    font-size: 1.3rem;
-}
-
-.section-heading, .section-description {
-    width: fit-content;
-    height: fit-content;
-}
-
 .content-head > hr {
     height: 1.5px;
     background-color: var(--color-secondary);
 }
-
-.svg-icon {
-    width: 22.5px !important;
-    height: 22.5px !important;
-    fill: var(--color-primary);
-}
-
-/* This is the end of CSS classes for the common content heading section. */

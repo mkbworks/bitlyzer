@@ -1,18 +1,14 @@
 import { CompressIcon } from "../../icons.jsx";
+import PageHeading from "../PageHeading/PageHeading.jsx";
+
 import "./ShortenUrl.css";
 
 function ShortenUrl() {
     return (
-        <div className="content-head">
-            <div className="section">
-                <div className="section-heading">
-                    <CompressIcon className="svg-icon" />&nbsp;
-                    <span className="section-heading-title">Shorten Url</span>
-                </div>
-                <p className="section-description">
-                    Generate a new shortened link that either redirects to or masks the original long URL, based on your preference.
-                </p>
-            </div>
+        <>
+            <PageHeading Title="Shorten Url" Icon={CompressIcon}>
+                Generate a new shortened link that either redirects to or masks the original long URL, based on your preference.
+            </PageHeading>
             <hr />
             <form className="form">
                 <div className="form-control">
@@ -35,7 +31,7 @@ function ShortenUrl() {
                     <input type="number" name="Expiry" className="form-number" />
                 </div>
             </form>
-        </div>
+        </>
     );
 }
 
