@@ -1,0 +1,38 @@
+.form {
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-self: center;
+    margin: 1rem 0px;
+}
+
+.form-control {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    font-size: 1.3rem;
+}
+
+.form-input, .form-number, .form-select {
+    height: 35px;
+    border-radius: 5px;
+    border: 2px solid var(--color-secondary);
+    padding: 5px;
+    letter-spacing: 1.5px;
+}
+
+.form-input:focus, .form-number:focus, .form-select:focus {
+    box-shadow: 4px 4px 3px var(--color-accent);
+}
+
+.form-input, .form-select {
+    width: 100%;
+    max-width: 500px;
+}
+
+.form-number {
+    width: 25%;
+    max-width: 100px;
+}
