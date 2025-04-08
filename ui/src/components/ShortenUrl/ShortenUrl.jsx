@@ -12,15 +12,15 @@ function ShortenUrl() {
             <hr />
             <form className="form">
                 <div className="form-control">
-                    <label id="TargetLabel">Paste your long  URL here!</label>
+                    <label className="form-label">Paste your long  URL here!</label>
                     <input type="text" name="Target" className="form-input" placeholder="Long URL to be masked or redirected to" />
                 </div>
                 <div className="form-control">
-                    <label id="AliasLabel">(Optional) Define a custom short URL!</label>
+                    <label className="form-label">(Optional) Define a custom short URL!</label>
                     <input type="text" name="Alias" className="form-input" placeholder="Enter a short URL of your own" />
                 </div>
                 <div className="form-control">
-                    <label id="ActionLabel">What action is to be taken when URL is requested?</label>
+                    <label className="form-label">What action is to be taken when URL is requested?</label>
                     <select className="form-select" name="Action">
                         <option>Select one</option>
                         <option value="redirect">Redirect</option>
@@ -28,7 +28,7 @@ function ShortenUrl() {
                     </select>
                 </div>
                 <div className="form-control">
-                    <label id="ExpiryLabel">How long should the URL be valid?</label>
+                    <label className="form-label">How long should the URL be valid?</label>
                     <input type="number" name="Expiry" className="form-number" placeholder="Number of days till expiry" />
                 </div>
             </form>

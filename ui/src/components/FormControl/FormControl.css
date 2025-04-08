@@ -1,0 +1,16 @@
+.form-control {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    font-size: 1.3rem;
+}
+
+.form-input {
+    max-width: 500px;
+    height: 35px;
+    width: 90vw;
+    border-radius: 5px;
+    border: 2px solid var(--color-secondary);
+    padding: 5px;
+    letter-spacing: 1.5px;
+}
