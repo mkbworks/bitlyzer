@@ -1,9 +1,10 @@
-import { NewUserIcon } from "../../icons.jsx";
+import { GetIconByKey } from "../../icons.jsx";
 import PageHeading from "../PageHeading/PageHeading.jsx";
 
 import "./RegisterUser.css";
 
 function RegisterUser() {
+    const NewUserIcon = GetIconByKey("NewUser");
     return (
         <>
             <PageHeading Title="User Registration" Icon={NewUserIcon}>

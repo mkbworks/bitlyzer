@@ -1,9 +1,10 @@
-import { CompressIcon } from "../../icons.jsx";
+import { GetIconByKey } from "../../icons.jsx";
 import PageHeading from "../PageHeading/PageHeading.jsx";
 
 import "./ShortenUrl.css";
 
 function ShortenUrl() {
+    const CompressIcon = GetIconByKey("Compress");
     return (
         <>
             <PageHeading Title="Shorten Url" Icon={CompressIcon}>

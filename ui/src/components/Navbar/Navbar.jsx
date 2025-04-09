@@ -9,8 +9,8 @@ function Navbar({ Links, Title }) {
                 <div id="navLinksContainer">
                     <p id="logo">{Title}</p>
                     <div id="navLinks">
-                        {Links.map((link, index) => (
-                            <Link className="nav-link" to={link.Path} key={index} >{link.Title}</Link>
+                        {Links.map(({ Path, Title }, index) => (
+                          <Link className="nav-link" to={Path} key={`Link-Index-${index}`} >{Title}</Link>
                         ))}
                     </div>
                 </div>
