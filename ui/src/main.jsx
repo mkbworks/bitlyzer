@@ -24,6 +24,9 @@ const router = createBrowserRouter([{
   }, {
     index: true,
     Component: RegisterUser
+  }, {
+    path: "/register-user",
+    Component: RegisterUser
   }]
 }]);
 

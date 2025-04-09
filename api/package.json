@@ -12,16 +12,8 @@
     "type": "git",
     "url": "https://github.com/mkbworks/bitlyzer.git"
   },
-  "keywords": [
-    "url-shortener",
-    "bitlyzer"
-  ],
   "author": "Mahesh Kumaar Balaji",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/mkbworks/bitlyzer/issues"
-  },
-  "homepage": "https://github.com/mkbworks/bitlyzer#readme",
   "engines": {
     "node": ">=20.16.0"
   },

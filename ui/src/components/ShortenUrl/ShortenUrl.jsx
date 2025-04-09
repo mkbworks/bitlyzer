@@ -12,24 +12,27 @@ function ShortenUrl() {
             <hr />
             <form className="form">
                 <div className="form-control">
-                    <label className="form-label">Paste your long  URL here!</label>
-                    <input type="text" name="Target" className="form-input" placeholder="Long URL to be masked or redirected to" />
+                    <label className="form-label form-label-resp" htmlFor="Target" >Paste your long  URL here!</label>
+                    <input type="text" id="Target" className="form-input" placeholder="Long URL to be masked or redirected to" />
                 </div>
                 <div className="form-control">
-                    <label className="form-label">(Optional) Define a custom short URL!</label>
-                    <input type="text" name="Alias" className="form-input" placeholder="Enter a short URL of your own" />
+                    <label className="form-label form-label-resp" htmlFor="Alias">Define a custom short URL!</label>
+                    <input type="text" id="Alias" className="form-input" placeholder="Enter a short URL of your own" />
                 </div>
                 <div className="form-control">
-                    <label className="form-label">What action is to be taken when URL is requested?</label>
-                    <select className="form-select" name="Action">
+                    <label className="form-label form-label-resp" htmlFor="Action">What action is to be taken when URL is requested?</label>
+                    <select className="form-select" id="Action">
                         <option>Select one</option>
                         <option value="redirect">Redirect</option>
                         <option value="mask">Mask</option>
                     </select>
                 </div>
                 <div className="form-control">
-                    <label className="form-label">How long should the URL be valid?</label>
-                    <input type="number" name="Expiry" className="form-number" placeholder="Number of days till expiry" />
+                    <label className="form-label form-label-resp" htmlFor="Expiry">How long should the URL be valid?</label>
+                    <input type="number" id="Expiry" className="form-number" placeholder="Number of days till expiry" />
+                </div>
+                <div className="form-control">
+                    <button type="button" className="btn-shorten">Shorten Url</button>
                 </div>
             </form>
         </>

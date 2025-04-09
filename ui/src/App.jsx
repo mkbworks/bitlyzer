@@ -16,7 +16,10 @@ function App() {
       Title: "My Links",
       Path: "/my-links"
     }],
-    "LoggedOut": []
+    "LoggedOut": [{
+        Title: "Register",
+        Path: "/register-user"
+      }]
   };
 
   return (
