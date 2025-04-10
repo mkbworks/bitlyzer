@@ -10,6 +10,8 @@
   font-family: "Gill Sans", cursive;
   font-size: 14px;
   font-weight: normal;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
   --color-primary: #A294F9;
   --color-secondary: #CDC1FF;
   --color-accent: #E5D9F2;

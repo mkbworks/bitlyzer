@@ -8,6 +8,7 @@ import App from './App.jsx';
 import ShortenUrl from "./components/ShortenUrl/ShortenUrl.jsx";
 import MyLinks from "./components/MyLinks/MyLinks.jsx";
 import RegisterUser from './components/RegisterUser/RegisterUser.jsx';
+import LoginUser from './components/LoginUser/LoginUser.jsx';
 
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
@@ -27,6 +28,9 @@ const router = createBrowserRouter([{
   }, {
     path: "/register-user",
     Component: RegisterUser
+  }, {
+    path: "/login-user",
+    Component: LoginUser
   }]
 }]);
 

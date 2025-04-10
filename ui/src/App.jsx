@@ -19,6 +19,9 @@ function App() {
     "LoggedOut": [{
         Title: "Register",
         Path: "/register-user"
+      }, {
+        Title: "Login",
+        Path: "/login-user"
       }]
   };
 

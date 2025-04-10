@@ -8,7 +8,7 @@ function RegisterUser() {
     return (
         <>
             <PageHeading Title="User Registration" Icon={NewUserIcon}>
-                Sign up as a new user to start using the URL Shortener services. After registration, you'll receive an API key for authentication purposes.
+                Sign up as a new user to start using the URL Shortener services. After registration, you'll receive an Access key for authentication purposes.
             </PageHeading>
             <hr />
             <form className="form">
