@@ -1,7 +1,6 @@
 import { useState } from "react";
-import PageHeading from "../PageHeading/PageHeading.jsx";
-import * as validation from "../../validation.js";
-import "./RegisterUser.css";
+import PageHeading from "./PageHeading/PageHeading.jsx";
+import * as validation from "../validation.js";
 
 
 function RegisterUser() {

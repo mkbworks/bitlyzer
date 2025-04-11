@@ -1,5 +1,4 @@
 import PageHeading from "../PageHeading/PageHeading.jsx";
-import "./MyLinks.css";
 
 function MyLinks() {
     return (

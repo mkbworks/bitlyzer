@@ -1,11 +1,10 @@
-import PageHeading from "../PageHeading/PageHeading.jsx";
-import "./ShortenUrl.css";
+import PageHeading from "./PageHeading/PageHeading.jsx";
 
 function ShortenUrl() {
     return (
         <>
             <PageHeading Title="Shorten Url" IconKey="Compress">
-                Easily convert long, cluttered URLs into clean, shareable short links with our simple URL shortener tool. Whether you're managing links for social media, marketing campaigns, or personal use, this page lets you create a custom or auto-generated short URL in seconds. Just paste your long URL into the form, customize the alias if you'd like, and click generate. It's quick, reliable, and perfect for making your links easier to share, track, and manage.
+                Easily convert long, cluttered URLs into clean, shareable short links with our simple URL shortener tool. Just paste your long URL into the form, customize the alias if you'd like, and click generate.
             </PageHeading>
             <hr />
             <form className="form">
@@ -30,7 +29,7 @@ function ShortenUrl() {
                     <input type="number" id="Expiry" className="form-number" placeholder="Number of days till expiry" />
                 </div>
                 <div className="form-control">
-                    <button type="button" className="btn-submit">Shorten Url</button>
+                    <button type="button" className="btn-submit">Generate</button>
                 </div>
             </form>
         </>

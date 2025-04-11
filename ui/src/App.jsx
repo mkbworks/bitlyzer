@@ -1,12 +1,10 @@
 import { useState } from "react";
 import { Outlet } from "react-router";
-
 import Navbar from "./components/Navbar/Navbar.jsx";
-
 import './App.css';
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const Navlinks = {
     "LoggedIn": [{
