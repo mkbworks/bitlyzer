@@ -26,7 +26,7 @@ function Decimal({ Name, Label, Value = 0, Placeholder, OnChange, Min = -Infinit
     return (
         <div className="form-control">
             <label className="form-label" htmlFor={Name}>{Label}</label>
-            <input type="number" id={Name} name={Name} placeholder={Placeholder} value={Value} step={Step} onChange={handleChange} onBlur={handleBlur} />
+            <input type="number" className="form-number" id={Name} name={Name} placeholder={Placeholder} value={Value} step={Step} onChange={handleChange} onBlur={handleBlur} />
             { isTouched && !isValueValid && <p className="form-control-error">Please enter a valid number!</p> }
         </div>
     );

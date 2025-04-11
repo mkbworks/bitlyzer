@@ -28,8 +28,9 @@
     row-gap: 1.5rem;
 }
 .page-content > hr {
-    height: 1.5px;
+    height: 2px;
     background-color: var(--color-secondary);
+    box-shadow: 0 0 3px 3px var(--color-accent);
 }
 
 .form {

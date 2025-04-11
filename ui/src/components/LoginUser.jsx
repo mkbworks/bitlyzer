@@ -45,7 +45,7 @@ function LoginUser() {
             <hr />
             <form className="form" onSubmit={handleSubmit}>
                 <Email Name="UserEmail" Label="Enter your email" Value={user.UserEmail} Placeholder="User's email address" OnChange={(value) => handleChange("UserEmail", value)} UpdateValidity={(value) => updateValidity("UserEmail", value)} Required />
-                <Password Name="UserKey" Label="Enter your access key" Placeholder="User's access key" Value={user.UserKey} onChange={(value) => handleChange("UserKey", value)} UpdateValidity={(value) => updateValidity("UserKey", value)} />
+                <Password Name="UserKey" Label="Enter your access key" Placeholder="User's access key" Value={user.UserKey} OnChange={(value) => handleChange("UserKey", value)} UpdateValidity={(value) => updateValidity("UserKey", value)} />
                 <Submit Disabled={!userValidity.UserEmail || !userValidity.UserKey}>Login</Submit>
             </form>
         </>

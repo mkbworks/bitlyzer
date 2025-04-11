@@ -4,7 +4,7 @@ import Navbar from "./components/Navbar/Navbar.jsx";
 import './App.css';
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true);
 
   const Navlinks = {
     "LoggedIn": [{

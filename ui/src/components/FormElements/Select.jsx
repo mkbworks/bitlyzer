@@ -29,7 +29,7 @@ function Select({ Name, Label, Value, Options, OnChange, Required = false, Updat
     return (
         <div className="form-control">
             <label className="form-label" htmlFor={Name}>{Label}</label>
-            <select className="form-select" id={Name} value={Value}>
+            <select className="form-select" id={Name} value={Value} onChange={handleChange} onBlur={handleBlur}>
                 {
                     Options.map((Option, index) => (<option value={Option.key} key={index}>{Option.value}</option>))
                 }
