@@ -4,7 +4,7 @@
   "description": "URL Shortener web application created with Node.js API backend and React frontend",
   "scripts": {
     "dev:ui": "npm run dev --workspace=ui",
-    "dev:api": "npm run start --workspace=api"
+    "dev:api": "npm run dev --workspace=api"
   },
   "workspaces": [
     "api",

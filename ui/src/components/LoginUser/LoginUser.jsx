@@ -1,13 +1,10 @@
-import { GetIconByKey } from "../../icons.jsx";
 import PageHeading from "../PageHeading/PageHeading.jsx";
-
 import "./LoginUser.css";
 
 function LoginUser() {
-    const LoginIcon = GetIconByKey("login");
     return (
         <>
-            <PageHeading Title="User Login" Icon={LoginIcon}>
+            <PageHeading Title="User Login" IconKey="login">
                 User Login
             </PageHeading>
             <hr />
