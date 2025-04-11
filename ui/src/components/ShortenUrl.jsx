@@ -1,36 +1,64 @@
+import { useState } from "react";
 import PageHeading from "./PageHeading/PageHeading.jsx";
+import { Text, Submit, Decimal, Select } from "./FormElements";
 
 function ShortenUrl() {
+    const Actions = [{
+        key: "",
+        value: "Select one"
+    }, {
+        key: "redirect",
+        value: "Redirect"
+    }, {
+        key: "mask",
+        value: "Mask"
+    }];
+
+    const [url, setUrl] = useState({
+        Target: "",
+        Alias: "",
+        Action: "",
+        Expiry: 0
+    });
+
+    const [urlValidity, setUrlValidity] = useState({
+        Target: false,
+        Alias: false,
+        Action: false,
+        Expiry: false
+    });
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        console.log("URL details: ", url);
+    };
+
+    const updateValidity = (name, value) => {
+        setUrlValidity(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const handleChange = (name, value) => {
+        setUrl(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
     return (
         <>
             <PageHeading Title="Shorten Url" IconKey="Compress">
                 Easily convert long, cluttered URLs into clean, shareable short links with our simple URL shortener tool. Just paste your long URL into the form, customize the alias if you'd like, and click generate.
             </PageHeading>
             <hr />
-            <form className="form">
-                <div className="form-control">
-                    <label className="form-label form-label-resp" htmlFor="Target" >Paste your long  URL here!</label>
-                    <input type="text" id="Target" className="form-input" placeholder="Long URL to be masked or redirected to" />
-                </div>
-                <div className="form-control">
-                    <label className="form-label form-label-resp" htmlFor="Alias">Define a custom short URL!</label>
-                    <input type="text" id="Alias" className="form-input" placeholder="Enter a short URL of your own" />
-                </div>
-                <div className="form-control">
-                    <label className="form-label form-label-resp" htmlFor="Action">What action is to be taken when URL is requested?</label>
-                    <select className="form-select" id="Action">
-                        <option>Select one</option>
-                        <option value="redirect">Redirect</option>
-                        <option value="mask">Mask</option>
-                    </select>
-                </div>
-                <div className="form-control">
-                    <label className="form-label form-label-resp" htmlFor="Expiry">How long should the URL be valid?</label>
-                    <input type="number" id="Expiry" className="form-number" placeholder="Number of days till expiry" />
-                </div>
-                <div className="form-control">
-                    <button type="button" className="btn-submit">Generate</button>
-                </div>
+            <form className="form" onSubmit={handleSubmit}>
+                <Text Name="Target" Label="Paste your long URL here!" Value={url.Target} Placeholder="Long URL to be masked or redirected to" OnChange={(value) => handleChange("Target", value)} UpdateValidity={(value) => updateValidity("Target", value)} Required />
+                <Text Name="Alias" Label="Define a custom short URL!" Value={url.Alias} Placeholder="Enter a short URL of your own" OnChange={(value) => handleChange("Alias", value)} UpdateValidity={(value) => updateValidity("Alias", value)} Required />
+                <Select Name="Action" Label="What action is to be taken when URL is requested?" Value={url.Action} Options={Actions} OnChange={(value) => handleChange("Action", value)} UpdateValidity={(value) => updateValidity("Action", value)} Required />
+                <Decimal Name="Expiry" Label="How long should the URL be valid?" Placeholder="Number of days till expiry" Value={url.Expiry} OnChange={(value) => handleChange("Expiry", value)} UpdateValidity={(value) => updateValidity("Expiry", value)} Min={0} />
+                <Submit Disabled={!urlValidity.Action || !urlValidity.Target || !urlValidity.Alias || !urlValidity.Expiry}>Generate</Submit>
             </form>
         </>
     );

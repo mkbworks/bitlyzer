@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PageHeading from "./PageHeading/PageHeading.jsx";
-import * as validation from "../validation.js";
+import { Email, Password, Submit } from "./FormElements";
 
 function LoginUser() {
     const [user, setUser] = useState({
@@ -8,35 +8,33 @@ function LoginUser() {
         UserKey: ''
     });
 
-    const [touched, setIsTouched] = useState({
+    const [userValidity, setUserValidity] = useState({
         UserEmail: false,
         UserKey: false
     });
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        if(!userValidity.UserEmail || !userValidity.UserKey) {
+            console.log("Some of the fields do not have a valid value.");
+            return;
+        }
+
         console.log("User login details: ", user);
     };
 
-    const handleBlur = (event) => {
-        let { name } = event.target;
-        setIsTouched(prev => ({
-            ...prev,
-            [name]: true
-        }));
-    };
-
-    const handleChange = (event) => {
-        let { name, value } = event.target;
-        setUser(prev => ({
+    const updateValidity = (name, value) => {
+        setUserValidity(prev => ({
             ...prev,
             [name]: value
         }));
     };
 
-    let validityState = {
-        UserEmail: validation.isValidEmail(user.UserEmail),
-        UserKey: user.UserKey.trim() !== ""
+    const handleChange = (name, value) => {
+        setUser(prev => ({
+            ...prev,
+            [name]: value
+        }));
     };
 
     return (
@@ -46,19 +44,9 @@ function LoginUser() {
             </PageHeading>
             <hr />
             <form className="form" onSubmit={handleSubmit}>
-                <div className="form-control">
-                    <label className="form-label form-label-resp" htmlFor="UserEmail" >Enter your email</label>
-                    <input type="text" id="UserEmail" name="UserEmail" className="form-input" placeholder="User's email address" value={user.UserEmail} onBlur={handleBlur} onChange={handleChange} />
-                    {touched.UserEmail && !validityState.UserEmail && <p className="form-control-error">Please enter a valid email address!</p>}
-                </div>
-                <div className="form-control">
-                    <label className="form-label form-label-resp" htmlFor="UserKey" >Enter your access key</label>
-                    <input type="password" id="UserKey" name="UserKey" className="form-input" placeholder="User's access key" value={user.UserKey} onBlur={handleBlur} onChange={handleChange} />
-                    {touched.UserKey && !validityState.UserKey && <p className="form-control-error">Please enter a valid access key!</p>}
-                </div>
-                <div className="form-control">
-                    <button type="submit" className="btn-submit" disabled={!validityState.UserEmail || !validityState.UserKey}>Login</button>
-                </div>
+                <Email Name="UserEmail" Label="Enter your email" Value={user.UserEmail} Placeholder="User's email address" OnChange={(value) => handleChange("UserEmail", value)} UpdateValidity={(value) => updateValidity("UserEmail", value)} Required />
+                <Password Name="UserKey" Label="Enter your access key" Placeholder="User's access key" Value={user.UserKey} onChange={(value) => handleChange("UserKey", value)} UpdateValidity={(value) => updateValidity("UserKey", value)} />
+                <Submit Disabled={!userValidity.UserEmail || !userValidity.UserKey}>Login</Submit>
             </form>
         </>
     );

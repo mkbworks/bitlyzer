@@ -1,7 +1,6 @@
 import { useState } from "react";
 import PageHeading from "./PageHeading/PageHeading.jsx";
-import Email from "./Email.jsx";
-import Text from "./Text.jsx";
+import { Email, Text, Submit } from "./FormElements";
 
 function RegisterUser() {
     const [user, setUser] = useState({
@@ -45,11 +44,9 @@ function RegisterUser() {
             </PageHeading>
             <hr />
             <form className="form" onSubmit={handleFormSubmit}>
-                <Text Name="FullName" Label="Enter your full name" Value={user.FullName} Placeholder="User's full name" OnChange={(value) => handleChange("FullName", value)} Pattern="^[a-zA-Z][a-zA-Z\s]+$" UpdateValidity={(value) => updateValidity("FullName", value)} />
-                <Email Name="UserEmail" Label="Enter your email address" Value={user.UserEmail} Placeholder="User's email address" OnChange={(value) => handleChange("UserEmail", value)} UpdateValidity={(value) => updateValidity("UserEmail", value)} />
-                <div className="form-control">
-                    <button type="submit" className="btn-submit" disabled={!userValidity.FullName || !userValidity.UserEmail}>Register</button>
-                </div>
+                <Text Name="FullName" Label="Enter your full name" Value={user.FullName} Placeholder="User's full name" OnChange={(value) => handleChange("FullName", value)} Pattern="^[a-zA-Z][a-zA-Z\s]+$" UpdateValidity={(value) => updateValidity("FullName", value)} Required />
+                <Email Name="UserEmail" Label="Enter your email address" Value={user.UserEmail} Placeholder="User's email address" OnChange={(value) => handleChange("UserEmail", value)} UpdateValidity={(value) => updateValidity("UserEmail", value)} Required />
+                <Submit Disabled={!userValidity.FullName || !userValidity.UserEmail}>Register</Submit>
             </form>
         </>
     );

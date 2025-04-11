@@ -1,12 +1,18 @@
 import { useState } from "react";
+import "./FormStyles.css";
 
-const isValidEmail = (email) => {
+const isValidEmail = (email, isRequired) => {
     const emailPattern = /^[a-z][a-z0-9\-\._]+[a-z0-9]@[a-z][a-z0-9\.\-]+[a-z0-9]$/i;
     email = email.trim();
+
+    if(isRequired && email.length === 0) {
+        return false;
+    }
+
     return emailPattern.test(email);
 };
 
-function Email({ Name, Label, Value, Placeholder, OnChange, UpdateValidity = undefined }) {
+function Email({ Name, Label, Value, Placeholder, OnChange, Required = false, UpdateValidity = undefined }) {
     const [isTouched, setIsTouched] = useState(false);
 
     const handleBlur = () => {
@@ -16,12 +22,12 @@ function Email({ Name, Label, Value, Placeholder, OnChange, UpdateValidity = und
     const handleChange = (event) => {
         OnChange(event.target.value);
         if(UpdateValidity) {
-            UpdateValidity(isValidEmail(event.target.value));
+            UpdateValidity(isValidEmail(event.target.value, Required));
         }
         setIsTouched(false);
     };
 
-    let isValueValid = isValidEmail(Value);
+    let isValueValid = isValidEmail(Value, Required);
 
     return (
         <div className="form-control">
