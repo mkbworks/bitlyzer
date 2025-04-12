@@ -54,7 +54,7 @@ function ShortenUrl() {
 
     return (
         <>
-            <PageHeading Title="Shorten Url" IconKey="Compress">
+            <PageHeading Title="Shorten Url" ImagePath="/images/ShortenUrl.png">
                 Easily convert long, cluttered URLs into clean, shareable short links with our simple URL shortener tool. Just paste your long URL into the form, customize the alias if you'd like, and click generate.
             </PageHeading>
             <hr />

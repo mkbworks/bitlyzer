@@ -39,7 +39,7 @@ function LoginUser() {
 
     return (
         <>
-            <PageHeading Title="User Login" IconKey="login">
+            <PageHeading Title="User Login" ImagePath="/images/LoginUser.png">
                  Use your registered email address along with your access key to authenticate your account. Once logged in, you will gain access to all available functionalities.
             </PageHeading>
             <hr />

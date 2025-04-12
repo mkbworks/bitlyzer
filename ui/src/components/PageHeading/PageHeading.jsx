@@ -1,14 +1,11 @@
-import { GetIconByKey } from "../../icons.jsx";
-
 import "./PageHeading.css";
 
-function PageHeading({ Title, IconKey, children }) {
-    const Icon = GetIconByKey(IconKey);
+function PageHeading({ Title, ImagePath, children }) {
     return (
         <div className="page-heading">
             <div className="page-title-section">
-                <Icon className="svg-icon" />&nbsp;
-                <span className="page-title">{Title}</span>
+                <img src={ImagePath} className="page-logo" alt={`Logo for ${Title}`} />
+                <p className="page-title">{Title}</p>
             </div>
             <p className="page-description">
                 {children}
