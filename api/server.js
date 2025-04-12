@@ -2,11 +2,13 @@ import express from "express";
 import figlet from "figlet";
 import chalk from "chalk";
 import morgan from "morgan";
+import axios from "axios";
 
 import linksRouter from "./routes/links.js";
 import usersRouter from "./routes/users.js";
 import DataAccessLayer from "./dal/db.js";
 import authenticate from "./middleware/auth.js";
+import AppError from "./models/error.js";
 
 const app = express();
 const ServerHost = process.env.HOST || "localhost";
@@ -31,8 +33,25 @@ DataAccessLayer.ConnectToDb().then((dal) => {
         let result = await dal.FindLink(shortUrl);
         if(result.status === "success") {
             let { Target, Action } = result.data;
-            if(Action === "redirect") {
+            if(Action.trim().toLowerCase() === "redirect") {
                 res.redirect(Target.trim());
+            } else if (Action.trim().toLowerCase() === "mask") {
+                try {
+                    let response = await axios.get(Target.trim(), { responseType: "arraybuffer" });
+                    let contentType = response.headers['content-type'] || "";
+                    if(contentType === "") {
+                        res.set('Content-Type', "application/octet-stream");
+                    } else {
+                        res.set('Content-Type', contentType.trim());
+                    }
+
+                    let responseBuffer = Buffer.from(response.data);
+                    res.set('Content-Length', responseBuffer.byteLength);
+                    res.status(200).send(responseBuffer);
+                } catch(err) {
+                    let errObj = new AppError("ERR_LINK_NOACCESS", "The target link could not be accessed or is not reachable.");
+                    res.status(400).json(errObj.ToJson());
+                }
             }
         } else {
             if(result.data.code === "ERR_EXPIRED" || result.data.code === "ERR_NOEXISTS") {

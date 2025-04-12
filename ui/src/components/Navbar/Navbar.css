@@ -49,5 +49,5 @@
 .nav-link:hover {
     cursor: pointer;
     background-color: var(--color-accent);
-    border-radius: 0.5rem;
+    border-radius: 7px;
 }

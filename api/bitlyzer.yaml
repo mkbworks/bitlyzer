@@ -19,7 +19,7 @@ paths:
             schema:
               type: object
               properties:
-                name: 
+                name:
                   description: Display name of the user
                   type: string
                 email:
@@ -40,14 +40,14 @@ paths:
                     description: API key generated for the user
                     type: object
                     properties:
-                      ApiKey:
+                      Value:
                         type: string
                         description: The plain text API Key generated for the user.
                       Expiry:
                         type: string
                         description: ISO date string representing the date of expiry for the API Key.
                     required:
-                      - ApiKey
+                      - Value
                       - Expiry
         415:
           $ref: '#/components/responses/InvalidContentType'
@@ -55,13 +55,13 @@ paths:
           description: The operation requested could not be performed due to an internal server error.
           content:
             application/json:
-              schema: 
+              schema:
                 $ref: '#/components/schemas/Error'
         400:
           description: Response returned when user email provided is already registered or if any of the required fields in the request payload are missing.
           content:
             application/json:
-              schema: 
+              schema:
                 $ref: '#/components/schemas/Error'
   /links/new:
     post:
@@ -85,7 +85,7 @@ paths:
       requestBody:
         content:
           application/json:
-            schema: 
+            schema:
               type: object
               properties:
                 action:
@@ -112,13 +112,13 @@ paths:
           description: The operation requested could not be performed due to an internal server error.
           content:
             application/json:
-              schema: 
+              schema:
                 $ref: '#/components/schemas/Error'
         400:
           description: Response returned if any of the required fields in the request payload are missing.
           content:
             application/json:
-              schema: 
+              schema:
                 $ref: '#/components/schemas/Error'
         200:
           description: Response returned when the short URL is created and mapped.
@@ -164,13 +164,13 @@ paths:
           description: The requested resource was not found.
           content:
             application/json:
-              schema: 
+              schema:
                 $ref: '#/components/schemas/Error'
         500:
           description: The operation requested could not be performed due to an internal server error.
           content:
             application/json:
-              schema: 
+              schema:
                 $ref: '#/components/schemas/Error'
     delete:
       summary: deletes the short url from the system.
@@ -191,7 +191,7 @@ paths:
           schema:
             type: string
       responses:
-        200: 
+        200:
           description: Successfully deleted the short url from the system.
           content:
             application/json:
@@ -207,13 +207,13 @@ paths:
           description: The requested resource was not found.
           content:
             application/json:
-              schema: 
+              schema:
                 $ref: '#/components/schemas/Error'
         500:
           description: The operation requested could not be performed due to an internal server error.
           content:
             application/json:
-              schema: 
+              schema:
                 $ref: '#/components/schemas/Error'
 components:
   responses:

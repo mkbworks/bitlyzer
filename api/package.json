@@ -6,26 +6,19 @@
   "type": "module",
   "scripts": {
     "start": "dotenvx run -f .env.local -- node server.js",
-    "test": "dotenvx run -f .env.test.local -- node server.js"
+    "dev": "dotenvx run -f .env.test.local -- node server.js"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/mkbworks/bitlyzer.git"
   },
-  "keywords": [
-    "url-shortener",
-    "bitlyzer"
-  ],
   "author": "Mahesh Kumaar Balaji",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/mkbworks/bitlyzer/issues"
-  },
-  "homepage": "https://github.com/mkbworks/bitlyzer#readme",
   "engines": {
     "node": ">=20.16.0"
   },
   "dependencies": {
+    "axios": "^1.8.4",
     "chalk": "^5.4.1",
     "express": "^4.21.2",
     "figlet": "^1.8.0",

@@ -20,7 +20,7 @@ const validate = async (req, res, next) => {
     }
 
     if(req.body.name) {
-        const namePattern = /^[a-zA-Z][a-zA-Z\s]+$/g;
+        const namePattern = /^[a-zA-Z][a-zA-Z\s]+$/;
         let nameValue = req.body.name.trim();
         if(!namePattern.test(nameValue)) {
             isValid = false;
@@ -29,7 +29,7 @@ const validate = async (req, res, next) => {
     }
 
     if(req.body.target) {
-        const linkPattern = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/ig;
+        const linkPattern = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/;
         const linkValue = req.body.target.trim();
         if(!linkPattern.test(linkValue)) {
             isValid = false;

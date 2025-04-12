@@ -8,9 +8,16 @@
     gap: 0.8rem;
 }
 
-.page-title-section {
+.page-title-section, .page-description  {
     width: fit-content;
     height: fit-content;
+}
+
+.page-title-section {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.8rem;
+    align-items: center;
 }
 
 .page-title {
@@ -18,19 +25,18 @@
     font-family: 'Times New Roman', Times, serif;
     font-weight: bold;
     color: var(--color-primary);
-}
-
-.page-description {
-    font-size: 1.3rem;
-}
-
-.page-title-section, .page-description {
     width: fit-content;
     height: fit-content;
 }
 
-.svg-icon {
-    width: 22.5px !important;
-    height: 22.5px !important;
-    fill: var(--color-primary);
+.page-description {
+    font-size: 1.3rem;
+    text-align: center;
+}
+
+.page-logo {
+    width: 70px;
+    height: 70px;
+    border: 2px solid var(--color-secondary);
+    box-shadow: 0 0 3px 3px var(--color-accent);
 }

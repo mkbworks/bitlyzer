@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { Outlet } from "react-router";
-
 import Navbar from "./components/Navbar/Navbar.jsx";
-
 import './App.css';
 
 function App() {
@@ -16,7 +14,13 @@ function App() {
       Title: "My Links",
       Path: "/my-links"
     }],
-    "LoggedOut": []
+    "LoggedOut": [{
+        Title: "Register",
+        Path: "/register-user"
+      }, {
+        Title: "Login",
+        Path: "/login-user"
+      }]
   };
 
   return (
