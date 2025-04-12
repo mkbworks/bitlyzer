@@ -60,7 +60,7 @@ function ShortenUrl() {
             <hr />
             <form className="form" onSubmit={handleSubmit}>
                 <Text Name="Target" Label="Paste your long URL here!" Value={url.Target} Placeholder="Long URL to be masked or redirected to" OnChange={(value) => handleChange("Target", value)} UpdateValidity={(value) => updateValidity("Target", value)} Pattern="^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$" Required />
-                <Text Name="Alias" Label="Define a custom short URL!" Value={url.Alias} Placeholder="Enter a short URL of your own" OnChange={(value) => handleChange("Alias", value)} UpdateValidity={(value) => updateValidity("Alias", value)} Required />
+                <Text Name="Alias" Label="Define a custom short URL!" Value={url.Alias} Placeholder="Enter a short URL of your own" OnChange={(value) => handleChange("Alias", value)} UpdateValidity={(value) => updateValidity("Alias", value)} />
                 <Select Name="Action" Label="What action is to be taken when URL is requested?" Value={url.Action} Options={Actions} OnChange={(value) => handleChange("Action", value)} UpdateValidity={(value) => updateValidity("Action", value)} Required />
                 <Decimal Name="Expiry" Label="How long should the URL be valid?" Placeholder="Number of days till expiry" Value={url.Expiry} OnChange={(value) => handleChange("Expiry", value)} UpdateValidity={(value) => updateValidity("Expiry", value)} Min={0} />
                 <Submit Disabled={!urlValidity.Action || !urlValidity.Target || !urlValidity.Alias || !urlValidity.Expiry}>Generate</Submit>
