@@ -3,9 +3,8 @@ import figlet from "figlet";
 import chalk from "chalk";
 import morgan from "morgan";
 import axios from "axios";
-
-import linksRouter from "./routes/links.js";
-import usersRouter from "./routes/users.js";
+import linkRouter from "./routes/link.js";
+import userRouter from "./routes/user.js";
 import DataAccessLayer from "./dal/db.js";
 import authenticate from "./middleware/auth.js";
 import AppError from "./models/error.js";
@@ -22,8 +21,8 @@ DataAccessLayer.ConnectToDb().then((dal) => {
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     app.use(morgan("combined"));
-    app.use("/links", linksRouter);
-    app.use("/users", usersRouter);
+    app.use("/link", linkRouter);
+    app.use("/user", userRouter);
 
     /**
      * Route that re-routes the given short URL to its mapped long URL.

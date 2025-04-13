@@ -1,6 +1,7 @@
 import { useState } from "react";
 import PageHeading from "./PageHeading/PageHeading.jsx";
 import { Email, Text, Submit } from "./FormElements";
+import Modal from "./Modal/Modal.jsx";
 
 function RegisterUser() {
     const [user, setUser] = useState({
@@ -48,6 +49,7 @@ function RegisterUser() {
                 <Email Name="UserEmail" Label="Enter your email address" Value={user.UserEmail} Placeholder="User's email address" OnChange={(value) => handleChange("UserEmail", value)} UpdateValidity={(value) => updateValidity("UserEmail", value)} Required />
                 <Submit Disabled={!userValidity.FullName || !userValidity.UserEmail}>Register</Submit>
             </form>
+            <Modal></Modal>
         </>
     );
 }
