@@ -1,25 +1,8 @@
 import { useState } from "react";
-import styled from "styled-components";
 import PageHeading from "./PageHeading/PageHeading.jsx";
 import { Email, Text, Submit } from "./FormElements";
 import Modal from "./Modal/Modal.jsx";
 import { Request } from "../utilities.js";
-
-const ModalContentHeading = styled.h1`
-    width: 100%;
-    height: fit-content;
-    font-size: 1.6rem;
-    letter-spacing: 1.5px;
-    text-align: center;
-`;
-
-const ModalContentMessage = styled.p`
-    width: 100%;
-    height: fit-content;
-    font-size: 1.3rem;
-    letter-spacing: 1.5px;
-    text-align: center;
-`;
 
 function RegisterUser() {
     const initialAlertState = {
@@ -28,12 +11,10 @@ function RegisterUser() {
         message: "A modal with specific content will appear here!",
         data: ""
     };
-
     const initialUserState = {
         FullName: '',
         UserEmail: ''
     };
-
     const initialValidityState = {
         FullName: false,
         UserEmail: false
@@ -79,20 +60,29 @@ function RegisterUser() {
 
         try {
             let response = await Request("/user/register", "POST", userData, null, headers);
-            setAlertModal({
-                isOpen: true,
-                type: "success",
-                message: ``,
-                data: ""
-            });
-            setUser(initialUserState);
-            setUserValidity(initialValidityState);
-        } catch (error) {
+            if(response.status === "success") {
+                setAlertModal({
+                    isOpen: true,
+                    type: "success",
+                    message: `User has been registered and the access key generated is shown below. Please copy and store the access key safely as you wont be able to view it directly again. This access key will expire at ${response.data.Expiry}`,
+                    data: response.data.Value
+                });
+                setUser(initialUserState);
+                setUserValidity(initialValidityState);
+            } else {
+                setAlertModal({
+                    isOpen: true,
+                    type: "error",
+                    message: `Error occurred during user registration:`,
+                    data: `${response.data.message}`
+                });
+            }
+        } catch (err) {
             setAlertModal({
                 isOpen: true,
                 type: "error",
-                message: `Error during user registration: ${err}`,
-                data: ""
+                message: `Error during user registration:`,
+                data: `${err}`
             });
         }
     };
@@ -100,9 +90,9 @@ function RegisterUser() {
     let modalContent = undefined;
     modalContent = (
         <>
-            {alertModal.type === "success" && <ModalContentHeading>&#9989; Success!</ModalContentHeading>}
-            {alertModal.type === "error" && <ModalContentHeading>&#10060; Error!</ModalContentHeading>}
-            <ModalContentMessage>{alertModal.message}</ModalContentMessage>
+            {alertModal.type === "success" && <h1>&#9989; Success!</h1>}
+            {alertModal.type === "error" && <h1>&#10060; Error!</h1>}
+            <p>{alertModal.message}</p>
             {alertModal.data !== "" && <code>{alertModal.data}</code>}
         </>
     );

@@ -14,7 +14,24 @@ const Request = async (url, method, data, params, headers) => {
     if(data) {
         config["data"] = data;
     }
-    return axios(config);
+
+    try {
+        let response = await axios(config);
+        let retValue = {
+            status: "success",
+            data: response.data
+        };
+        return retValue;
+    } catch (err) {
+        if(err.response) {
+            let retValue = {
+                status: "error",
+                data: err.response.data
+            };
+            return retValue;
+        }
+        throw err;
+    }
 };
 
 export { Request };
