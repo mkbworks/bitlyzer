@@ -52,8 +52,7 @@ function LoginUser() {
         }));
     };
 
-    let modalContent = undefined;
-    modalContent = (
+    let modalContent = (
         <>
             {alertModal.type === "success" && <h1>&#9989; Success!</h1>}
             {alertModal.type === "error" && <h1>&#10060; Error!</h1>}
