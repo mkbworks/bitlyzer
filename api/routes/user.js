@@ -7,7 +7,7 @@ const userRouter = express.Router();
 /**
  * Route to register a new user and return the API Key generated for the user.
  */
-userRouter.post("/new", validate, (req, res) => {
+userRouter.post("/register", validate, (req, res) => {
     res.format({
         "application/json": async () => {
             let email = req.body.email;

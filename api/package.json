@@ -5,8 +5,8 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "dotenvx run -f .env.local -- node server.js",
-    "dev": "dotenvx run -f .env.test.local -- node server.js"
+    "start": "dotenvx run -f .env -- node server.js",
+    "dev": "dotenvx run -f .env.local -- node server.js"
   },
   "repository": {
     "type": "git",

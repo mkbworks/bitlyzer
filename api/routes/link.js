@@ -8,7 +8,7 @@ const linkRouter = express.Router();
 /**
  * Route that handles the creation of a new short URL for the given long URL.
  */
-linkRouter.post("/new", authenticate, validate, async (req, res) => {
+linkRouter.post("/generate", authenticate, validate, async (req, res) => {
     res.format({
         "application/json": async () => {
             let userId = req.validatedUser;
@@ -32,7 +32,7 @@ linkRouter.post("/new", authenticate, validate, async (req, res) => {
                         "Action": action,
                         "Expiry": expiry
                     };
-                    
+
                     res.status(200);
                     res.json(data);
                 } else {
