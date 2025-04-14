@@ -8,7 +8,13 @@ function Modal({ IsOpen = false, onClose, children }) {
     return (
         <div className="modal-backdrop" onClick={onClose}>
             <div className="modal" onClick={e => e.stopPropagation()}>
-                {children}
+                <div className="modal-header">
+                    <button type="button" className="btn-close" onClick={onClose}>x</button>
+                </div>
+                <hr />
+                <div className="modal-body">
+                    {children}
+                </div>
             </div>
         </div>
     );
