@@ -9,9 +9,9 @@ To successfully launch the Bitlyzer API, the following softwares must be install
 Once the aforementioned softwares are available, run the following command to start the application.
 
 ```bash
-# The below command installs all the dependencies mentioned in the package.json file.
-npm install
+# The below command loads the test environment variables to the server instance created and launched.
+npm run dev
 
-# This uses dotenvx to load the environment variables and starts the web server instance that exposes the Bitlyzer API endpoints.
-npm start
+# The below command loads the production environment variables to the server instance created and launched.
+npm run start
 ```

@@ -5,7 +5,7 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "dotenvx run -f .env -- node server.js",
+    "start": "node server.js",
     "dev": "dotenvx run -f .env.local -- node server.js"
   },
   "repository": {
@@ -24,5 +24,8 @@
     "figlet": "^1.8.0",
     "mongodb": "^6.15.0",
     "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "@dotenvx/dotenvx": "^1.40.0"
   }
 }
