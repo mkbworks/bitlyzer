@@ -3,8 +3,10 @@ import PageHeading from "./PageHeading/PageHeading.jsx";
 import { Text, Submit, Decimal, Select } from "./FormElements";
 import Modal from "./Modal/Modal.jsx";
 import { Request } from "../utilities.js";
+import { useAuth } from "../store/AuthContext.jsx";
 
 function ShortenUrl() {
+    const { Email: CtxEmail, AccessKey:CtxAccessKey } = useAuth();
     const Actions = [{
         key: "",
         value: "Select one"
@@ -58,8 +60,8 @@ function ShortenUrl() {
         };
         let headers = {
             "Content-Type": "application/json",
-            "x-apikey": "access key to be fetched from app context",
-            "x-email": "email to be fetched from app context"
+            "x-apikey": CtxAccessKey,
+            "x-email": CtxEmail
         };
 
         try {

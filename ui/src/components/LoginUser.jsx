@@ -1,9 +1,13 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import PageHeading from "./PageHeading/PageHeading.jsx";
 import { Email, Password, Submit } from "./FormElements";
 import Modal from "./Modal/Modal.jsx";
+import { useAuth } from "../store/AuthContext.jsx";
 
 function LoginUser() {
+    const navigate = useNavigate();
+    const { Login } = useAuth();
     const initialAlertState = {
         isOpen: false,
         type: "success",
@@ -35,7 +39,8 @@ function LoginUser() {
             return;
         }
 
-        console.log("User login details: ", user);
+        Login(user.UserEmail, user.UserKey);
+        navigate("/shorten-url", { replace: true });
     };
 
     const updateValidity = (name, value) => {

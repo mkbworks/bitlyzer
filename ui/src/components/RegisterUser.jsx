@@ -86,7 +86,7 @@ function RegisterUser() {
             });
         }
     };
-    
+
     let modalContent = (
         <>
             {alertModal.type === "success" && <h1>&#9989; Success!</h1>}
