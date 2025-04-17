@@ -14,22 +14,25 @@ function LoginUser() {
         message: "A modal with specific content will appear here!",
         data: ""
     };
-    const initialUserState = {
-        UserEmail: '',
-        UserKey: ''
-    };
-    const initialValidityState = {
-        UserEmail: false,
-        UserKey: false
+
+    const defaultUserState = {
+        UserEmail: {
+            Value: "",
+            Validity: false
+        },
+        UserKey: {
+            Value: "",
+            Validity: false
+        }
     };
 
     const [alertModal, setAlertModal] = useState(initialAlertState);
-    const [user, setUser] = useState(initialUserState);
-    const [userValidity, setUserValidity] = useState(initialValidityState);
+    const [user, setUser] = useState(defaultUserState);
+    const [resetForm, setResetForm] = useState(false);
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        if(!userValidity.UserEmail || !userValidity.UserKey) {
+        if(!user.UserEmail.Validity || !user.UserKey.Validity) {
             setAlertModal({
                 isOpen: true,
                 type: "error",
@@ -39,21 +42,19 @@ function LoginUser() {
             return;
         }
 
-        Login(user.UserEmail, user.UserKey);
+        Login(user.UserEmail.Value, user.UserKey.Value);
+        setUser(defaultUserState);
+        setResetForm(true);
         navigate("/shorten-url", { replace: true });
     };
 
-    const updateValidity = (name, value) => {
-        setUserValidity(prev => ({
-            ...prev,
-            [name]: value
-        }));
-    };
-
-    const handleChange = (name, value) => {
+    const handleChange = (name, value, validity) => {
         setUser(prev => ({
             ...prev,
-            [name]: value
+            [name]: {
+                Value: value,
+                Validity: validity
+            }
         }));
     };
 
@@ -73,9 +74,9 @@ function LoginUser() {
             </PageHeading>
             <hr />
             <form className="form" onSubmit={handleSubmit}>
-                <Email Name="UserEmail" Label="Enter your email" Value={user.UserEmail} Placeholder="User's email address" OnChange={(value) => handleChange("UserEmail", value)} UpdateValidity={(value) => updateValidity("UserEmail", value)} Required />
-                <Password Name="UserKey" Label="Enter your access key" Placeholder="User's access key" Value={user.UserKey} OnChange={(value) => handleChange("UserKey", value)} UpdateValidity={(value) => updateValidity("UserKey", value)} />
-                <Submit Disabled={!userValidity.UserEmail || !userValidity.UserKey}>Login</Submit>
+                <Email Name="UserEmail" Label="Enter your email" Value={user.UserEmail} Placeholder="User's email address" OnChange={(value, validity) => handleChange("UserEmail", value, validity)} resetForm={resetForm} Required />
+                <Password Name="UserKey" Label="Enter your access key" Placeholder="User's access key" Value={user.UserKey} OnChange={(value, validity) => handleChange("UserKey", value, validity)} resetForm={resetForm} Required />
+                <Submit Disabled={!user.UserEmail.Validity || !user.UserKey.Validity}>Login</Submit>
             </form>
             <Modal IsOpen={alertModal.isOpen} onClose={() => setAlertModal(initialAlertState)}>
                 {modalContent}

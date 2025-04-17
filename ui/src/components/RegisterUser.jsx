@@ -11,36 +11,35 @@ function RegisterUser() {
         message: "A modal with specific content will appear here!",
         data: ""
     };
-    const initialUserState = {
-        FullName: '',
-        UserEmail: ''
-    };
-    const initialValidityState = {
-        FullName: false,
-        UserEmail: false
+
+    const defaultUserState = {
+        FullName: {
+            Value: "",
+            Validity: false
+        },
+        UserEmail: {
+            Value: "",
+            Validity: false
+        }
     };
 
     const [alertModal, setAlertModal] = useState(initialAlertState);
-    const [user, setUser] = useState(initialUserState);
-    const [userValidity, setUserValidity] = useState(initialValidityState);
+    const [user, setUser] = useState(defaultUserState);
+    const [resetForm, setResetForm] = useState(false);
 
-    const handleChange = (name, value) => {
+    const handleChange = (name, value, validity) => {
         setUser(prev => ({
             ...prev,
-            [name]: value
-        }));
-    };
-
-    const updateValidity = (name, value) => {
-        setUserValidity(prev => ({
-            ...prev,
-            [name]: value
+            [name]: {
+                Value: value,
+                Validity: validity
+            }
         }));
     };
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
-        if(!userValidity.FullName || !userValidity.UserEmail) {
+        if(!user.FullName.Validity || !user.UserEmail.Validity) {
             setAlertModal({
                 isOpen: true,
                 type: "error",
@@ -51,8 +50,8 @@ function RegisterUser() {
         }
 
         let userData = {
-            name: user.FullName,
-            email: user.UserEmail
+            name: user.FullName.Value,
+            email: user.UserEmail.Value
         };
         let headers = {
             "Content-Type": "application/json"
@@ -68,8 +67,8 @@ function RegisterUser() {
                     message: `User has been registered and the access key generated is shown below. Please copy and store the access key safely as you wont be able to view it directly again. This access key will expire at ${ApiKey.Expiry}`,
                     data: ApiKey.Value
                 });
-                setUser(initialUserState);
-                setUserValidity(initialValidityState);
+                setUser(defaultUserState);
+                setResetForm(true);
             } else {
                 let { message } = response.data;
                 setAlertModal({
@@ -105,9 +104,9 @@ function RegisterUser() {
             </PageHeading>
             <hr />
             <form className="form" onSubmit={handleFormSubmit}>
-                <Text Name="FullName" Label="Enter your full name" Value={user.FullName} Placeholder="User's full name" OnChange={(value) => handleChange("FullName", value)} Pattern="^[a-zA-Z][a-zA-Z\s]+$" UpdateValidity={(value) => updateValidity("FullName", value)} Required />
-                <Email Name="UserEmail" Label="Enter your email address" Value={user.UserEmail} Placeholder="User's email address" OnChange={(value) => handleChange("UserEmail", value)} UpdateValidity={(value) => updateValidity("UserEmail", value)} Required />
-                <Submit Disabled={!userValidity.FullName || !userValidity.UserEmail}>Register</Submit>
+                <Text Name="FullName" Label="Enter your full name" Value={user.FullName} Placeholder="User's full name" OnChange={(value, validity) => handleChange("FullName", value, validity)} Pattern="^[a-zA-Z][a-zA-Z\s]+$" resetForm={resetForm} Required />
+                <Email Name="UserEmail" Label="Enter your email address" Value={user.UserEmail} Placeholder="User's email address" OnChange={(value, validity) => handleChange("UserEmail", value, validity)} resetForm={resetForm} Required />
+                <Submit Disabled={!user.FullName.Validity || !user.UserEmail.Validity}>Register</Submit>
             </form>
             <Modal IsOpen={alertModal.isOpen} onClose={() => setAlertModal(initialAlertState)}>
                 {modalContent}

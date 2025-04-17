@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./FormStyles.css";
 
 const isValidText = (value, pattern, isRequired) => {
@@ -13,7 +13,7 @@ const isValidText = (value, pattern, isRequired) => {
     return regExp.test(value);
 };
 
-function Text({ Name, Label, Value, Placeholder, OnChange, Pattern = "", Required = false, UpdateValidity = undefined }) {
+function Text({ Name, Label, Value, Placeholder, OnChange, Pattern = "", Required = false, resetForm = false }) {
     const [isTouched, setIsTouched] = useState(false);
 
     const handleBlur = () => {
@@ -21,12 +21,17 @@ function Text({ Name, Label, Value, Placeholder, OnChange, Pattern = "", Require
     };
 
     const handleChange = (event) => {
-        OnChange(event.target.value);
-        if(UpdateValidity) {
-            UpdateValidity(isValidText(event.target.value, Pattern, Required));
-        }
+        let value = event.target.value;
+        let isValid = isValidText(value, Pattern, Required);
+        OnChange(value, isValid);
         setIsTouched(false);
     };
+
+    useEffect(() => {
+        if(resetForm) {
+            setIsTouched(false);
+        }
+    }, [resetForm]);
 
     let isValueValid = isValidText(Value, Pattern, Required);
 

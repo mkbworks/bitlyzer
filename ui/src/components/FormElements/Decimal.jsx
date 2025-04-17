@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./FormStyles.css";
 
 const isValidNumber = (value, min, max) => {
     return ((value >= min) && (value <= max));
 };
 
-function Decimal({ Name, Label, Value = 0, Placeholder, OnChange, Min = -Infinity, Max = Infinity, Step = 1, UpdateValidity = undefined }) {
+function Decimal({ Name, Label, Value = 0, Placeholder, OnChange, Min = -Infinity, Max = Infinity, Step = 1, resetForm = false }) {
     const [isTouched, setIsTouched] = useState(false);
 
     const handleBlur = () => {
@@ -14,12 +14,16 @@ function Decimal({ Name, Label, Value = 0, Placeholder, OnChange, Min = -Infinit
 
     const handleChange = (event) => {
         let inputValue = Number(event.target.value);
-        OnChange(inputValue);
-        if(UpdateValidity) {
-            UpdateValidity(isValidNumber(inputValue, Min, Max));
-        }
+        let isValid = isValidNumber(inputValue, Min, Max);
+        OnChange(inputValue, isValid);
         setIsTouched(false);
     };
+
+    useEffect(() => {
+        if(resetForm) {
+            setIsTouched(false);
+        }
+    }, [resetForm]);
 
     let isValueValid = isValidNumber(Value, Min, Max);
 

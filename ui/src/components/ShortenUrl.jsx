@@ -7,27 +7,28 @@ import { useAuth } from "../store/AuthContext.jsx";
 
 function ShortenUrl() {
     const { Email: CtxEmail, AccessKey:CtxAccessKey } = useAuth();
-    const Actions = [{
-        key: "",
-        value: "Select one"
-    }, {
-        key: "redirect",
-        value: "Redirect"
-    }, {
-        key: "mask",
-        value: "Mask"
-    }];
-    const initialUrlState = {
-        Target: "",
-        Alias: "",
-        Action: "",
-        Expiry: 0
-    };
-    const initialValidityState = {
-        Target: false,
-        Alias: false,
-        Action: false,
-        Expiry: false
+    const Actions = [
+        { key: "", value: "Select one" },
+        { key: "redirect", value: "Redirect" },
+        { key: "mask", value: "Mask" }
+    ];
+    const defaultUrlState = {
+        Target: {
+            Value: "",
+            Validity: false,
+        },
+        Alias: {
+            Value: "",
+            Validity: false,
+        },
+        Action: {
+            Value: "",
+            Validity: false,
+        },
+        Expiry: {
+            Value: 0,
+            Validity: false,
+        }
     };
     const initialAlertState = {
         isOpen: false,
@@ -36,13 +37,13 @@ function ShortenUrl() {
         data: ""
     };
 
-    const [url, setUrl] = useState(initialUrlState);
-    const [urlValidity, setUrlValidity] = useState(initialValidityState);
+    const [url, setUrl] = useState(defaultUrlState);
+    const [resetForm, setResetForm] = useState(false);
     const [alertModal, setAlertModal] = useState(initialAlertState);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if(!urlValidity.Action || !urlValidity.Target || !urlValidity.Alias || !urlValidity.Expiry) {
+        if(!url.Action.Validity || !url.Target.Validity || !url.Alias.Validity || !url.Expiry.Validity) {
             setAlertModal({
                 isOpen: true,
                 type: "error",
@@ -53,10 +54,10 @@ function ShortenUrl() {
         }
 
         let urlData = {
-            action: url.Action,
-            target: url.Target,
-            shortUrl: url.Alias,
-            expiry: url.Expiry
+            action: url.Action.Value,
+            target: url.Target.Value,
+            shortUrl: url.Alias.Value,
+            expiry: url.Expiry.Value
         };
         let headers = {
             "Content-Type": "application/json",
@@ -73,8 +74,8 @@ function ShortenUrl() {
                     message: `Short link has been generated and given below. The link will be valid for ${response.data.Expiry} day(s) from today.`,
                     data: response.data.ShortUrl
                 });
-                setUrl(initialUrlState);
-                setUrlValidity(initialValidityState);
+                setUrl(defaultUrlState);
+                setResetForm(true);
             } else {
                 setAlertModal({
                     isOpen: true,
@@ -93,17 +94,13 @@ function ShortenUrl() {
         }
     };
 
-    const updateValidity = (name, value) => {
-        setUrlValidity(prev => ({
-            ...prev,
-            [name]: value
-        }));
-    };
-
-    const handleChange = (name, value) => {
+    const handleChange = (name, value, validity) => {
         setUrl(prev => ({
             ...prev,
-            [name]: value
+            [name]: {
+                Value: value,
+                Validity: validity
+            }
         }));
     };
 
@@ -123,11 +120,11 @@ function ShortenUrl() {
             </PageHeading>
             <hr />
             <form className="form" onSubmit={handleSubmit}>
-                <Text Name="Target" Label="Paste your long URL here!" Value={url.Target} Placeholder="Long URL to be masked or redirected to" OnChange={(value) => handleChange("Target", value)} UpdateValidity={(value) => updateValidity("Target", value)} Pattern="^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$" Required />
-                <Text Name="Alias" Label="Define a custom short URL!" Value={url.Alias} Placeholder="Enter a short URL of your own" OnChange={(value) => handleChange("Alias", value)} UpdateValidity={(value) => updateValidity("Alias", value)} />
-                <Select Name="Action" Label="What action is to be taken when URL is requested?" Value={url.Action} Options={Actions} OnChange={(value) => handleChange("Action", value)} UpdateValidity={(value) => updateValidity("Action", value)} Required />
-                <Decimal Name="Expiry" Label="How long should the URL be valid?" Placeholder="Number of days till expiry" Value={url.Expiry} OnChange={(value) => handleChange("Expiry", value)} UpdateValidity={(value) => updateValidity("Expiry", value)} Min={0} />
-                <Submit Disabled={!urlValidity.Action || !urlValidity.Target || !urlValidity.Alias || !urlValidity.Expiry}>Generate</Submit>
+                <Text Name="Target" Label="Paste your long URL here!" Value={url.Target} Placeholder="Long URL to be masked or redirected to" OnChange={(value, validity) => handleChange("Target", value, validity)} Pattern="^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$" resetForm={resetForm} Required />
+                <Text Name="Alias" Label="Define a custom short URL!" Value={url.Alias} Placeholder="Enter a short URL of your own" OnChange={(value, validity) => handleChange("Alias", value, validity)} resetForm={resetForm} />
+                <Select Name="Action" Label="What action is to be taken when URL is requested?" Value={url.Action} Options={Actions} OnChange={(value, validity) => handleChange("Action", value, validity)} resetForm={resetForm} Required />
+                <Decimal Name="Expiry" Label="How long should the URL be valid?" Placeholder="Number of days till expiry" Value={url.Expiry} OnChange={(value, validity) => handleChange("Expiry", value, validity)} Min={0} resetForm={resetForm} />
+                <Submit Disabled={!url.Action.Validity || !url.Target.Validity || !url.Alias.Validity || !url.Expiry.Validity}>Generate</Submit>
             </form>
             <Modal IsOpen={alertModal.isOpen} inClose={() => setAlertModal(initialAlertState)}>
                 {modalContent}
