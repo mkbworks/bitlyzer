@@ -61,20 +61,22 @@ function RegisterUser() {
         try {
             let response = await Request("/user/register", "POST", userData, null, headers);
             if(response.status === "success") {
+                let { ApiKey } = response.data;
                 setAlertModal({
                     isOpen: true,
                     type: "success",
-                    message: `User has been registered and the access key generated is shown below. Please copy and store the access key safely as you wont be able to view it directly again. This access key will expire at ${response.data.Expiry}`,
-                    data: response.data.Value
+                    message: `User has been registered and the access key generated is shown below. Please copy and store the access key safely as you wont be able to view it directly again. This access key will expire at ${ApiKey.Expiry}`,
+                    data: ApiKey.Value
                 });
                 setUser(initialUserState);
                 setUserValidity(initialValidityState);
             } else {
+                let { message } = response.data;
                 setAlertModal({
                     isOpen: true,
                     type: "error",
                     message: `Error occurred during user registration:`,
-                    data: `${response.data.message}`
+                    data: `${message}`
                 });
             }
         } catch (err) {

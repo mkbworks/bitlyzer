@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, NavLink } from "react-router";
 
 import "./Navbar.css";
 
@@ -10,7 +10,7 @@ function Navbar({ Links, Title }) {
                     <p id="logo">{Title}</p>
                     <div id="navLinks">
                         {Links.map(({ Path, Title }, index) => (
-                          <Link className="nav-link" to={Path} key={`Link-Index-${index}`} >{Title}</Link>
+                          <NavLink className={({ isActive }) => (isActive ? "nav-link active": "nav-link")} to={Path} key={`Link-Index-${index}`} >{Title}</NavLink>
                         ))}
                     </div>
                 </div>

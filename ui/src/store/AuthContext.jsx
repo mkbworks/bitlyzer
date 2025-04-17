@@ -33,7 +33,7 @@ export function AuthProvider({ children }) {
         }));
     };
     return (
-        <AuthContext value={{ ...defaultAuth, Email: user.Email, AccessKey: user.AccessKey, IsLoggedIn: user.IsLoggedIn, Login: login, Logout: logout }}>
+        <AuthContext value={{ Email: user.Email, AccessKey: user.AccessKey, IsLoggedIn: user.IsLoggedIn, Login: login, Logout: logout }}>
             {children}
         </AuthContext>
     );
