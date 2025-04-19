@@ -1,6 +1,6 @@
 # Bitlyzer - Web Application
 
-To run the react front end app locally, execute the following command on Terminal.
+To run the web application locally, execute the following command on Terminal.
 
 ```bash
 npm run dev

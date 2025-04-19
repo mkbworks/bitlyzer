@@ -1,7 +1,7 @@
 {
   "name": "bitlyzer-api",
   "version": "1.0.0",
-  "description": "URL shortener API developed with Node.js",
+  "description": "URL Shortener API service developed with Node.js",
   "main": "server.js",
   "type": "module",
   "scripts": {

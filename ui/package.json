@@ -1,7 +1,7 @@
 {
-  "name": "bitlyzer-ui",
+  "name": "bitlyzer-web-app",
   "version": "1.0.0",
-  "description": "URL shortener application front end developed with React",
+  "description": "URL shortener web application developed with React",
   "type": "module",
   "scripts": {
     "dev": "vite",
