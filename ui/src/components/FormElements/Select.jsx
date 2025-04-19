@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./FormStyles.css";
 
 const isValidOption = (value, isRequired) => {
@@ -9,7 +9,7 @@ const isValidOption = (value, isRequired) => {
     return true;
 };
 
-function Select({ Name, Label, Value, Options, OnChange, Required = false, UpdateValidity = undefined }) {
+function Select({ Name, Label, Value, Options, OnChange, Required = false, resetForm = false }) {
     const [isTouched, setIsTouched] = useState(false);
 
     const handleBlur = () => {
@@ -17,12 +17,22 @@ function Select({ Name, Label, Value, Options, OnChange, Required = false, Updat
     };
 
     const handleChange = (event) => {
-        OnChange(event.target.value);
-        if(UpdateValidity) {
-            UpdateValidity(isValidOption(event.target.value, Required));
-        }
+        let value = event.target.value;
+        let isValid = isValidOption(value, Required);
+        OnChange(value, isValid);
         setIsTouched(false);
     };
+
+    useEffect(() => {
+        if(resetForm) {
+            setIsTouched(false);
+        }
+    }, [resetForm]);
+
+    useEffect(() => {
+        let isValid = isValidOption(Value, Required);
+        OnChange(Value, isValid);
+    }, []);
 
     let isValueValid = isValidOption(Value, Required);
 

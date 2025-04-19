@@ -3,6 +3,7 @@ import figlet from "figlet";
 import chalk from "chalk";
 import morgan from "morgan";
 import axios from "axios";
+import cors from "cors";
 import linkRouter from "./routes/link.js";
 import userRouter from "./routes/user.js";
 import DataAccessLayer from "./dal/db.js";
@@ -18,6 +19,7 @@ let dal_instance = null;
 DataAccessLayer.ConnectToDb().then((dal) => {
     dal_instance = dal;
     app.locals.dal = dal;
+    app.use(cors());
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     app.use(morgan("combined"));

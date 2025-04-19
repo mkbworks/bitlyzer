@@ -1,31 +1,31 @@
 {
-  "name": "bitlyzer",
-  "version": "1.0.0",
-  "description": "URL Shortener web application created with Node.js API backend and React frontend",
-  "scripts": {
-    "dev:ui": "npm run dev --workspace=ui",
-    "dev:api": "npm run dev --workspace=api",
-    "dev": "concurrently \"npm run dev:api\" \"npm run dev:ui\""
-  },
-  "workspaces": [
-    "api",
-    "ui"
-  ],
-  "author": "Mahesh Kumaar Balaji",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/mkbworks/bitlyzer/issues"
-  },
-  "homepage": "https://github.com/mkbworks/bitlyzer#readme",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mkbworks/bitlyzer.git"
-  },
-  "keywords": [
-    "url-shortener",
-    "bitlyzer"
-  ],
-  "devDependencies": {
-    "concurrently": "^9.1.2"
+    "name": "bitlyzer",
+    "version": "1.0.0",
+    "description": "URL Shortener web application created with Node.js API backend and React frontend",
+    "scripts": {
+      "dev:ui": "npm run dev --workspace=ui",
+      "dev:api": "npm run dev --workspace=api",
+      "dev": "concurrently \"npm run dev:api\" \"npm run dev:ui\""
+    },
+    "workspaces": [
+      "api",
+      "ui"
+    ],
+    "author": "Mahesh Kumaar Balaji",
+    "license": "MIT",
+    "bugs": {
+      "url": "https://github.com/mkbworks/bitlyzer/issues"
+    },
+    "homepage": "https://github.com/mkbworks/bitlyzer#readme",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/mkbworks/bitlyzer.git"
+    },
+    "keywords": [
+      "url-shortener",
+      "bitlyzer"
+    ],
+    "devDependencies": {
+      "concurrently": "^9.1.2"
+    }
   }
-}

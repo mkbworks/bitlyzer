@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect} from "react";
 import "./FormStyles.css";
 
 const isValidPassword = (value, isRequired) => {
@@ -11,7 +11,7 @@ const isValidPassword = (value, isRequired) => {
     return true;
 };
 
-function Password({ Name, Label, Value, Placeholder, OnChange, Required = true, UpdateValidity = undefined }) {
+function Password({ Name, Label, Value, Placeholder, OnChange, Required = false, resetForm = false}) {
     const [isTouched, setIsTouched] = useState(false);
 
     const handleBlur = () => {
@@ -19,12 +19,22 @@ function Password({ Name, Label, Value, Placeholder, OnChange, Required = true, 
     };
 
     const handleChange = (event) => {
-        OnChange(event.target.value);
-        if(UpdateValidity) {
-            UpdateValidity(isValidPassword(event.target.value, Required));
-        }
+        let value = event.target.value;
+        let isValid = isValidPassword(value, Required);
+        OnChange(value, isValid);
         setIsTouched(false);
     };
+
+    useEffect(() => {
+        if(resetForm) {
+            setIsTouched(false);
+        }
+    }, [resetForm]);
+
+    useEffect(() => {
+        let isValid = isValidPassword(Value, Required);
+        OnChange(Value, isValid);
+    }, []);
 
     let isValueValid = isValidPassword(Value, Required);
 

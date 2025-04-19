@@ -51,3 +51,8 @@
     background-color: var(--color-accent);
     border-radius: 7px;
 }
+
+#navLinks > .active {
+    background-color: var(--color-accent);
+    border-radius: 7px;
+}

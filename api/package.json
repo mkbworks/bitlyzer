@@ -1,11 +1,11 @@
 {
   "name": "bitlyzer-api",
   "version": "1.0.0",
-  "description": "URL shortener API developed with Node.js",
+  "description": "URL Shortener API service developed with Node.js",
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "dotenvx run -f .env -- node server.js",
+    "start": "node server.js",
     "dev": "dotenvx run -f .env.local -- node server.js"
   },
   "repository": {
@@ -20,9 +20,13 @@
   "dependencies": {
     "axios": "^1.8.4",
     "chalk": "^5.4.1",
+    "cors": "^2.8.5",
     "express": "^4.21.2",
     "figlet": "^1.8.0",
     "mongodb": "^6.15.0",
     "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "@dotenvx/dotenvx": "^1.40.0"
   }
 }
