@@ -29,6 +29,11 @@ function Select({ Name, Label, Value, Options, OnChange, Required = false, reset
         }
     }, [resetForm]);
 
+    useEffect(() => {
+        let isValid = isValidOption(Value, Required);
+        OnChange(Value, isValid);
+    }, []);
+
     let isValueValid = isValidOption(Value, Required);
 
     return (

@@ -1,6 +1,6 @@
 import { Outlet } from "react-router";
 import Navbar from "./components/Navbar/Navbar.jsx";
-import { useAuth } from "./store/AuthContext.jsx";
+import { useAuth } from "./hooks";
 import { NavbarLinks } from "./routes.jsx";
 import './App.css';
 

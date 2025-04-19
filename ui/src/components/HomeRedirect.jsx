@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
-import { useAuth } from "../store/AuthContext.jsx";
+import { useAuth } from "../hooks";
 
 function HomeRedirect() {
     const { IsLoggedIn } = useAuth();

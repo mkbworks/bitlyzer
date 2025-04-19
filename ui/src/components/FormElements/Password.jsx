@@ -31,6 +31,11 @@ function Password({ Name, Label, Value, Placeholder, OnChange, Required = false,
         }
     }, [resetForm]);
 
+    useEffect(() => {
+        let isValid = isValidPassword(Value, Required);
+        OnChange(Value, isValid);
+    }, []);
+
     let isValueValid = isValidPassword(Value, Required);
 
     return (

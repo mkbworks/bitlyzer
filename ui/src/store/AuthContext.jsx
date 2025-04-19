@@ -10,10 +10,6 @@ const defaultAuth = {
 
 export const AuthContext = createContext(defaultAuth);
 
-export function useAuth() {
-    return useContext(AuthContext);
-}
-
 export function AuthProvider({ children }) {
     const [user, setUser] = useState({ Email: "", AccessKey: "", IsLoggedIn: false });
     const login = (email, accessKey) => {

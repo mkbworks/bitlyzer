@@ -33,6 +33,11 @@ function Text({ Name, Label, Value, Placeholder, OnChange, Pattern = "", Require
         }
     }, [resetForm]);
 
+    useEffect(() => {
+        let isValid = isValidText(Value, Pattern, Required);
+        OnChange(Value, isValid);
+    }, []);
+
     let isValueValid = isValidText(Value, Pattern, Required);
 
     return (

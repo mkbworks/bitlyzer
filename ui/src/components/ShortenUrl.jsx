@@ -1,9 +1,8 @@
-import { useState } from "react";
 import PageHeading from "./PageHeading/PageHeading.jsx";
 import { Text, Submit, Decimal, Select } from "./FormElements";
 import Modal from "./Modal/Modal.jsx";
 import { Request } from "../utilities.js";
-import { useAuth } from "../store/AuthContext.jsx";
+import { useAuth, useForm, useModal } from "../hooks";
 
 function ShortenUrl() {
     const { Email: CtxEmail, AccessKey:CtxAccessKey } = useAuth();
@@ -12,52 +11,28 @@ function ShortenUrl() {
         { key: "redirect", value: "Redirect" },
         { key: "mask", value: "Mask" }
     ];
-    const defaultUrlState = {
-        Target: {
-            Value: "",
-            Validity: false,
-        },
-        Alias: {
-            Value: "",
-            Validity: false,
-        },
-        Action: {
-            Value: "",
-            Validity: false,
-        },
-        Expiry: {
-            Value: 0,
-            Validity: false,
-        }
-    };
-    const initialAlertState = {
-        isOpen: false,
-        type: "success",
-        message: "A modal with specific content will appear here!",
-        data: ""
+    const urlStructure = {
+        Target: "string",
+        Alias: "string",
+        Action: "string",
+        Expiry: "number"
     };
 
-    const [url, setUrl] = useState(defaultUrlState);
-    const [resetForm, setResetForm] = useState(false);
-    const [alertModal, setAlertModal] = useState(initialAlertState);
+    const { Alert, ShowErrorAlert, ShowSuccessAlert, HideAlert } = useModal();
+    const url = useForm(urlStructure);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if(!url.Action.Validity || !url.Target.Validity || !url.Alias.Validity || !url.Expiry.Validity) {
-            setAlertModal({
-                isOpen: true,
-                type: "error",
-                message: "One or more fields in the form are not valid",
-                data: ""
-            });
+        if(!url.getFormValidity()) {
+            ShowErrorAlert("One or more fields in the form are not valid.", "");
             return;
         }
 
         let urlData = {
-            action: url.Action.Value,
-            target: url.Target.Value,
-            shortUrl: url.Alias.Value,
-            expiry: url.Expiry.Value
+            action: url.formState.Action.Value,
+            target: url.formState.Target.Value,
+            shortUrl: url.formState.Alias.Value,
+            expiry: url.formState.Expiry.Value
         };
         let headers = {
             "Content-Type": "application/json",
@@ -68,48 +43,22 @@ function ShortenUrl() {
         try {
             let response = await Request("/link/generate", "POST", urlData, null, headers);
             if(response.status === "success") {
-                setAlertModal({
-                    isOpen: true,
-                    type: "success",
-                    message: `Short link has been generated and given below. The link will be valid for ${response.data.Expiry} day(s) from today.`,
-                    data: response.data.ShortUrl
-                });
-                setUrl(defaultUrlState);
-                setResetForm(true);
+                ShowSuccessAlert(`Short link has been generated and given below. The link will be valid for ${response.data.Expiry} day(s) from today.`, response.data.ShortUrl);
+                url.handleFormReset();
             } else {
-                setAlertModal({
-                    isOpen: true,
-                    type: "error",
-                    message: "Error occurred during link generation:",
-                    data: response.data.message
-                });
+                ShowErrorAlert("Error occurred during link generation:", response.data.message);
             }
         } catch (err) {
-            setAlertModal({
-                isOpen: true,
-                type: "error",
-                message: "Error during link generation:",
-                data: Response.data.message
-            });
+            ShowErrorAlert("Error during link generation:", `${err}`);
         }
-    };
-
-    const handleChange = (name, value, validity) => {
-        setUrl(prev => ({
-            ...prev,
-            [name]: {
-                Value: value,
-                Validity: validity
-            }
-        }));
     };
 
     let modalContent = (
         <>
-            {alertModal.type === "success" && <h1>&#9989; Success!</h1>}
-            {alertModal.type === "error" && <h1>&#10060; Error!</h1>}
-            <p>{alertModal.message}</p>
-            {alertModal.data !== "" && <code>{alertModal.data}</code>}
+            {Alert.type === "success" && <h1>&#9989; Success!</h1>}
+            {Alert.type === "error" && <h1>&#10060; Error!</h1>}
+            <p>{Alert.message}</p>
+            {Alert.data !== "" && <code>{Alert.data}</code>}
         </>
     );
 
@@ -120,13 +69,13 @@ function ShortenUrl() {
             </PageHeading>
             <hr />
             <form className="form" onSubmit={handleSubmit}>
-                <Text Name="Target" Label="Paste your long URL here!" Value={url.Target} Placeholder="Long URL to be masked or redirected to" OnChange={(value, validity) => handleChange("Target", value, validity)} Pattern="^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$" resetForm={resetForm} Required />
-                <Text Name="Alias" Label="Define a custom short URL!" Value={url.Alias} Placeholder="Enter a short URL of your own" OnChange={(value, validity) => handleChange("Alias", value, validity)} resetForm={resetForm} />
-                <Select Name="Action" Label="What action is to be taken when URL is requested?" Value={url.Action} Options={Actions} OnChange={(value, validity) => handleChange("Action", value, validity)} resetForm={resetForm} Required />
-                <Decimal Name="Expiry" Label="How long should the URL be valid?" Placeholder="Number of days till expiry" Value={url.Expiry} OnChange={(value, validity) => handleChange("Expiry", value, validity)} Min={0} resetForm={resetForm} />
-                <Submit Disabled={!url.Action.Validity || !url.Target.Validity || !url.Alias.Validity || !url.Expiry.Validity}>Generate</Submit>
+                <Text Name="Target" Label="Paste your long URL here!" Value={url.formState.Target.Value} Placeholder="Long URL to be masked or redirected to" OnChange={(value, validity) => url.handleFormChange("Target", value, validity)} Pattern="^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$" resetForm={url.formReset} Required />
+                <Text Name="Alias" Label="Define a custom short URL!" Value={url.formState.Alias.Value} Placeholder="Enter a short URL of your own" OnChange={(value, validity) => url.handleFormChange("Alias", value, validity)} resetForm={url.formReset} />
+                <Select Name="Action" Label="What action is to be taken when URL is requested?" Value={url.formState.Action.Value} Options={Actions} OnChange={(value, validity) => url.handleFormChange("Action", value, validity)} resetForm={url.formReset} Required />
+                <Decimal Name="Expiry" Label="How long should the URL be valid?" Placeholder="Number of days till expiry" Value={url.formState.Expiry.Value} OnChange={(value, validity) => url.handleFormChange("Expiry", value, validity)} Min={0} resetForm={url.formReset} />
+                <Submit Disabled={!url.getFormValidity()}>Generate</Submit>
             </form>
-            <Modal IsOpen={alertModal.isOpen} inClose={() => setAlertModal(initialAlertState)}>
+            <Modal IsOpen={Alert.isOpen} onClose={HideAlert}>
                 {modalContent}
             </Modal>
         </>

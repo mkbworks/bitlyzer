@@ -32,6 +32,11 @@ function Email({ Name, Label, Value, Placeholder, OnChange, Required = false, re
         }
     }, [resetForm]);
 
+    useEffect(() => {
+        let isValid = isValidEmail(Value, Required);
+        OnChange(Value, isValid);
+    }, []);
+
     let isValueValid = isValidEmail(Value, Required);
 
     return (

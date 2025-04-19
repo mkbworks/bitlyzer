@@ -1,69 +1,44 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import PageHeading from "./PageHeading/PageHeading.jsx";
 import { Email, Password, Submit } from "./FormElements";
 import Modal from "./Modal/Modal.jsx";
-import { useAuth } from "../store/AuthContext.jsx";
+import { useAuth, useForm, useModal } from "../hooks";
 
 function LoginUser() {
     const navigate = useNavigate();
-    const { Login } = useAuth();
-    const initialAlertState = {
-        isOpen: false,
-        type: "success",
-        message: "A modal with specific content will appear here!",
-        data: ""
+    const { Login, IsLoggedIn } = useAuth();
+    const userStructure = {
+        UserEmail: "string",
+        UserKey: "string"
     };
 
-    const defaultUserState = {
-        UserEmail: {
-            Value: "",
-            Validity: false
-        },
-        UserKey: {
-            Value: "",
-            Validity: false
+    useEffect(() => {
+        if(IsLoggedIn) {
+            navigate("/shorten-url", { replace: true });
         }
-    };
+    }, [IsLoggedIn]);
 
-    const [alertModal, setAlertModal] = useState(initialAlertState);
-    const [user, setUser] = useState(defaultUserState);
-    const [resetForm, setResetForm] = useState(false);
+    const { Alert, ShowErrorAlert, HideAlert } = useModal();
+    const user = useForm(userStructure);
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        if(!user.UserEmail.Validity || !user.UserKey.Validity) {
-            setAlertModal({
-                isOpen: true,
-                type: "error",
-                message: "One or more fields in the form are not valid.",
-                data: ""
-            });
+        if(!user.getFormValidity()) {
+            ShowErrorAlert("One or more fields in the form are not valid.", "");
             return;
         }
 
-        Login(user.UserEmail.Value, user.UserKey.Value);
-        setUser(defaultUserState);
-        setResetForm(true);
-        navigate("/shorten-url", { replace: true });
-    };
-
-    const handleChange = (name, value, validity) => {
-        setUser(prev => ({
-            ...prev,
-            [name]: {
-                Value: value,
-                Validity: validity
-            }
-        }));
+        Login(user.formState.UserEmail.Value, user.formState.UserKey.Value);
+        user.handleFormReset();
     };
 
     let modalContent = (
         <>
-            {alertModal.type === "success" && <h1>&#9989; Success!</h1>}
-            {alertModal.type === "error" && <h1>&#10060; Error!</h1>}
-            <p>{alertModal.message}</p>
-            {alertModal.data !== "" && <code>{alertModal.data}</code>}
+            {Alert.type === "success" && <h1>&#9989; Success!</h1>}
+            {Alert.type === "error" && <h1>&#10060; Error!</h1>}
+            <p>{Alert.message}</p>
+            {Alert.data !== "" && <code>{Alert.data}</code>}
         </>
     );
 
@@ -74,11 +49,11 @@ function LoginUser() {
             </PageHeading>
             <hr />
             <form className="form" onSubmit={handleSubmit}>
-                <Email Name="UserEmail" Label="Enter your email" Value={user.UserEmail} Placeholder="User's email address" OnChange={(value, validity) => handleChange("UserEmail", value, validity)} resetForm={resetForm} Required />
-                <Password Name="UserKey" Label="Enter your access key" Placeholder="User's access key" Value={user.UserKey} OnChange={(value, validity) => handleChange("UserKey", value, validity)} resetForm={resetForm} Required />
-                <Submit Disabled={!user.UserEmail.Validity || !user.UserKey.Validity}>Login</Submit>
+                <Email Name="UserEmail" Label="Enter your email" Value={user.formState.UserEmail.Value} Placeholder="User's email address" OnChange={(value, validity) => user.handleFormChange("UserEmail", value, validity)} resetForm={user.formReset} Required />
+                <Password Name="UserKey" Label="Enter your access key" Placeholder="User's access key" Value={user.formState.UserKey.Value} OnChange={(value, validity) => user.handleFormChange("UserKey", value, validity)} resetForm={user.formReset} Required />
+                <Submit Disabled={!user.getFormValidity()}>Login</Submit>
             </form>
-            <Modal IsOpen={alertModal.isOpen} onClose={() => setAlertModal(initialAlertState)}>
+            <Modal IsOpen={Alert.isOpen} onClose={HideAlert}>
                 {modalContent}
             </Modal>
         </>

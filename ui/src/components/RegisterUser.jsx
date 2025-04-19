@@ -1,57 +1,38 @@
-import { useState } from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
 import PageHeading from "./PageHeading/PageHeading.jsx";
 import { Email, Text, Submit } from "./FormElements";
 import Modal from "./Modal/Modal.jsx";
 import { Request } from "../utilities.js";
+import { useAuth, useForm, useModal } from "../hooks";
 
 function RegisterUser() {
-    const initialAlertState = {
-        isOpen: false,
-        type: "success",
-        message: "A modal with specific content will appear here!",
-        data: ""
+    const userStructure = {
+        FullName: "string",
+        UserEmail: "string"
     };
 
-    const defaultUserState = {
-        FullName: {
-            Value: "",
-            Validity: false
-        },
-        UserEmail: {
-            Value: "",
-            Validity: false
+    const { Alert, ShowErrorAlert, ShowSuccessAlert, HideAlert } = useModal();
+    const user = useForm(userStructure);
+    const { IsLoggedIn } = useAuth();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if(IsLoggedIn) {
+            navigate("/shorten-url", { replace: true });
         }
-    };
-
-    const [alertModal, setAlertModal] = useState(initialAlertState);
-    const [user, setUser] = useState(defaultUserState);
-    const [resetForm, setResetForm] = useState(false);
-
-    const handleChange = (name, value, validity) => {
-        setUser(prev => ({
-            ...prev,
-            [name]: {
-                Value: value,
-                Validity: validity
-            }
-        }));
-    };
+    }, [IsLoggedIn]);
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
-        if(!user.FullName.Validity || !user.UserEmail.Validity) {
-            setAlertModal({
-                isOpen: true,
-                type: "error",
-                message: "One or more fields in the form are not valid.",
-                data: ""
-            });
+        if(!user.getFormValidity()) {
+            ShowErrorAlert("One or more fields in the form are not valid.", "")
             return;
         }
 
         let userData = {
-            name: user.FullName.Value,
-            email: user.UserEmail.Value
+            name: user.formState.FullName.Value,
+            email: user.formState.UserEmail.Value
         };
         let headers = {
             "Content-Type": "application/json"
@@ -61,39 +42,23 @@ function RegisterUser() {
             let response = await Request("/user/register", "POST", userData, null, headers);
             if(response.status === "success") {
                 let { ApiKey } = response.data;
-                setAlertModal({
-                    isOpen: true,
-                    type: "success",
-                    message: `User has been registered and the access key generated is shown below. Please copy and store the access key safely as you wont be able to view it directly again. This access key will expire at ${ApiKey.Expiry}`,
-                    data: ApiKey.Value
-                });
-                setUser(defaultUserState);
-                setResetForm(true);
+                ShowSuccessAlert(`User has been registered and the access key generated is shown below. Please copy and store the access key safely as you wont be able to view it directly again. This access key will expire at ${ApiKey.Expiry}`, ApiKey.Value);
+                user.handleFormReset();
             } else {
                 let { message } = response.data;
-                setAlertModal({
-                    isOpen: true,
-                    type: "error",
-                    message: `Error occurred during user registration:`,
-                    data: `${message}`
-                });
+                ShowErrorAlert("Error occurred during user registration.", message);
             }
         } catch (err) {
-            setAlertModal({
-                isOpen: true,
-                type: "error",
-                message: `Error during user registration:`,
-                data: `${err}`
-            });
+            ShowErrorAlert("Error occurred during user registration.", `${err}`);
         }
     };
 
     let modalContent = (
         <>
-            {alertModal.type === "success" && <h1>&#9989; Success!</h1>}
-            {alertModal.type === "error" && <h1>&#10060; Error!</h1>}
-            <p>{alertModal.message}</p>
-            {alertModal.data !== "" && <code>{alertModal.data}</code>}
+            {Alert.type === "success" && <h1>&#9989; Success!</h1>}
+            {Alert.type === "error" && <h1>&#10060; Error!</h1>}
+            <p>{Alert.message}</p>
+            {Alert.data !== "" && <code>{Alert.data}</code>}
         </>
     );
 
@@ -104,11 +69,11 @@ function RegisterUser() {
             </PageHeading>
             <hr />
             <form className="form" onSubmit={handleFormSubmit}>
-                <Text Name="FullName" Label="Enter your full name" Value={user.FullName} Placeholder="User's full name" OnChange={(value, validity) => handleChange("FullName", value, validity)} Pattern="^[a-zA-Z][a-zA-Z\s]+$" resetForm={resetForm} Required />
-                <Email Name="UserEmail" Label="Enter your email address" Value={user.UserEmail} Placeholder="User's email address" OnChange={(value, validity) => handleChange("UserEmail", value, validity)} resetForm={resetForm} Required />
-                <Submit Disabled={!user.FullName.Validity || !user.UserEmail.Validity}>Register</Submit>
+                <Text Name="FullName" Label="Enter your full name" Value={user.formState.FullName.Value} Placeholder="User's full name" OnChange={(value, validity) => user.handleFormChange("FullName", value, validity)} Pattern="^[a-zA-Z][a-zA-Z\s]+$" resetForm={user.formReset} Required />
+                <Email Name="UserEmail" Label="Enter your email address" Value={user.formState.UserEmail.Value} Placeholder="User's email address" OnChange={(value, validity) => user.handleFormChange("UserEmail", value, validity)} resetForm={user.formReset} Required />
+                <Submit Disabled={!user.getFormValidity()}>Register</Submit>
             </form>
-            <Modal IsOpen={alertModal.isOpen} onClose={() => setAlertModal(initialAlertState)}>
+            <Modal IsOpen={Alert.isOpen} onClose={HideAlert}>
                 {modalContent}
             </Modal>
         </>
