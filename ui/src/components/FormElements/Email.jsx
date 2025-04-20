@@ -29,13 +29,10 @@ function Email({ Name, Label, Value, Placeholder, OnChange, Required = false, re
     useEffect(() => {
         if(resetForm) {
             setIsTouched(false);
+            let isValid = isValidEmail(Value, Required);
+            OnChange(Value, isValid);
         }
     }, [resetForm]);
-
-    useEffect(() => {
-        let isValid = isValidEmail(Value, Required);
-        OnChange(Value, isValid);
-    }, []);
 
     let isValueValid = isValidEmail(Value, Required);
 
