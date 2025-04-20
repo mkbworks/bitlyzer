@@ -30,13 +30,10 @@ function Text({ Name, Label, Value, Placeholder, OnChange, Pattern = "", Require
     useEffect(() => {
         if(resetForm) {
             setIsTouched(false);
+            let isValid = isValidText(Value, Pattern, Required);
+            OnChange(Value, isValid);
         }
     }, [resetForm]);
-
-    useEffect(() => {
-        let isValid = isValidText(Value, Pattern, Required);
-        OnChange(Value, isValid);
-    }, []);
 
     let isValueValid = isValidText(Value, Pattern, Required);
 

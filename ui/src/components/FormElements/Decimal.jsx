@@ -22,13 +22,10 @@ function Decimal({ Name, Label, Value = 0, Placeholder, OnChange, Min = -Infinit
     useEffect(() => {
         if(resetForm) {
             setIsTouched(false);
+            let isValid = isValidNumber(Value, Min, Max);
+            OnChange(Value, isValid);
         }
     }, [resetForm]);
-
-    useEffect(() => {
-        let isValid = isValidNumber(Value, Min, Max);
-        OnChange(Value, isValid);
-    }, []);
 
     let isValueValid = isValidNumber(Value, Min, Max);
 

@@ -28,13 +28,10 @@ function Password({ Name, Label, Value, Placeholder, OnChange, Required = false,
     useEffect(() => {
         if(resetForm) {
             setIsTouched(false);
+            let isValid = isValidPassword(Value, Required);
+            OnChange(Value, isValid);
         }
     }, [resetForm]);
-
-    useEffect(() => {
-        let isValid = isValidPassword(Value, Required);
-        OnChange(Value, isValid);
-    }, []);
 
     let isValueValid = isValidPassword(Value, Required);
 
