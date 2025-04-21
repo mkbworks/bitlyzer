@@ -1,7 +1,7 @@
-import PageHeading from "./PageHeading/PageHeading.jsx";
-import { Text, Submit, Decimal, Select } from "./FormElements";
-import Modal from "./Modal/Modal.jsx";
-import { Request } from "../utilities.js";
+import PageHeading from "../components/PageHeading/PageHeading.jsx";
+import { Text, Submit, Decimal, Select } from "../components/FormElements/index.js";
+import Modal from "../components/Modal/Modal.jsx";
+import Request from "../utils/request.js";
 import { useAuth, useForm, useModal } from "../hooks";
 
 function ShortenUrl() {

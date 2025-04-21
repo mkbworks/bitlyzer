@@ -34,4 +34,4 @@ const Request = async (url, method, data, params, headers) => {
     }
 };
 
-export { Request };
+export default Request;

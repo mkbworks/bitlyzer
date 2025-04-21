@@ -1,4 +1,4 @@
-import PageHeading from "../PageHeading/PageHeading.jsx";
+import PageHeading from "../components/PageHeading/PageHeading.jsx";
 
 function MyLinks() {
     return (
