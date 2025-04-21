@@ -46,3 +46,10 @@ button, input, select, img, p, h3, hr {
   font-weight: 400;
   font-style: normal;
 }
+
+@font-face {
+    font-family: "Markazi";
+    src: url("/fonts/Markazi-Text.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+  }

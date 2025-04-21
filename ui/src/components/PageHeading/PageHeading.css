@@ -21,9 +21,8 @@
 }
 
 .page-title {
-    font-size: 1.718rem;
-    font-family: 'Times New Roman', Times, serif;
-    font-weight: bold;
+    font-size: 2.5rem;
+    font-family: "Markazi", serif;
     color: var(--color-primary);
     width: fit-content;
     height: fit-content;
