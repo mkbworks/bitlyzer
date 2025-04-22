@@ -1,9 +1,9 @@
 import App from './App.jsx';
-import ShortenUrl from "./components/ShortenUrl.jsx";
-import MyLinks from "./components/MyLinks/MyLinks.jsx";
-import RegisterUser from './components/RegisterUser.jsx';
-import LoginUser from './components/LoginUser.jsx';
-import HomeRedirect from './components/HomeRedirect.jsx';
+import ShortenUrl from "./features/ShortenUrl.jsx";
+import MyLinks from "./features/MyLinks.jsx";
+import RegisterUser from './features/RegisterUser.jsx';
+import LoginUser from './features/LoginUser.jsx';
+import HomeRedirect from './features/HomeRedirect.jsx';
 
 export const Routes = [{
     path: "/",

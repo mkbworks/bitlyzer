@@ -30,7 +30,6 @@
 .page-content > hr {
     height: 2px;
     background-color: var(--color-secondary);
-    box-shadow: 0 0 3px 3px var(--color-accent);
 }
 
 .form {

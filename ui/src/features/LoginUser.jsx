@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
-import PageHeading from "./PageHeading/PageHeading.jsx";
-import { Email, Password, Submit } from "./FormElements";
-import Modal from "./Modal/Modal.jsx";
+import PageHeading from "../components/PageHeading/PageHeading.jsx";
+import { Email, Password, Submit } from "../components/FormElements/index.js";
+import Modal from "../components/Modal/Modal.jsx";
 import { useAuth, useForm, useModal } from "../hooks";
 
 function LoginUser() {
