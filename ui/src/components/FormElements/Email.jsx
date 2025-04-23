@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { StyledText, FormLabel } from "./FormElements.styles.js";
 import "./FormStyles.css";
 
 const isValidEmail = (email, isRequired) => {
@@ -38,8 +39,8 @@ function Email({ Name, Label, Value, Placeholder, OnChange, Required = false, re
 
     return (
         <div className="form-control">
-            <label className="form-label" htmlFor={Name}>{Label}</label>
-            <input type="text" id={Name} name={Name} value={Value} className="form-input" placeholder={Placeholder} onBlur={handleBlur} onChange={handleChange} />
+            <FormLabel htmlFor={Name}>{Label}</FormLabel>
+            <StyledText id={Name} name={Name} value={Value} placeholder={Placeholder} onBlur={handleBlur} onChange={handleChange} />
             { isTouched && !isValueValid && <p className="form-control-error">Please enter a valid email address!</p> }
         </div>
     );

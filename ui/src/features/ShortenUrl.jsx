@@ -3,6 +3,7 @@ import { Text, Submit, Decimal, Select } from "../components/FormElements/index.
 import Modal from "../components/Modal/Modal.jsx";
 import Request from "../utils/request.js";
 import { useAuth, useForm, useModal } from "../hooks";
+import { PageContent } from "./features.styles.js";
 
 function ShortenUrl() {
     const { Email: CtxEmail, AccessKey:CtxAccessKey } = useAuth();
@@ -53,17 +54,14 @@ function ShortenUrl() {
         }
     };
 
-    let modalContent = (
-        <>
-            {Alert.type === "success" && <h1>&#9989; Success!</h1>}
-            {Alert.type === "error" && <h1>&#10060; Error!</h1>}
-            <p>{Alert.message}</p>
-            {Alert.data !== "" && <code>{Alert.data}</code>}
-        </>
-    );
+    let modalData = {
+        Type: Alert.type,
+        Message: Alert.message,
+        Code: Alert.data
+    };
 
     return (
-        <>
+        <PageContent>
             <PageHeading Title="Shorten Url" ImagePath="/images/ShortenUrl.png">
                 Easily convert long, cluttered URLs into clean, shareable short links with our simple URL shortener tool. Just paste your long URL into the form, customize the alias if you'd like, and click generate.
             </PageHeading>
@@ -75,10 +73,8 @@ function ShortenUrl() {
                 <Decimal Name="Expiry" Label="How long should the URL be valid?" Placeholder="Number of days till expiry" Value={url.formState.Expiry.Value} OnChange={(value, validity) => url.handleFormChange("Expiry", value, validity)} Min={0} resetForm={url.formReset} />
                 <Submit Disabled={!url.getFormValidity()}>Generate</Submit>
             </form>
-            <Modal IsOpen={Alert.isOpen} onClose={HideAlert}>
-                {modalContent}
-            </Modal>
-        </>
+            <Modal IsOpen={Alert.isOpen} onClose={HideAlert} Data={modalData}></Modal>
+        </PageContent>
     );
 }
 

@@ -5,6 +5,7 @@ import { Email, Text, Submit } from "../components/FormElements/index.js";
 import Modal from "../components/Modal/Modal.jsx";
 import Request from "../utils/request.js";
 import { useAuth, useForm, useModal } from "../hooks";
+import { PageContent } from "./features.styles.js";
 
 function RegisterUser() {
     const userStructure = {
@@ -53,17 +54,14 @@ function RegisterUser() {
         }
     };
 
-    let modalContent = (
-        <>
-            {Alert.type === "success" && <h1>&#9989; Success!</h1>}
-            {Alert.type === "error" && <h1>&#10060; Error!</h1>}
-            <p>{Alert.message}</p>
-            {Alert.data !== "" && <code>{Alert.data}</code>}
-        </>
-    );
+    let modalData = {
+        Type: Alert.type,
+        Message: Alert.message,
+        Code: Alert.data
+    };
 
     return (
-        <>
+        <PageContent>
             <PageHeading Title="User Registration" ImagePath="/images/RegisterUser.png">
                 Sign up as a new user to start using the URL Shortener services. After registration, you'll receive an access key for authentication purposes.
             </PageHeading>
@@ -73,10 +71,8 @@ function RegisterUser() {
                 <Email Name="UserEmail" Label="Enter your email address" Value={user.formState.UserEmail.Value} Placeholder="User's email address" OnChange={(value, validity) => user.handleFormChange("UserEmail", value, validity)} resetForm={user.formReset} Required />
                 <Submit Disabled={!user.getFormValidity()}>Register</Submit>
             </form>
-            <Modal IsOpen={Alert.isOpen} onClose={HideAlert}>
-                {modalContent}
-            </Modal>
-        </>
+            <Modal IsOpen={Alert.isOpen} onClose={HideAlert} Data={modalData}></Modal>
+        </PageContent>
     );
 }
 

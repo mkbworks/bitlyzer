@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { StyledText, FormLabel } from "./FormElements.styles.js";
 import "./FormStyles.css";
 
 const isValidText = (value, pattern, isRequired) => {
@@ -39,8 +40,8 @@ function Text({ Name, Label, Value, Placeholder, OnChange, Pattern = "", Require
 
     return (
         <div className="form-control">
-            <label className="form-label form-label-resp" htmlFor={Name}>{Label}</label>
-            <input type="text" id={Name} name={Name} className="form-input" placeholder={Placeholder} value={Value} onChange={handleChange} onBlur={handleBlur} />
+            <FormLabel htmlFor={Name}>{Label}</FormLabel>
+            <StyledText id={Name} name={Name} placeholder={Placeholder} value={Value} onChange={handleChange} onBlur={handleBlur} />
             { isTouched && !isValueValid && <p className="form-control-error">Please enter a valid value!</p> }
         </div>
     );

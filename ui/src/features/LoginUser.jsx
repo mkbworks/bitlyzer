@@ -4,6 +4,7 @@ import PageHeading from "../components/PageHeading/PageHeading.jsx";
 import { Email, Password, Submit } from "../components/FormElements/index.js";
 import Modal from "../components/Modal/Modal.jsx";
 import { useAuth, useForm, useModal } from "../hooks";
+import { PageContent } from "./features.styles.js";
 
 function LoginUser() {
     const navigate = useNavigate();
@@ -33,17 +34,14 @@ function LoginUser() {
         user.handleFormReset();
     };
 
-    let modalContent = (
-        <>
-            {Alert.type === "success" && <h1>&#9989; Success!</h1>}
-            {Alert.type === "error" && <h1>&#10060; Error!</h1>}
-            <p>{Alert.message}</p>
-            {Alert.data !== "" && <code>{Alert.data}</code>}
-        </>
-    );
+    let modalData = {
+        Type: Alert.type,
+        Message: Alert.message,
+        Code: Alert.data
+    };
 
     return (
-        <>
+        <PageContent>
             <PageHeading Title="User Login" ImagePath="/images/LoginUser.png">
                  Use your registered email address along with your access key to authenticate your account. Once logged in, you will gain access to all available functionalities.
             </PageHeading>
@@ -53,10 +51,8 @@ function LoginUser() {
                 <Password Name="UserKey" Label="Enter your access key" Placeholder="User's access key" Value={user.formState.UserKey.Value} OnChange={(value, validity) => user.handleFormChange("UserKey", value, validity)} resetForm={user.formReset} Required />
                 <Submit Disabled={!user.getFormValidity()}>Login</Submit>
             </form>
-            <Modal IsOpen={Alert.isOpen} onClose={HideAlert}>
-                {modalContent}
-            </Modal>
-        </>
+            <Modal IsOpen={Alert.isOpen} onClose={HideAlert} Data={modalData}></Modal>
+        </PageContent>
     );
 }
 

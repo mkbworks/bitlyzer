@@ -1,22 +1,26 @@
+import { StyledModal, ModalBackdrop, ModalClose, ModalData } from "./Modal.styles.js";
 import "./Modal.css";
 
-function Modal({ IsOpen = false, onClose, children }) {
+function Modal({ IsOpen = false, onClose, Data }) {
     if(!IsOpen) {
         return null;
     }
 
     return (
-        <div className="modal-backdrop" onClick={onClose}>
-            <div className="modal" onClick={e => e.stopPropagation()}>
+        <ModalBackdrop onClick={onClose}>
+            <StyledModal onClick={e => e.stopPropagation()}>
                 <div className="modal-header">
-                    <button type="button" className="btn-close" onClick={onClose}>x</button>
+                    <ModalClose onClick={onClose}>x</ModalClose>
                 </div>
                 <hr />
                 <div className="modal-body">
-                    {children}
+                    { Data.Type === "success" && <h1>&#9989; Success</h1> }
+                    { Data.Type === "error" && <h1>&#10060; Error!</h1> }
+                    <p>{Data.Message}</p>
+                    <ModalData>{Data.Code}</ModalData>
                 </div>
-            </div>
-        </div>
+            </StyledModal>
+        </ModalBackdrop>
     );
 }
 

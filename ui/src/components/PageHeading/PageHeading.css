@@ -20,22 +20,7 @@
     align-items: center;
 }
 
-.page-title {
-    font-size: 2.5rem;
-    font-family: "Markazi", serif;
-    color: var(--color-primary);
-    width: fit-content;
-    height: fit-content;
-}
-
 .page-description {
     font-size: 1.3rem;
     text-align: center;
-}
-
-.page-logo {
-    width: 70px;
-    height: 70px;
-    border: 2px solid var(--color-secondary);
-    box-shadow: 0 0 3px 3px var(--color-accent);
 }

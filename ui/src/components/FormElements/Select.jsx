@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { StyledSelect, FormLabel } from "./FormElements.styles.js";
 import "./FormStyles.css";
 
 const isValidOption = (value, isRequired) => {
@@ -35,12 +36,12 @@ function Select({ Name, Label, Value, Options, OnChange, Required = false, reset
 
     return (
         <div className="form-control">
-            <label className="form-label" htmlFor={Name}>{Label}</label>
-            <select className="form-select" id={Name} value={Value} onChange={handleChange} onBlur={handleBlur}>
+            <FormLabel htmlFor={Name}>{Label}</FormLabel>
+            <StyledSelect id={Name} value={Value} onChange={handleChange} onBlur={handleBlur}>
                 {
                     Options.map((Option, index) => (<option value={Option.key} key={index}>{Option.value}</option>))
                 }
-            </select>
+            </StyledSelect>
             { isTouched && !isValueValid && <p className="form-control-error">Please choose a valid option!</p> }
         </div>
     );
