@@ -144,34 +144,7 @@ paths:
                   - ShortUrl
                   - Target
                   - Expiry
-  /{hash}:
-    parameters:
-      - name: hash
-        in: path
-        description: key generated for the long URL provided.
-        required: true
-        schema:
-          type: string
-    get:
-      summary: redirect the short url to its mapped long url
-      operationId: redirectToLink
-      security:
-        api_key: []
-      responses:
-        302:
-          description: Redirects the short url to the mapped long url.
-        404:
-          description: The requested resource was not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        500:
-          description: The operation requested could not be performed due to an internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+  /link/{hash}:
     delete:
       summary: deletes the short url from the system.
       operationId: deleteLink
@@ -190,6 +163,12 @@ paths:
           required: true
           schema:
             type: string
+        - name: hash
+          in: path
+          description: key generated for the long URL provided.
+          required: true
+          schema:
+            type: string
       responses:
         200:
           description: Successfully deleted the short url from the system.
@@ -203,6 +182,34 @@ paths:
                     type: string
                 required:
                   - message
+        404:
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: The operation requested could not be performed due to an internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /{hash}:
+    get:
+      summary: redirect the short url to its mapped long url
+      operationId: redirectToLink
+      security:
+        api_key: []
+      parameters:
+        - name: hash
+          in: path
+          description: key generated for the long URL provided.
+          required: true
+          schema:
+            type: string
+      responses:
+        302:
+          description: Redirects the short url to the mapped long url.
         404:
           description: The requested resource was not found.
           content:

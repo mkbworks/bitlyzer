@@ -1,10 +1,10 @@
-import { StyledLogo, StyledNavLink } from "./Navbar.styles.js";
+import { StyledLogo, StyledNavLink, StyledNavbar } from "./Navbar.styles.js";
 import "./Navbar.css";
 
 function Navbar({ Links, Title }) {
     return (
         <>
-            <nav id="topNavigation">
+            <StyledNavbar id="topNavigation">
                 <div id="navLinksContainer">
                     <StyledLogo>{Title}</StyledLogo>
                     <div id="navLinks">
@@ -13,7 +13,7 @@ function Navbar({ Links, Title }) {
                         ))}
                     </div>
                 </div>
-            </nav>
+            </StyledNavbar>
         </>
     );
 }

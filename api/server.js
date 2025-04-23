@@ -7,7 +7,6 @@ import cors from "cors";
 import linkRouter from "./routes/link.js";
 import userRouter from "./routes/user.js";
 import DataAccessLayer from "./dal/db.js";
-import authenticate from "./middleware/auth.js";
 import AppError from "./models/error.js";
 
 const app = express();
@@ -61,24 +60,6 @@ DataAccessLayer.ConnectToDb().then((dal) => {
             } else {
                 res.status(500);
                 res.json(result.data.ToJson());
-            }
-        }
-    });
-
-    /**
-     * Route to delete the long URL mapped to the given short URL.
-     */
-    app.delete("/:hash", authenticate, async (req, res) => {
-        let linkHash = req.params.hash;
-        let userId = req.validatedUser;
-        const result = await dal.DeleteLink(linkHash, userId);
-        if(result.status === "success") {
-            res.status(200).json(result.data);
-        } else {
-            if(result.data.code === "ERR_NOEXISTS") {
-                res.status(404).json(result.data.ToJson());
-            } else {
-                res.status(500).json(result.data.ToJson());
             }
         }
     });

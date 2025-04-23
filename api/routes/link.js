@@ -49,4 +49,22 @@ linkRouter.post("/generate", authenticate, validate, async (req, res) => {
     });
 });
 
+/**
+ * Route to delete the long URL mapped to the given short URL.
+ */
+linkRouter.delete("/:hash", authenticate, async (req, res) => {
+    let linkHash = req.params.hash;
+    let userId = req.validatedUser;
+    const result = await req.app.locals.dal.DeleteLink(linkHash, userId);
+    if(result.status === "success") {
+        res.status(200).json(result.data);
+    } else {
+        if(result.data.code === "ERR_NOEXISTS") {
+            res.status(404).json(result.data.ToJson());
+        } else {
+            res.status(500).json(result.data.ToJson());
+        }
+    }
+});
+
 export default linkRouter;

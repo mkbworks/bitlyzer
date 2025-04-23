@@ -34,3 +34,7 @@ export const StyledNavLink = styled(NavLink)`
         border-radius: 2px;
     }
 `;
+
+export const StyledNavbar = styled.nav`
+    border: 1px solid ${props => props.theme.colors.primary}
+`;
