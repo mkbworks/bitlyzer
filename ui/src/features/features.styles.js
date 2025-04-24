@@ -7,16 +7,11 @@ export const PageContent = styled.div`
     display: flex;
     flex-direction: column;
     row-gap: 1.5rem;
-    border: 1px solid ${props => props.theme.colors.primary};
+    background-color: ${props => props.theme.section.backgroundColor};
+    border-radius: 4px;
 
     & > hr {
-        height: 1px;
-        background-color: ${props => props.theme.colors.primary}
-    }
-
-    &:focus {
-        & > hr {
-            height: 2px;
-        }
+        height: 1.5px;
+        background-color: ${props => props.theme.section.borderColor};
     }
 `;

@@ -9,8 +9,17 @@ const Page = styled.div`
     width: 100vw;
     min-height: 100vh;
     height: 100%;
-    background-color: ${props => props.theme.colors.background};
     color: ${props => props.theme.colors.text};
+`;
+
+const Container = styled.div`
+    width: 100%;
+    min-height: calc(100vh - 75px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1rem;
+    background-color: ${props => props.theme.colors.background};
 `;
 
 function App() {
@@ -20,11 +29,11 @@ function App() {
     return (
         <Page>
             <Navbar Title="Citadel of Code" Links={IsLoggedIn ? LoggedIn : LoggedOut} />
-            <div className="container">
-                <main className="main-content">
+            <Container>
+                <div className="main-content">
                     <Outlet />
-                </main>
-            </div>
+                </div>
+            </Container>
         </Page>
     );
 }

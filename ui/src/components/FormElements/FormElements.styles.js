@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 
 const FormElementStyle = css`
     border-radius: 5px;
-    border: 1px solid ${props => props.theme.colors.primary};
+    border: 1px solid ${props => props.theme.section.borderColor};
     padding: 5px;
     max-width: 500px;
     width: 90vw;
@@ -10,7 +10,7 @@ const FormElementStyle = css`
     height: 35px;
 
     &:focus {
-        box-shadow: 0 0 1.5px 1.5px ${props => props.theme.colors.accent}, inset 0 0 1.5px 1.5px ${props => props.theme.colors.accent};
+        box-shadow: 0 0 1.5px 1.5px ${props => props.theme.colors.accent};
     }
 `;
 
@@ -55,7 +55,7 @@ export const SubmitButton = styled.button`
     text-transform: uppercase;
 
     &:hover {
-        box-shadow: 0 0 1.5px 1.5px ${props => props.theme.colors.accent};
+        box-shadow: 0 0 1.5px 1.5px ${props => props.theme.colors.primary};
     }
 
     &:disabled {

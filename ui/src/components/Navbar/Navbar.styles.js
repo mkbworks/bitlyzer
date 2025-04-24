@@ -22,19 +22,18 @@ export const StyledNavLink = styled(NavLink)`
     color: ${props => props.theme.colors.text};
     font-size: 1.3rem;
     padding: 0.5rem;
-    border-radius: 5px;
+    border-radius: 2px;
 
     &:hover {
         cursor: pointer;
-        text-decoration: underline;
+        color: ${props => props.theme.colors.accent}
     }
 
     &.active {
-        background-color: ${props => props.theme.colors.accent};
-        border-radius: 2px;
+        color: ${props => props.theme.colors.accent};
     }
 `;
 
 export const StyledNavbar = styled.nav`
-    border: 1px solid ${props => props.theme.colors.primary}
+    background-color: ${props => props.theme.section.backgroundColor}
 `;
