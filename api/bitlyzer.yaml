@@ -222,6 +222,43 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /link/list:
+    get:
+      summary: get all links created by the user that are still active
+      operationId: getActiveLinks
+      security:
+        api_key: []
+      responses:
+        200:
+          description: Returns the list of all active links.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Alias:
+                      type: string
+                      description: Alias generated to uniquely identify the Short URL
+                    Target:
+                      type: string
+                      description: Long URL to be redirected to.
+                    ShortUrl:
+                      type: string
+                      description: Complete Short URL
+                    Action:
+                      type: string
+                      description: Action to be taken when Short URL is requested.
+                    DaysToExpiry:
+                      type: number
+                      description: Number of days from the current date to link expiration.
+        500:
+          description: The operation requested could not be performed due to an internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 components:
   responses:
     InvalidContentType:

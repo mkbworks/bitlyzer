@@ -36,8 +36,12 @@ linkRouter.post("/generate", authenticate, validate, async (req, res) => {
                     res.status(200);
                     res.json(data);
                 } else {
-                    res.status(500);
-                    res.json(result.data.ToJson());
+                    if(result.data.code === "ERR_RATE_EXCEEDED") {
+                        res.status(400).json(result.data.ToJson());
+                    } else {
+                        res.status(500);
+                        res.json(result.data.ToJson());
+                    }
                 }
             }
         },
@@ -64,6 +68,25 @@ linkRouter.delete("/:hash", authenticate, async (req, res) => {
         } else {
             res.status(500).json(result.data.ToJson());
         }
+    }
+});
+
+/**
+ * Route to get all active links registered by the given user.
+ */
+linkRouter.get("/list", authenticate, async (req, res) => {
+    let userId = req.validatedUser;
+    const result = await req.app.locals.dal.GetActiveLinks(userId);
+    if(result.status === "success") {
+        let { data } = result;
+        data = data.map(element => {
+            let shortUrl = new URL(element.Alias, req.app.locals.WebAddress);
+            element.ShortUrl = shortUrl.href;
+            return element;
+        });
+        res.status(200).json(data);
+    } else {
+        res.status(500).json(result.data.ToJson());
     }
 });
 

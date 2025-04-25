@@ -142,6 +142,13 @@ class DataAccessLayer {
     async NewLink(target, action, shortUrl, userId, expiry) {
         try {
             let linksCollection = this.DbInstance.collection("links");
+            if(expiry === 0) {
+                let existingExpirycount = await linksCollection.countDocuments({ UserId: userId, Expiry: 0 });
+                if(existingExpirycount > 10) {
+                    return new Response("error", new AppError("ERR_RATE_EXCEEDED", "Users are not allowed to create more than 10 no-expiration links."));
+                }
+            }
+
             let newLink = Link.Create(target, action, shortUrl, userId, expiry);
             let matchingHashCount = await linksCollection.countDocuments({ ShortUrl: shortUrl });
             while(matchingHashCount > 0) {
@@ -196,8 +203,8 @@ class DataAccessLayer {
                 let expiredIds = [];
                 activeLinks.forEach(activeLink => {
                     if(activeLink.Expiry > 0) {
-                        let linkCreated = new Date(activeLink.Created);
-                        let linkExpiry = linkCreated.setDate(linkCreated.getDate() + activeLink.Expiry);
+                        let newLink = Link.CreateFrom(activeLink);
+                        let linkExpiry =newLink.GetExpiryDate();
                         if(CurrentDate > linkExpiry) {
                             expiredIds.push(activeLink["_id"]);
                         }
@@ -215,6 +222,31 @@ class DataAccessLayer {
 
                 return new Response("success", { "ExpiredCount": updatedRecordCount });
             }
+        } catch (err) {
+            return new Response("error", new AppError("ERR_CUSTOM", err.message));
+        }
+    }
+
+    /**
+     * Gets all the active links and associated details for the given user.
+     * @param {string} userId unique identitifer for the user.
+     * @returns {Response} an object with the response status and associated data.
+     */
+    async GetActiveLinks(userId) {
+        try {
+            let linksCollection = this.DbInstance.collection("links");
+            let activeLinks = await linksCollection.find({ UserId: userId, State: "active" }).toArray();
+            let activeLinksData = activeLinks.map(activeLink => {
+                let newLink = Link.CreateFrom(activeLink);
+                let retLink = {
+                    Alias: newLink.ShortUrl,
+                    Target: newLink.Target,
+                    DaysToExpiry: newLink.GetDaysToExpiry(),
+                    Action: newLink.Action
+                };
+                return retLink;
+            });
+            return new Response("success", activeLinksData);
         } catch (err) {
             return new Response("error", new AppError("ERR_CUSTOM", err.message));
         }

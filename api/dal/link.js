@@ -56,11 +56,29 @@ class Link {
     }
 
     /**
-     * Validates if the link has expired using its creation date and days of expiry.
-     * @returns {boolean} true if the link has expired and false if it has not.
+     * Computes the date of expiry for the link based on the 'Created' and 'Expiry' values.
+     * @returns {Date} Returns the date on which the link expires.
      */
-    HasExpired() {
-        return this.State === "expired";
+    GetExpiryDate() {
+        let CreatedDate = new Date(this.Created);
+        let ExpiryDate = CreatedDate.setDate(CreatedDate.getDate() + this.Expiry);
+        return ExpiryDate;
+    }
+
+    /**
+     * Computes the number of days remaining to link expiry using the 'Created', 'Expiry' fields.
+     * @returns {number} - Number of days to link expiry.
+     */
+    GetDaysToExpiry() {
+        let ExpiryDate = this.GetExpiryDate();
+        let CurrentDate = new Date(Date.now());
+        if(CurrentDate >= ExpiryDate) {
+            return 0;
+        } else {
+            let diff = ExpiryDate - CurrentDate;
+            let dayCount = Math.ceil(diff / (1000 * 60 * 60 * 24));
+            return dayCount;
+        }
     }
 
     /**
