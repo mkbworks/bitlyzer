@@ -24,7 +24,8 @@
     "express": "^4.21.2",
     "figlet": "^1.8.0",
     "mongodb": "^6.15.0",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "node-cron": "^3.0.3"
   },
   "devDependencies": {
     "@dotenvx/dotenvx": "^1.40.0"

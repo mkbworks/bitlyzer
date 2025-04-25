@@ -2,6 +2,7 @@
     "name": "bitlyzer",
     "version": "1.0.0",
     "description": "URL Shortener web application created with Node.js API backend and React frontend",
+    "type": "module",
     "scripts": {
       "dev:ui": "npm run dev --workspace=ui",
       "dev:api": "npm run dev --workspace=api",

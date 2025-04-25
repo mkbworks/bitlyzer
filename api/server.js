@@ -4,6 +4,7 @@ import chalk from "chalk";
 import morgan from "morgan";
 import axios from "axios";
 import cors from "cors";
+import cron from "node-cron";
 import linkRouter from "./routes/link.js";
 import userRouter from "./routes/user.js";
 import DataAccessLayer from "./dal/db.js";
@@ -61,6 +62,15 @@ DataAccessLayer.ConnectToDb().then((dal) => {
                 res.status(500);
                 res.json(result.data.ToJson());
             }
+        }
+    });
+
+    cron.schedule("0 0 1 * * *", async () => {
+        let response = await dal.MarkLinksAsExpired();
+        if(response.status === "success") {
+            console.log(`${response.data.ExpiredCount} links(s) were marked as expired.`);
+        } else {
+            console.log(`Error occurred while marking links as expired: ${response.data.message}`);
         }
     });
 
