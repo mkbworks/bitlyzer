@@ -6,9 +6,6 @@ export const THEME = {
         background: "#F7F7F7",
         text: "#1D1C1D"
     },
-    logo: {
-        background: "linear-gradient(90deg,rgba(74, 21, 75, 1) 0%, rgba(217, 117, 210, 1) 100%)"
-    },
     section: {
         backgroundColor: "#FFFFFF",
         borderColor: "#EAEAEA"

@@ -5,14 +5,13 @@ export const StyledLogo = styled.p`
     height: fit-content;
     width: fit-content;
     padding: 0.4rem;
-    font-size: 32px;
-    font-family: "Nosifer", cursive;
-    background: ${props => props.theme.logo.background};
+    font-size: 48px;
+    font-family: "Cal Sans", sans-serif;
+    background: linear-gradient(120deg, ${props => props.theme.colors.primary}, ${props => props.theme.colors.accent});
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     color: #FFF;
-    -webkit-text-stroke: 1px ${props => props.theme.colors.accent};
 `;
 
 export const StyledNavLink = styled(NavLink)`

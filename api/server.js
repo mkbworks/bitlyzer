@@ -55,7 +55,7 @@ DataAccessLayer.ConnectToDb().then((dal) => {
                 }
             }
         } else {
-            if(result.data.code === "ERR_EXPIRED" || result.data.code === "ERR_NOEXISTS") {
+            if(result.data.code === "ERR_NOEXISTS") {
                 res.status(404);
                 res.json(result.data.ToJson());
             } else {

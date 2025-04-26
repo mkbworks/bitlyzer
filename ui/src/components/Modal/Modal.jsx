@@ -1,4 +1,6 @@
-import { StyledModal, ModalBackdrop, ModalClose, ModalData } from "./Modal.styles.js";
+import { StyledModal, ModalBackdrop, ModalData } from "./Modal.styles.js";
+import { HzLine } from "../../styles/global.styles.js";
+import CloseIcon from "../CloseIcon/CloseIcon.jsx";
 import "./Modal.css";
 
 function Modal({ IsOpen = false, onClose, Data }) {
@@ -10,9 +12,9 @@ function Modal({ IsOpen = false, onClose, Data }) {
         <ModalBackdrop onClick={onClose}>
             <StyledModal onClick={e => e.stopPropagation()}>
                 <div className="modal-header">
-                    <ModalClose onClick={onClose}>x</ModalClose>
+                    <CloseIcon Size={25} OnClick={onClose}>x</CloseIcon>
                 </div>
-                <hr />
+                <HzLine />
                 <div className="modal-body">
                     { Data.Type === "success" && <h1>&#9989; Success</h1> }
                     { Data.Type === "error" && <h1>&#10060; Error!</h1> }

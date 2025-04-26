@@ -6,6 +6,7 @@ import Modal from "../components/Modal/Modal.jsx";
 import Request from "../utils/request.js";
 import { useAuth, useForm, useModal } from "../hooks";
 import { PageContent } from "./features.styles.js";
+import { HzLine } from "../styles/global.styles.js";
 
 function RegisterUser() {
     const userStructure = {
@@ -65,7 +66,7 @@ function RegisterUser() {
             <PageHeading Title="User Registration" ImagePath="/images/RegisterUser.png">
                 Sign up as a new user to start using the URL Shortener services. After registration, you'll receive an access key for authentication purposes.
             </PageHeading>
-            <hr />
+            <HzLine />
             <form className="form" onSubmit={handleFormSubmit}>
                 <Text Name="FullName" Label="Enter your full name" Value={user.formState.FullName.Value} Placeholder="User's full name" OnChange={(value, validity) => user.handleFormChange("FullName", value, validity)} Pattern="^[a-zA-Z][a-zA-Z\s]+$" resetForm={user.formReset} Required />
                 <Email Name="UserEmail" Label="Enter your email address" Value={user.formState.UserEmail.Value} Placeholder="User's email address" OnChange={(value, validity) => user.handleFormChange("UserEmail", value, validity)} resetForm={user.formReset} Required />

@@ -4,6 +4,7 @@ import Modal from "../components/Modal/Modal.jsx";
 import Request from "../utils/request.js";
 import { useAuth, useForm, useModal } from "../hooks";
 import { PageContent } from "./features.styles.js";
+import { HzLine } from "../styles/global.styles.js";
 
 function ShortenUrl() {
     const { Email: CtxEmail, AccessKey:CtxAccessKey } = useAuth();
@@ -65,7 +66,7 @@ function ShortenUrl() {
             <PageHeading Title="Shorten Url" ImagePath="/images/ShortenUrl.png">
                 Easily convert long, cluttered URLs into clean, shareable short links with our simple URL shortener tool. Just paste your long URL into the form, customize the alias if you'd like, and click generate.
             </PageHeading>
-            <hr />
+            <HzLine />
             <form className="form" onSubmit={handleSubmit}>
                 <Text Name="Target" Label="Paste your long URL here!" Value={url.formState.Target.Value} Placeholder="Long URL to be masked or redirected to" OnChange={(value, validity) => url.handleFormChange("Target", value, validity)} Pattern="^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$" resetForm={url.formReset} Required />
                 <Text Name="Alias" Label="Define a custom short URL!" Value={url.formState.Alias.Value} Placeholder="Enter a short URL of your own" OnChange={(value, validity) => url.handleFormChange("Alias", value, validity)} resetForm={url.formReset} />

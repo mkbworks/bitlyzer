@@ -9,9 +9,13 @@ export const PageContent = styled.div`
     row-gap: 1.5rem;
     background-color: ${props => props.theme.section.backgroundColor};
     border-radius: 4px;
+`;
 
-    & > hr {
-        height: 1.5px;
-        background-color: ${props => props.theme.section.borderColor};
-    }
+export const MyLinksContainer = styled.div`
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    col-gap: 1rem;
 `;
