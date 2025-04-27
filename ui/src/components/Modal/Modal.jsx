@@ -1,26 +1,43 @@
-import { StyledModal, ModalBackdrop, ModalData } from "./Modal.styles.js";
+import { StyledModal, ModalBackdrop, ModalData, ModalHeader, ModalBody } from "./Modal.styles.js";
 import { HzLine } from "../../styles/global.styles.js";
 import CloseIcon from "../CloseIcon/CloseIcon.jsx";
-import "./Modal.css";
 
-function Modal({ IsOpen = false, onClose, Data }) {
+function Modal({ IsOpen = false, onClose, Data, Type = "Custom", children }) {
     if(!IsOpen) {
         return null;
+    }
+
+    let modalContent = null;
+    if(Type === "ErrorAlert") {
+        modalContent = (
+            <>
+                <h1>&#10060; Error!</h1>
+                <p>{Data.Message}</p>
+                {Data.Code !== "" && <ModalData>{Data.Code}</ModalData>}
+            </>
+        );
+    } else if(Type === "SuccessAlert") {
+        modalContent = (
+            <>
+                <h1>&#9989; Success</h1>
+                <p>{Data.Message}</p>
+                {Data.Code !== "" && <ModalData>{Data.Code}</ModalData>}
+            </>
+        );
+    } else {
+        modalContent = children;
     }
 
     return (
         <ModalBackdrop onClick={onClose}>
             <StyledModal onClick={e => e.stopPropagation()}>
-                <div className="modal-header">
+                <ModalHeader>
                     <CloseIcon Size={25} OnClick={onClose}>x</CloseIcon>
-                </div>
+                </ModalHeader>
                 <HzLine />
-                <div className="modal-body">
-                    { Data.Type === "success" && <h1>&#9989; Success</h1> }
-                    { Data.Type === "error" && <h1>&#10060; Error!</h1> }
-                    <p>{Data.Message}</p>
-                    <ModalData>{Data.Code}</ModalData>
-                </div>
+                <ModalBody>
+                    {modalContent}
+                </ModalBody>
             </StyledModal>
         </ModalBackdrop>
     );

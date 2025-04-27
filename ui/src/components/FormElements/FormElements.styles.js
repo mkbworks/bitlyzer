@@ -1,5 +1,17 @@
 import styled, { css } from "styled-components";
 
+export const FormControl = styled.div`
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+    font-size: 1.3rem;
+`;
+
+export const FormControlError = styled.p`
+    font-size: 1rem;
+    color: red;
+`;
+
 const FormElementStyle = css`
     border-radius: 5px;
     border: 1px solid ${props => props.theme.section.borderColor};

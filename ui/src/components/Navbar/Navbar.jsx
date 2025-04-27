@@ -1,17 +1,16 @@
-import { StyledLogo, StyledNavLink, StyledNavbar } from "./Navbar.styles.js";
-import "./Navbar.css";
+import { StyledLogo, StyledNavLink, StyledNavbar, NavLinksContainer, NavLinks } from "./Navbar.styles.js";
 
 function Navbar({ Links, Title }) {
     return (
-        <StyledNavbar id="topNavigation">
-            <div id="navLinksContainer">
+        <StyledNavbar>
+            <NavLinksContainer>
                 <StyledLogo>{Title}</StyledLogo>
-                <div id="navLinks">
+                <NavLinks>
                     {Links.map(({ Path, Title }, index) => (
                         <StyledNavLink className={({ isActive }) => (isActive ? "active": undefined )} to={Path} key={`Link-Index-${index}`} >{Title}</StyledNavLink>
                     ))}
-                </div>
-            </div>
+                </NavLinks>
+            </NavLinksContainer>
         </StyledNavbar>
     );
 }

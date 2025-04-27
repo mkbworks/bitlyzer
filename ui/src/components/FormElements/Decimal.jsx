@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { StyledNumber, FormLabel } from "./FormElements.styles.js";
-import "./FormStyles.css";
+import { StyledNumber, FormLabel, FormControl, FormControlError } from "./FormElements.styles.js";
 
 const isValidNumber = (value, min, max) => {
     return ((value >= min) && (value <= max));
@@ -31,11 +30,11 @@ function Decimal({ Name, Label, Value = 0, Placeholder, OnChange, Min = -Infinit
     let isValueValid = isValidNumber(Value, Min, Max);
 
     return (
-        <div className="form-control">
+        <FormControl>
             <FormLabel htmlFor={Name}>{Label}</FormLabel>
             <StyledNumber id={Name} name={Name} placeholder={Placeholder} value={Value} step={Step} onChange={handleChange} onBlur={handleBlur} />
-            { isTouched && !isValueValid && <p className="form-control-error">Please enter a valid number!</p> }
-        </div>
+            { isTouched && !isValueValid && <FormControlError>Please enter a valid number!</FormControlError> }
+        </FormControl>
     );
 }
 

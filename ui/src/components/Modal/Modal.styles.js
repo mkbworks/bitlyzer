@@ -34,3 +34,37 @@ export const ModalData = styled.code`
     align-self: center;
     border-radius: 4px;
 `;
+
+export const ModalHeader = styled.div`
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+`;
+
+export const ModalBody = styled.div`
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.8rem;
+    align-items: flex-start;
+    padding: 0.5rem;
+
+    & > h1 {
+        width: 100%;
+        height: fit-content;
+        font-size: 1.6rem;
+        letter-spacing: 1.5px;
+        text-align: center;
+    }
+
+    $ > p {
+        width: 100%;
+        height: fit-content;
+        font-size: 1.3rem;
+        letter-spacing: 1.5px;
+        text-align: center;
+    }
+`;

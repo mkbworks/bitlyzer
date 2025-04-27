@@ -14,7 +14,7 @@ function RegisterUser() {
         UserEmail: "string"
     };
 
-    const { Alert, ShowErrorAlert, ShowSuccessAlert, HideAlert } = useModal();
+    const { ModalState, ShowModal, HideModal } = useModal();
     const user = useForm(userStructure);
     const { IsLoggedIn } = useAuth();
     const navigate = useNavigate();
@@ -28,7 +28,10 @@ function RegisterUser() {
     const handleFormSubmit = async (event) => {
         event.preventDefault();
         if(!user.getFormValidity()) {
-            ShowErrorAlert("One or more fields in the form are not valid.", "")
+            ShowModal("ErrorAlert", {
+                Message: "One or more values in the form are not valid",
+                Code: ""
+            });
             return;
         }
 
@@ -44,21 +47,24 @@ function RegisterUser() {
             let response = await Request("/user/register", "POST", userData, null, headers);
             if(response.status === "success") {
                 let { ApiKey } = response.data;
-                ShowSuccessAlert(`User has been registered and the access key generated is shown below. Please copy and store the access key safely as you wont be able to view it directly again. This access key will expire at ${ApiKey.Expiry}`, ApiKey.Value);
+                ShowModal("SuccessAlert", {
+                    Message: `User has been registered and the access key generated is shown below. Please copy and store the access key safely as you wont be able to view it directly again. This access key will expire at ${ApiKey.Expiry}`,
+                    Code: ApiKey.Value
+                });
                 user.handleFormReset();
             } else {
                 let { message } = response.data;
-                ShowErrorAlert("Error occurred during user registration.", message);
+                ShowModal("ErrorAlert", {
+                    Message: "Error occurred during user registration.",
+                    Code: message
+                });
             }
         } catch (err) {
-            ShowErrorAlert("Error occurred during user registration.", `${err}`);
+            ShowModal("ErrorAlert", {
+                Message: "Error occurred during user registration.",
+                Code: `${err}`
+            });
         }
-    };
-
-    let modalData = {
-        Type: Alert.type,
-        Message: Alert.message,
-        Code: Alert.data
     };
 
     return (
@@ -72,7 +78,7 @@ function RegisterUser() {
                 <Email Name="UserEmail" Label="Enter your email address" Value={user.formState.UserEmail.Value} Placeholder="User's email address" OnChange={(value, validity) => user.handleFormChange("UserEmail", value, validity)} resetForm={user.formReset} Required />
                 <Submit Disabled={!user.getFormValidity()}>Register</Submit>
             </form>
-            <Modal IsOpen={Alert.isOpen} onClose={HideAlert} Data={modalData}></Modal>
+            <Modal IsOpen={ModalState.isOpen} onClose={HideModal} Data={ModalState.data} Type={ModalState.type}></Modal>
         </PageContent>
     );
 }

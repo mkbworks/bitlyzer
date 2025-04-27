@@ -1,6 +1,24 @@
 import styled from "styled-components";
 import { NavLink } from "react-router";
 
+export const StyledNavbar = styled.nav`
+    width: 100%;
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: ${props => props.theme.section.backgroundColor}
+`;
+
+export const NavLinksContainer = styled.div`
+    height: inherit;
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+`;
+
 export const StyledLogo = styled.p`
     height: fit-content;
     width: fit-content;
@@ -13,6 +31,15 @@ export const StyledLogo = styled.p`
     -webkit-text-fill-color: transparent;
     color: #FFF;
     text-transform: uppercase;
+`;
+
+export const NavLinks = styled.div`
+    height: inherit;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 0.8rem;
 `;
 
 export const StyledNavLink = styled(NavLink)`
@@ -32,8 +59,4 @@ export const StyledNavLink = styled(NavLink)`
     &.active {
         color: ${props => props.theme.colors.accent};
     }
-`;
-
-export const StyledNavbar = styled.nav`
-    background-color: ${props => props.theme.section.backgroundColor}
 `;

@@ -1,6 +1,5 @@
 import { useState, useEffect} from "react";
-import { FormLabel, StyledPassword } from "./FormElements.styles.js";
-import "./FormStyles.css";
+import { FormLabel, StyledPassword, FormControl, FormControlError } from "./FormElements.styles.js";
 
 const isValidPassword = (value, isRequired) => {
     value = value.trim();
@@ -37,11 +36,11 @@ function Password({ Name, Label, Value, Placeholder, OnChange, Required = false,
     let isValueValid = isValidPassword(Value, Required);
 
     return (
-        <div className="form-control">
+        <FormControl>
             <FormLabel htmlFor={Name}>{Label}</FormLabel>
             <StyledPassword id={Name} name={Name}  placeholder={Placeholder} value={Value} onChange={handleChange} onBlur={handleBlur} />
-            { isTouched && !isValueValid && <p className="form-control-error">Please enter a valid password!</p> }
-        </div>
+            { isTouched && !isValueValid && <FormControlError>Please enter a valid password!</FormControlError> }
+        </FormControl>
     );
 }
 

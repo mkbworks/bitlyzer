@@ -21,24 +21,21 @@ function LoginUser() {
         }
     }, [IsLoggedIn]);
 
-    const { Alert, ShowErrorAlert, HideAlert } = useModal();
+    const { ModalState, ShowModal, HideModal } = useModal();
     const user = useForm(userStructure);
 
     const handleSubmit = (event) => {
         event.preventDefault();
         if(!user.getFormValidity()) {
-            ShowErrorAlert("One or more fields in the form are not valid.", "");
+            ShowModal("ErrorAlert", {
+                Message: "One or more field(s) in the login form do not have valid values.",
+                Code: ""
+            });
             return;
         }
 
         Login(user.formState.UserEmail.Value, user.formState.UserKey.Value);
         user.handleFormReset();
-    };
-
-    let modalData = {
-        Type: Alert.type,
-        Message: Alert.message,
-        Code: Alert.data
     };
 
     return (
@@ -52,7 +49,7 @@ function LoginUser() {
                 <Password Name="UserKey" Label="Enter your access key" Placeholder="User's access key" Value={user.formState.UserKey.Value} OnChange={(value, validity) => user.handleFormChange("UserKey", value, validity)} resetForm={user.formReset} Required />
                 <Submit Disabled={!user.getFormValidity()}>Login</Submit>
             </form>
-            <Modal IsOpen={Alert.isOpen} onClose={HideAlert} Data={modalData}></Modal>
+            <Modal IsOpen={ModalState.isOpen} onClose={HideModal} Data={ModalState.data} Type={ModalState.type}></Modal>
         </PageContent>
     );
 }

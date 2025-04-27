@@ -1,11 +1,10 @@
-import "./FormStyles.css";
-import { SubmitButton } from "./FormElements.styles.js";
+import { SubmitButton, FormControl } from "./FormElements.styles.js";
 
 function Submit({ children, Disabled = false }) {
     return (
-        <div className="form-control">
+        <FormControl>
             <SubmitButton type="submit" className="btn-submit" disabled={Disabled}>{children}</SubmitButton>
-        </div>
+        </FormControl>
     );
 }
 

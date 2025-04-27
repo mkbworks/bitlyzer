@@ -20,13 +20,16 @@ function ShortenUrl() {
         Expiry: "number"
     };
 
-    const { Alert, ShowErrorAlert, ShowSuccessAlert, HideAlert } = useModal();
+    const { ModalState, ShowModal, HideModal } = useModal();
     const url = useForm(urlStructure);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         if(!url.getFormValidity()) {
-            ShowErrorAlert("One or more fields in the form are not valid.", "");
+            ShowModal("ErrorAlert", {
+                Message: "One or more fields in the form are not valid.",
+                Code: ""
+            });
             return;
         }
 
@@ -45,20 +48,23 @@ function ShortenUrl() {
         try {
             let response = await Request("/link/generate", "POST", urlData, null, headers);
             if(response.status === "success") {
-                ShowSuccessAlert(`Short link has been generated and given below. The link will be valid for ${response.data.Expiry} day(s) from today.`, response.data.ShortUrl);
+                ShowModal("SuccessAlert", {
+                    Message: `Short link has been generated and given below. The link will be valid for ${response.data.Expiry} day(s) from today.`,
+                    Code: response.data.ShortUrl
+                });
                 url.handleFormReset();
             } else {
-                ShowErrorAlert("Error occurred during link generation:", response.data.message);
+                ShowModal("ErrorAlert", {
+                    Message: "Error occurred during link generation:",
+                    Code: response.data.message
+                });
             }
         } catch (err) {
-            ShowErrorAlert("Error during link generation:", `${err}`);
+            ShowModal("ErrorAlert", {
+                Message: "Error during link generation:",
+                Code: `${err}`
+            });
         }
-    };
-
-    let modalData = {
-        Type: Alert.type,
-        Message: Alert.message,
-        Code: Alert.data
     };
 
     return (
@@ -74,7 +80,7 @@ function ShortenUrl() {
                 <Decimal Name="Expiry" Label="How long should the URL be valid?" Placeholder="Number of days till expiry" Value={url.formState.Expiry.Value} OnChange={(value, validity) => url.handleFormChange("Expiry", value, validity)} Min={0} resetForm={url.formReset} />
                 <Submit Disabled={!url.getFormValidity()}>Generate</Submit>
             </form>
-            <Modal IsOpen={Alert.isOpen} onClose={HideAlert} Data={modalData}></Modal>
+            <Modal IsOpen={ModalState.isOpen} onClose={HideModal} Data={ModalState.data} Type={ModalState.type}></Modal>
         </PageContent>
     );
 }

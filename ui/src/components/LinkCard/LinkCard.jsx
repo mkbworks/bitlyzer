@@ -1,15 +1,11 @@
 import { StyledLinkCard, ActionButton, LinkCardHeader, LinkCardBody } from "./LinkCard.styles.js";
 
 function LinkCard({ data, OnDelete }) {
-    const handleDelete = () => {
-        OnDelete(data.Alias);
-    };
-    
     return (
         <StyledLinkCard>
             <LinkCardHeader>
                 <ActionButton>Edit</ActionButton>
-                <ActionButton onClick={handleDelete}>Delete</ActionButton>
+                <ActionButton onClick={() => OnDelete(data.Alias)}>Delete</ActionButton>
             </LinkCardHeader>
             <LinkCardBody>
                 <a href={data.ShortUrl} target="_blank" className="link-card-alias">{data.Alias}</a>
