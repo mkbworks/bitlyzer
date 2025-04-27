@@ -12,6 +12,7 @@ export const StyledLogo = styled.p`
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     color: #FFF;
+    text-transform: uppercase;
 `;
 
 export const StyledNavLink = styled(NavLink)`

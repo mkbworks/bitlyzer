@@ -18,8 +18,16 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 1rem;
+    padding: 1rem 0;
     background-color: ${props => props.theme.colors.background};
+`;
+
+const MainContent = styled.div`
+    max-width: 1200px;
+    width: 100%;
+    flex: 1;
+    background-color: ${props => props.theme.section.backgroundColor};
+    border-radius: 4px;
 `;
 
 function App() {
@@ -28,11 +36,11 @@ function App() {
 
     return (
         <Page>
-            <Navbar Title="Citadel of Code" Links={IsLoggedIn ? LoggedIn : LoggedOut} />
+            <Navbar Title="Bitlyzer" Links={IsLoggedIn ? LoggedIn : LoggedOut} />
             <Container>
-                <div className="main-content">
+                <MainContent>
                     <Outlet />
-                </div>
+                </MainContent>
             </Container>
         </Page>
     );

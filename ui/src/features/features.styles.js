@@ -7,8 +7,6 @@ export const PageContent = styled.div`
     display: flex;
     flex-direction: column;
     row-gap: 1.5rem;
-    background-color: ${props => props.theme.section.backgroundColor};
-    border-radius: 4px;
 `;
 
 export const MyLinksContainer = styled.div`
@@ -17,5 +15,15 @@ export const MyLinksContainer = styled.div`
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    col-gap: 1rem;
+    row-gap: 1rem;
+    align-items: center;
+    justify-content: space-evenly;
+`;
+
+export const SorryError = styled.p`
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-size: 1.5rem;
+    color: ${props => props.theme.section.borderColor};
 `;
