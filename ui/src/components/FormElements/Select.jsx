@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "./FormStyles.css";
+import { StyledSelect, FormLabel, FormControl, FormControlError } from "./FormElements.styles.js";
 
 const isValidOption = (value, isRequired) => {
     if(isRequired) {
@@ -34,15 +34,15 @@ function Select({ Name, Label, Value, Options, OnChange, Required = false, reset
     let isValueValid = isValidOption(Value, Required);
 
     return (
-        <div className="form-control">
-            <label className="form-label" htmlFor={Name}>{Label}</label>
-            <select className="form-select" id={Name} value={Value} onChange={handleChange} onBlur={handleBlur}>
+        <FormControl>
+            <FormLabel htmlFor={Name}>{Label}</FormLabel>
+            <StyledSelect id={Name} value={Value} onChange={handleChange} onBlur={handleBlur}>
                 {
                     Options.map((Option, index) => (<option value={Option.key} key={index}>{Option.value}</option>))
                 }
-            </select>
-            { isTouched && !isValueValid && <p className="form-control-error">Please choose a valid option!</p> }
-        </div>
+            </StyledSelect>
+            { isTouched && !isValueValid && <FormControlError>Please choose a valid option!</FormControlError> }
+        </FormControl>
     );
 }
 

@@ -1,38 +1,27 @@
 import { useState } from "react";
 
 const useModal = () => {
-    const defaultAlertState = {
+    let defaultState = {
         isOpen: false,
-        type: "success",
-        message: "A modal with specific content will appear here!",
-        data: ""
+        type: "",
+        data: {}
     };
 
-    const [modalState, setModalState] = useState(defaultAlertState);
+    const [modalState, setModalState] = useState(defaultState);
 
-    const ShowErrorAlert = (message, data) => {
+    const ShowModal = (type, data) => {
         setModalState({
             isOpen: true,
-            type: "error",
-            message: message,
+            type: type,
             data: data
         });
     }
 
-    const ShowSuccessAlert = (message, data) => {
-        setModalState({
-            isOpen: true,
-            type: "success",
-            message: message,
-            data: data
-        });
+    const HideModal = () => {
+        setModalState(defaultState);
     };
 
-    const HideAlert = () => {
-        setModalState(defaultAlertState);
-    };
-
-    return { Alert: modalState, ShowErrorAlert, ShowSuccessAlert, HideAlert };
+    return { ModalState: modalState, ShowModal, HideModal };
 };
 
 export default useModal;

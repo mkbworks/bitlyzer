@@ -4,10 +4,10 @@ import chalk from "chalk";
 import morgan from "morgan";
 import axios from "axios";
 import cors from "cors";
+import cron from "node-cron";
 import linkRouter from "./routes/link.js";
 import userRouter from "./routes/user.js";
 import DataAccessLayer from "./dal/db.js";
-import authenticate from "./middleware/auth.js";
 import AppError from "./models/error.js";
 
 const app = express();
@@ -55,7 +55,7 @@ DataAccessLayer.ConnectToDb().then((dal) => {
                 }
             }
         } else {
-            if(result.data.code === "ERR_EXPIRED" || result.data.code === "ERR_NOEXISTS") {
+            if(result.data.code === "ERR_NOEXISTS") {
                 res.status(404);
                 res.json(result.data.ToJson());
             } else {
@@ -65,21 +65,12 @@ DataAccessLayer.ConnectToDb().then((dal) => {
         }
     });
 
-    /**
-     * Route to delete the long URL mapped to the given short URL.
-     */
-    app.delete("/:hash", authenticate, async (req, res) => {
-        let linkHash = req.params.hash;
-        let userId = req.validatedUser;
-        const result = await dal.DeleteLink(linkHash, userId);
-        if(result.status === "success") {
-            res.status(200).json(result.data);
+    cron.schedule("0 0 1 * * *", async () => {
+        let response = await dal.MarkLinksAsExpired();
+        if(response.status === "success") {
+            console.log(`${response.data.ExpiredCount} links(s) were marked as expired.`);
         } else {
-            if(result.data.code === "ERR_NOEXISTS") {
-                res.status(404).json(result.data.ToJson());
-            } else {
-                res.status(500).json(result.data.ToJson());
-            }
+            console.log(`Error occurred while marking links as expired: ${response.data.message}`);
         }
     });
 

@@ -1,4 +1,6 @@
-.page-heading {
+import styled from "styled-components";
+
+export const StyledPageHeading = styled.div`
     width: 100%;
     height: fit-content;
     padding: 1rem;
@@ -6,36 +8,33 @@
     flex-direction: column;
     align-items: center;
     gap: 0.8rem;
-}
+`;
 
-.page-title-section, .page-description  {
+export const PageTitleSection = styled.div`
     width: fit-content;
     height: fit-content;
-}
-
-.page-title-section {
     display: flex;
     flex-direction: column;
     row-gap: 0.8rem;
     align-items: center;
-}
+`;
 
-.page-title {
-    font-size: 2.5rem;
-    font-family: "Markazi", serif;
-    color: var(--color-primary);
+export const PageDescription = styled.p`
     width: fit-content;
     height: fit-content;
-}
-
-.page-description {
     font-size: 1.3rem;
     text-align: center;
-}
+`;
 
-.page-logo {
+export const PageTitle = styled.p`
+    font-size: 2.5rem;
+    font-family: "Markazi", serif;
+    color: ${props => props.theme.colors.text};
+    width: fit-content;
+    height: fit-content;
+`;
+
+export const PageLogo = styled.img`
     width: 70px;
     height: 70px;
-    border: 2px solid var(--color-secondary);
-    box-shadow: 0 0 3px 3px var(--color-accent);
-}
+`;

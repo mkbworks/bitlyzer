@@ -144,34 +144,7 @@ paths:
                   - ShortUrl
                   - Target
                   - Expiry
-  /{hash}:
-    parameters:
-      - name: hash
-        in: path
-        description: key generated for the long URL provided.
-        required: true
-        schema:
-          type: string
-    get:
-      summary: redirect the short url to its mapped long url
-      operationId: redirectToLink
-      security:
-        api_key: []
-      responses:
-        302:
-          description: Redirects the short url to the mapped long url.
-        404:
-          description: The requested resource was not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        500:
-          description: The operation requested could not be performed due to an internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+  /link/{hash}:
     delete:
       summary: deletes the short url from the system.
       operationId: deleteLink
@@ -187,6 +160,12 @@ paths:
         - name: x-email
           in: header
           description: User email address which along with API Key will be used to authenticate the user.
+          required: true
+          schema:
+            type: string
+        - name: hash
+          in: path
+          description: key generated for the long URL provided.
           required: true
           schema:
             type: string
@@ -209,6 +188,71 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        500:
+          description: The operation requested could not be performed due to an internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /{hash}:
+    get:
+      summary: redirect the short url to its mapped long url
+      operationId: redirectToLink
+      security:
+        api_key: []
+      parameters:
+        - name: hash
+          in: path
+          description: key generated for the long URL provided.
+          required: true
+          schema:
+            type: string
+      responses:
+        302:
+          description: Redirects the short url to the mapped long url.
+        404:
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: The operation requested could not be performed due to an internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /link/list:
+    get:
+      summary: get all links created by the user that are still active
+      operationId: getActiveLinks
+      security:
+        api_key: []
+      responses:
+        200:
+          description: Returns the list of all active links.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Alias:
+                      type: string
+                      description: Alias generated to uniquely identify the Short URL
+                    Target:
+                      type: string
+                      description: Long URL to be redirected to.
+                    ShortUrl:
+                      type: string
+                      description: Complete Short URL
+                    Action:
+                      type: string
+                      description: Action to be taken when Short URL is requested.
+                    DaysToExpiry:
+                      type: number
+                      description: Number of days from the current date to link expiration.
         500:
           description: The operation requested could not be performed due to an internal server error.
           content:

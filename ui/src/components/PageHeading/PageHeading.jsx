@@ -1,16 +1,16 @@
-import "./PageHeading.css";
+import { PageTitle, PageLogo, StyledPageHeading, PageTitleSection, PageDescription } from "./PageHeading.styles.js";
 
 function PageHeading({ Title, ImagePath, children }) {
     return (
-        <div className="page-heading">
-            <div className="page-title-section">
-                <img src={ImagePath} className="page-logo" alt={`Logo for ${Title}`} />
-                <p className="page-title">{Title}</p>
-            </div>
-            <p className="page-description">
+        <StyledPageHeading>
+            <PageTitleSection>
+                <PageLogo src={ImagePath} alt={`Logo for ${Title}`} />
+                <PageTitle>{Title}</PageTitle>
+            </PageTitleSection>
+            <PageDescription>
                 {children}
-            </p>
-        </div>
+            </PageDescription>
+        </StyledPageHeading>
     );
 }
 

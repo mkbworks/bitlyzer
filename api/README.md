@@ -1,6 +1,6 @@
-## API Endpoints
+## Bitlyzer API
 
-To successfully launch the `Endpoints` project, the following softwares must be installed in the system.
+To successfully launch the `Bitlyzer API` project, the following softwares must be installed in the system.
 
 - Node.js
 - Npm (Node package manager to manage external dependencies for the project)
@@ -29,6 +29,6 @@ The following environment variables are required to run the API service.
 - `MONGO_PROTO` - Protocol to be used to establish connection to the MongoDb instance.
 - `MONGO_DB` - name of the database instance.
 
-### Setting up API endpoints locally
+### Setting up the project locally
 
 To setup locally, create a file in the root directory and name it `.env.local` and make sure it contains values for the above mentioned environment variables.

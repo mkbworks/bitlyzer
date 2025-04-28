@@ -1,21 +1,17 @@
-import { Link, NavLink } from "react-router";
-
-import "./Navbar.css";
+import { StyledLogo, StyledNavLink, StyledNavbar, NavLinksContainer, NavLinks } from "./Navbar.styles.js";
 
 function Navbar({ Links, Title }) {
     return (
-        <>
-            <nav id="topNavigation">
-                <div id="navLinksContainer">
-                    <p id="logo">{Title}</p>
-                    <div id="navLinks">
-                        {Links.map(({ Path, Title }, index) => (
-                          <NavLink className={({ isActive }) => (isActive ? "nav-link active": "nav-link")} to={Path} key={`Link-Index-${index}`} >{Title}</NavLink>
-                        ))}
-                    </div>
-                </div>
-            </nav>
-        </>
+        <StyledNavbar>
+            <NavLinksContainer>
+                <StyledLogo>{Title}</StyledLogo>
+                <NavLinks>
+                    {Links.map(({ Path, Title }, index) => (
+                        <StyledNavLink className={({ isActive }) => (isActive ? "active": undefined )} to={Path} key={`Link-Index-${index}`} >{Title}</StyledNavLink>
+                    ))}
+                </NavLinks>
+            </NavLinksContainer>
+        </StyledNavbar>
     );
 }
 

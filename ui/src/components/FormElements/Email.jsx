@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "./FormStyles.css";
+import { StyledText, FormLabel, FormControl, FormControlError } from "./FormElements.styles.js";
 
 const isValidEmail = (email, isRequired) => {
     const emailPattern = /^[a-z][a-z0-9\-\._]+[a-z0-9]@[a-z][a-z0-9\.\-]+[a-z0-9]$/i;
@@ -37,11 +37,11 @@ function Email({ Name, Label, Value, Placeholder, OnChange, Required = false, re
     let isValueValid = isValidEmail(Value, Required);
 
     return (
-        <div className="form-control">
-            <label className="form-label" htmlFor={Name}>{Label}</label>
-            <input type="text" id={Name} name={Name} value={Value} className="form-input" placeholder={Placeholder} onBlur={handleBlur} onChange={handleChange} />
-            { isTouched && !isValueValid && <p className="form-control-error">Please enter a valid email address!</p> }
-        </div>
+        <FormControl>
+            <FormLabel htmlFor={Name}>{Label}</FormLabel>
+            <StyledText id={Name} name={Name} value={Value} placeholder={Placeholder} onBlur={handleBlur} onChange={handleChange} />
+            { isTouched && !isValueValid && <FormControlError>Please enter a valid email address!</FormControlError> }
+        </FormControl>
     );
 }
 
