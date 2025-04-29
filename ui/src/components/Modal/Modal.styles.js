@@ -17,7 +17,7 @@ export const ModalBackdrop = styled.div`
 export const StyledModal = styled.div`
     background-color: ${props => props.theme.section.backgroundColor};
     border: 1px solid ${props => props.theme.section.borderColor};
-    width: 50%;
+    width: fit-content;
     min-width: 500px;
     height: fit-content;
     display: flex;

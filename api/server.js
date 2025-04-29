@@ -91,12 +91,13 @@ DataAccessLayer.ConnectToDb().then((dal) => {
     process.exit(1);
 });
 
-process.on('SIGINT', async () => {
+process.on('SIGINT', () => {
     console.log("Server Shutdown signal received.");
-    console.log("Initiating shutdown now.");
-    await dal_instance.Close();
-    server.close(() => {
-        console.log("Server has been shutdown.");
+    server.close(async () => {
+        console.log("All active connections to the express server have been terminated.");
+        console.log("All in-flight requests have been completed.");
+        await dal_instance.Close();
+        console.log("Web server has been shutdown.");
         process.exit(0);
     });
 });
