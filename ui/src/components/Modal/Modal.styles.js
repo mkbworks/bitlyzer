@@ -18,7 +18,7 @@ export const StyledModal = styled.div`
     background-color: ${props => props.theme.section.backgroundColor};
     border: 1px solid ${props => props.theme.section.borderColor};
     width: 50%;
-    max-width: 500px;
+    min-width: 500px;
     height: fit-content;
     display: flex;
     flex-direction: column;
