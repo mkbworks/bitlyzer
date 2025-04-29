@@ -53,10 +53,9 @@ function RegisterUser() {
                 });
                 user.handleFormReset();
             } else {
-                let { message } = response.data;
                 ShowModal("ErrorAlert", {
                     Message: "Error occurred during user registration.",
-                    Code: message
+                    Code: response.data
                 });
             }
         } catch (err) {

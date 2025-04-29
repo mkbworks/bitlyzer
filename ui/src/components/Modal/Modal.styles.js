@@ -49,22 +49,21 @@ export const ModalBody = styled.div`
     display: flex;
     flex-direction: column;
     row-gap: 0.8rem;
-    align-items: flex-start;
+    align-items: center;
     padding: 0.5rem;
 
     & > h1 {
-        width: 100%;
+        width: fit-content;
         height: fit-content;
-        font-size: 1.6rem;
+        font-size: 1.7rem;
         letter-spacing: 1.5px;
-        text-align: center;
+        font-weight: 700;
     }
 
-    $ > p {
-        width: 100%;
+    & > p {
+        width: fit-content;
         height: fit-content;
         font-size: 1.3rem;
         letter-spacing: 1.5px;
-        text-align: center;
     }
 `;
