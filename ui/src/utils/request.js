@@ -24,13 +24,13 @@ const Request = async (url, method, data, params, headers) => {
         return retValue;
     } catch (err) {
         if(err.response) {
-            let retValue = {
-                status: "error",
-                data: err.response.data
-            };
-            return retValue;
+            const { message:errorMsg } = err.response.data;
+            return { status: "error", data:errorMsg };
+        } else if(err.request) {
+            return { status: "error", data: "A request was made, but no response was received back" };
+        } else {
+            return { status: "error", data: err.message };
         }
-        throw err;
     }
 };
 

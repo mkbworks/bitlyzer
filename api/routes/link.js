@@ -90,4 +90,32 @@ linkRouter.get("/list", authenticate, async (req, res) => {
     }
 });
 
+/**
+ * Route to modify the the number of days to expiry for a given link.
+ */
+linkRouter.patch("/:hash", authenticate, async (req, res) => {
+    res.format({
+        "application/json": async() => {
+            let linkHash = req.params.hash;
+            let userId = req.validatedUser;
+            let { expiry } = req.body;
+            const result = await req.app.locals.dal.UpdateLink(userId, linkHash, expiry);
+            if(result.status === "success") {
+                res.status(200).json(result.data);
+            } else {
+                if(result.data.code === "ERR_CUSTOM") {
+                    res.status(500).json(result.data.ToJson());
+                } else {
+                    res.status(400).json(result.data.ToJson());
+                }
+            }
+        },
+        default: () => {
+            res.append("Accept-Post", "application/json");
+            res.status(415);
+            res.end();
+        }
+    });
+});
+
 export default linkRouter;

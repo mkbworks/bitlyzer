@@ -1,10 +1,10 @@
 import { StyledLinkCard, ActionButton, LinkCardHeader, LinkCardBody } from "./LinkCard.styles.js";
 
-function LinkCard({ data, OnDelete }) {
+function LinkCard({ data, OnDelete, OnUpdate }) {
     return (
         <StyledLinkCard>
             <LinkCardHeader>
-                <ActionButton>Edit</ActionButton>
+                <ActionButton onClick={() => OnUpdate(data.Alias)}>Edit</ActionButton>
                 <ActionButton onClick={() => OnDelete(data.Alias)}>Delete</ActionButton>
             </LinkCardHeader>
             <LinkCardBody>

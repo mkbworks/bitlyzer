@@ -253,6 +253,35 @@ class DataAccessLayer {
     }
 
     /**
+     * Updates the expiration count for the given link.
+     * @param {string} userId unique identitifer for the user.
+     * @param {string} alias Short URL used to represent the link object.
+     * @param {number} expiry Expiration count for the link.
+     * @returns {Response} an object with the response status and associated data.
+     */
+    async UpdateLink(userId, alias, expiry) {
+        let linksCollection = this.DbInstance.collection("links");
+        try {
+            if(expiry === 0) {
+                let existingExpirycount = await linksCollection.countDocuments({ UserId: userId, Expiry: 0 });
+                if(existingExpirycount > 10) {
+                    return new Response("error", new AppError("ERR_RATE_EXCEEDED", "Users are not allowed to create more than 10 no-expiration links."));
+                }
+            }
+
+            let isActiveCount = await linksCollection.countDocuments({ UserId: userId, State: "active", ShortUrl: alias });
+            if(!isActiveCount) {
+                return new Response("error", new AppError("ERR_EXPIRED", "The given link has already expired and so cannot have its expiration extended."));
+            }
+
+            let result = await linksCollection.updateOne({ UserId: userId, ShortUrl: alias }, { $set: { Expiry: expiry }});
+            return new Response("success", { UpdatedCount: result.modifiedCount });
+        } catch (err) {
+            return new Response("error", new AppError("ERR_CUSTOM", err.message));
+        }
+    }
+
+    /**
      * Asynchronous function to close the underlying database connection.
      */
     async Close() {

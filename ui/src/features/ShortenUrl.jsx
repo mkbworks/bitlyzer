@@ -56,7 +56,7 @@ function ShortenUrl() {
             } else {
                 ShowModal("ErrorAlert", {
                     Message: "Error occurred during link generation:",
-                    Code: response.data.message
+                    Code: response.data
                 });
             }
         } catch (err) {

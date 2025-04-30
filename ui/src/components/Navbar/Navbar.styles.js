@@ -30,7 +30,7 @@ export const StyledLogo = styled.p`
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     color: #FFF;
-    text-transform: uppercase;
+    letter-spacing: 2px;
 `;
 
 export const NavLinks = styled.div`

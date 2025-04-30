@@ -145,30 +145,30 @@ paths:
                   - Target
                   - Expiry
   /link/{hash}:
+    parameters:
+      - name: x-apikey
+        in: header
+        description: API Key used to authenticate the user.
+        required: true
+        schema:
+          type: string
+      - name: x-email
+        in: header
+        description: User email address which along with API Key will be used to authenticate the user.
+        required: true
+        schema:
+          type: string
+      - name: hash
+        in: path
+        description: key generated for the long URL provided.
+        required: true
+        schema:
+          type: string
     delete:
       summary: deletes the short url from the system.
       operationId: deleteLink
       security:
         api_key: []
-      parameters:
-        - name: x-apikey
-          in: header
-          description: API Key used to authenticate the user.
-          required: true
-          schema:
-            type: string
-        - name: x-email
-          in: header
-          description: User email address which along with API Key will be used to authenticate the user.
-          required: true
-          schema:
-            type: string
-        - name: hash
-          in: path
-          description: key generated for the long URL provided.
-          required: true
-          schema:
-            type: string
       responses:
         200:
           description: Successfully deleted the short url from the system.
@@ -184,6 +184,47 @@ paths:
                   - message
         404:
           description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: The operation requested could not be performed due to an internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      summary: Extends the days to expiry for the given link.
+      operationId: extendLinkExpiry
+      security:
+        api_key: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                expiry:
+                  description: Number of days till link expiry.
+                  type: number
+              required:
+                - expiry
+      responses:
+        200:
+          description: Successfully extended the link expiry.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  UpdatedCount:
+                    description: Returns the number of links updated.
+                    type: number
+                required:
+                  - UpdatedCount
+        400:
+          description: Returned if the update leads to any principal constraint violations (like the maximum number of no-expiration links allowed for a user)
           content:
             application/json:
               schema:
