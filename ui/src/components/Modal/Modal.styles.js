@@ -57,7 +57,7 @@ export const ModalBody = styled.div`
         height: fit-content;
         font-size: 1.7rem;
         letter-spacing: 1.5px;
-        font-weight: 700;
+        font-family: "Markazi", serif;
     }
 
     & > p {
