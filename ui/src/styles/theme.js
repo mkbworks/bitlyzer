@@ -14,14 +14,14 @@ export const LIGHT_THEME = {
 
 export const DARK_THEME = {
     colors: {
-        primary: "#E9B3EA",
+        primary: "#D063D2",
         secondary: "#19130A",
-        accent: "#D29914",
-        background: "#080808",
+        accent: "#D1960C",
+        background: "#212121",
         text: "#E4E2E4"
     },
     section: {
-        backgroundColor: "#131113",
-        borderColor: "#302A30"
+        backgroundColor: "#303030",
+        borderColor: "#414141"
     }
 };
