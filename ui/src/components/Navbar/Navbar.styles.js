@@ -53,10 +53,29 @@ export const StyledNavLink = styled(NavLink)`
 
     &:hover {
         cursor: pointer;
-        color: ${props => props.theme.colors.accent}
+        color: ${props => props.theme.colors.accent};
+        background-color: ${props => props.theme.colors.secondary};
     }
 
     &.active {
         color: ${props => props.theme.colors.accent};
+    }
+`;
+
+export const ThemeSwitcher = styled.div`
+    height: fit-content;
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
+    gap: 0.3rem;
+    padding: 0.5rem;
+
+    & > span {
+        color: ${props => props.theme.colors.text};
+        font-size: 1.3rem;
+    }
+
+    &:hover {
+        background-color: ${props => props.theme.colors.secondary};
     }
 `;

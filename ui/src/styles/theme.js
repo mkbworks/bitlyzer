@@ -1,4 +1,4 @@
-export const THEME = {
+export const LIGHT_THEME = {
     colors: {
         primary: "#4A154B",
         secondary: "#F4EDE4",
@@ -9,5 +9,19 @@ export const THEME = {
     section: {
         backgroundColor: "#FFFFFF",
         borderColor: "#EAEAEA"
+    }
+};
+
+export const DARK_THEME = {
+    colors: {
+        primary: "#E9B3EA",
+        secondary: "#19130A",
+        accent: "#D29914",
+        background: "#080808",
+        text: "#E4E2E4"
+    },
+    section: {
+        backgroundColor: "#131113",
+        borderColor: "#302A30"
     }
 };
