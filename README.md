@@ -1,8 +1,11 @@
 ## Bitlyzer
 
-<img src="https://f27c53a3.citadelofcode.pages.dev/logos/bitlyzer.png" style="border-radius:50%" align="right" width="159px" alt="Bitlyzer logo">
+<img src="https://static.citadelofcode.com/bitlyzer/logo.png" style="border-radius:50%" align="right" width="159px" alt="Bitlyzer logo">
 
-This is my solution to the challenge available at [Coding Challenges](https://codingchallenges.fyi/challenges/challenge-url-shortener) to create a URL shortener application. It has been developed using React and Node.js.
+Bitlyzer is a URL Shortener application created using React and Node.js. The react web application can be used by users to perform the following actions:
+
+- Configure URL redirection for long URLs
+- Manage link expiration for URLs configured.
 
 ### Running the project
 
